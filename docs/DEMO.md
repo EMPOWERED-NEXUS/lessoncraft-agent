@@ -6,10 +6,37 @@ Say only what the screen shows. LessonCraft by Empowered Nexus helps a learner u
 
 Empowered Nexus owns LessonCraft. GenAI Works operates the hackathon and HackOS. The hackathon does not manage LessonCraft learners or accounts.
 
-## Script
+No video has been recorded. The repository does not contain a video file. Record on the same computer as the server, after the checks in [docs/JUDGE-QUICKSTART.md](JUDGE-QUICKSTART.md).
+
+## Recording checklist
+
+Aim for about 3 minutes 30 seconds. Stay inside 4 minutes. Record the browser only. Do not show a terminal, `.env.local`, a password manager, Docker logs, or the Zetaris sign-in page.
+
+Before you press record:
+
+- Confirm one listener on port 8787 and open `http://127.0.0.1:8787/pathways/` on that same computer.
+- Skip or finish the welcome tour so the first screen is visible.
+- Leave the NVIDIA checkbox unchecked for the first pass. Check it only for the optional draft beat, and only if `NVIDIA_API_KEY` is already set. Do not type or display the key.
+- Do not upload a file. Do not open **My materials** unless you have time left after the sponsor beats.
+
+| Time | Do this | Say this |
+|---|---|---|
+| 0:00–0:20 | Show the heading, the four steps, and “No account is needed for this demo.” | LessonCraft helps a learner use trusted material to check what they understand, see what is still unclear, and practice one next step. This prototype is one workplace status-update skill. Pathways is the current experience. No account is needed. |
+| 0:20–0:50 | Under **Try demo**, click **Demo A — quiz shows one gap**, then **Explain the next step**. Wait until **What you can do now** appears. | The quiz shows a fact, a next action, plain language, and no overclaim. Naming what is still unknown needs more evidence, because that quiz item did not match the key. |
+| 0:50–1:25 | Read the origin line, then open **Decision trace**. | The pathway structure stays on the local fixture. A supporting passage is labeled Zetaris only when the reviewed public row comes back. The trace shows the passage id and section. The checker removed an overstated, job-ready draft. The next step is the local practice for that gap. |
+| 1:25–2:05 | If the key is configured, check the NVIDIA box and click **Explain the next step** again. Show **AI draft** under the local step, including the Zetaris source and evidence quote. If the key is blank, leave the box unchecked and show the NVIDIA line in the trace. | The NVIDIA draft is optional. Consent sends the selected answers and the approved passage only. The local next step stays the decision. This content does not train Nemotron. Uploaded files are not sent. |
+| 2:05–2:25 | Click **Accept**. Point at **Edit** and **Dismiss**. | The learner can accept, edit, or dismiss the step. Nothing is stored yet. |
+| 2:25–3:05 | Open **Progress**. Leave the consent box unchecked and point at **Save memory**. Then check **I consent to store that minimum record for this pseudonymous id**, choose **Helpful**, click **Save memory**, and click **Reset this id**. | Meterless stores the goal, demonstrated competency ids, outcome, and feedback only after consent. The note and any file are not stored. Reset deletes that id. |
+| 3:05–3:30 | Switch the page language to **Français**, then back if you want. Stop. | The same pathway is available in French. The quiz and the open-education passage stay in their source language. This is one skill, running on this computer, not a public site. |
+
+If the recording runs long, drop the French beat. Do not add Demo B, C, or D unless you are still under 4 minutes.
+
+## Fuller walkthrough
+
+Use this only when you are not on the timed recording above. Practice, materials, and the extra demos push the session past four minutes.
 
 1. **Promise (20 seconds).** Read the first screen. It names the benefit and the four steps: choose a learning goal, use approved evidence, see what is demonstrated or still unclear, and take one next practice step. Say that no account is needed.
-2. **Evidence (30 seconds).** Click **Try demo**, then **Demo A — quiz shows one gap**, then **Explain the next step**. The fact, next action, plain language, and no-overclaim items are demonstrated. Naming an unknown needs more evidence because that quiz item did not match the key.
+2. **Evidence (30 seconds).** Under **Try demo**, click **Demo A — quiz shows one gap**, then **Explain the next step**. The fact, next action, plain language, and no-overclaim items are demonstrated. Naming an unknown needs more evidence because that quiz item did not match the key.
 3. **Why (40 seconds).** Leave the NVIDIA box unchecked. Read the next step and open **Decision trace**. The planner’s first draft overstated the skill and used a hiring phrase. The verifier blocked it. The revised step is only the missing practice. The trace says NVIDIA was not called and the explanation was prepared in the app. If the box is checked, an AI draft appears under that next step with an exact Zetaris quote. The next step stays the decision. An uploaded file is not sent, and this content does not train Nemotron.
 4. **Human control (20 seconds).** Click **Accept**. Mention **Edit** and **Dismiss**. Nothing is stored yet.
 5. **Practice (35 seconds).** Click **Fill a sample answer**, then **Check practice** and **Check transfer**. Closed items use the stored key. The open response uses the rubric in the pathway file. Say that this is not a grade.
@@ -21,7 +48,7 @@ If time remains: **Demo B** asks one question because there is no evidence. **De
 
 ## Slides
 
-Use these only for claims the running app demonstrates. Official scoring is Impact 30, Technical 20, Innovation 15, Demo 15, Product and UX 10, Sponsor tech 10.
+The editable deck is [docs/lessoncraft-pathways.pptx](lessoncraft-pathways.pptx). Use these only for claims the running app demonstrates. Official scoring is Impact 30, Technical 20, Innovation 15, Demo 15, Product and UX 10, Sponsor tech 10.
 
 | Slide | Say this | Criterion |
 |---|---|---|

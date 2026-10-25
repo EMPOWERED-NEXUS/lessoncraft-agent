@@ -21,7 +21,7 @@ npm run dev
 
 Leave secrets in `.env.local`. That file is gitignored. `.env.example` has empty placeholders. Do not print the NVIDIA or Zetaris values.
 
-Open `http://127.0.0.1:8787/pathways/`. No account is needed. **Try demo** fills a prepared example. A direct visit to `/login` says accounts are not available yet and links back to the demo.
+Open `http://127.0.0.1:8787/pathways/`. No account is needed. Under **Try demo**, choose **Demo A — quiz shows one gap**. A direct visit to `/login` says accounts are not available yet and links back to the demo. The longer reproduction notes are in [docs/JUDGE-QUICKSTART.md](JUDGE-QUICKSTART.md).
 
 ## What to click
 

@@ -30,7 +30,7 @@ No account is needed. **Try demo** opens Pathways. A direct visit to [http://127
 
 `npm run setup` vendors Meterless H-MEM at commit `1742dec56a66e58eef9dda2d2b865823758ca8cd`. `vendor/` is gitignored. There is no separate typecheck or production-build script. `npm test` runs the project checks with `tsx`.
 
-The spoken script and slide outline are in [docs/DEMO.md](docs/DEMO.md). Judge setup is in [docs/JUDGE.md](docs/JUDGE.md). The launch roadmap is in [docs/ROADMAP.md](docs/ROADMAP.md).
+The spoken script, recording checklist, and slide outline are in [docs/DEMO.md](docs/DEMO.md). The editable deck is [docs/lessoncraft-pathways.pptx](docs/lessoncraft-pathways.pptx). Judge setup is in [docs/JUDGE.md](docs/JUDGE.md), with reproduction and fallback notes in [docs/JUDGE-QUICKSTART.md](docs/JUDGE-QUICKSTART.md). The launch roadmap is in [docs/ROADMAP.md](docs/ROADMAP.md). No video has been recorded in this repository.
 
 ## What the pathway does
 
