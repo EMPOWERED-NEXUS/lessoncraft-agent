@@ -1,6 +1,6 @@
 # LessonCraft plan (pre-existing)
 
-This file is the earlier LessonCraft plan. The hackathon pathway is Nexus Pathways, documented in `README.md`. Do not treat this plan as the current product, and do not run the draft Zetaris SQL until it is explicitly approved.
+This file is the earlier LessonCraft plan. The current product is LessonCraft by Empowered Nexus. Pathways is the current learning experience, and the prototype covers one workplace status-update skill. It does not ask the learner to choose a country. Do not treat this plan as the current product, and do not run the draft Zetaris SQL until it is explicitly approved.
 
 # LessonCraft plan (pre-implementation)
 

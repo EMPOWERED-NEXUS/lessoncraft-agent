@@ -1,14 +1,15 @@
 # LessonCraft by Empowered Nexus
 
-LessonCraft Pathways helps a learner compare evidence they choose with one skill requirement, see what that evidence does and does not show, and take one next step they can accept, edit, or dismiss.
+LessonCraft helps a learner use trusted learning materials to check what they understand, see what remains unclear, and practice one useful next step.
 
-**Product:** LessonCraft by Empowered Nexus. Pathways is the evidence area.  
-**Track:** The Agent That Can Explain Why, Open Agent Hackathon 2026.  
-**Demo:** one workplace status-update pathway. This is not a general course platform, and it does not claim to teach every subject.
+**Product:** LessonCraft by Empowered Nexus. Empowered Nexus owns the product.  
+**Current experience:** Pathways.  
+**Track:** The Agent That Can Explain Why, Open Agent Hackathon 2026. GenAI Works operates the hackathon and HackOS. The hackathon does not manage LessonCraft learners or accounts.  
+**Prototype:** one workplace status-update skill. This is not universal subject coverage, a full curriculum, a video course, or a production service.
 
-A country is optional context. The default is International (`ZZ`). Cameroon is one optional context, not the product boundary and not an official hiring or qualification standard. There is no numeric person score.
+There is no numeric person score. The demo does not ask the learner to choose a country.
 
-The fraction tutor at [/](http://127.0.0.1:8787/) was already in this working tree before the pathway. It is kept. The hackathon surface is [/pathways/](http://127.0.0.1:8787/pathways/).
+The fraction tutor at [/](http://127.0.0.1:8787/) was already in this working tree before Pathways. It is kept as an earlier lesson. The hackathon surface is [/pathways/](http://127.0.0.1:8787/pathways/). That address is reachable only on the computer running the server.
 
 ## Demo command
 
@@ -25,18 +26,18 @@ npm run dev
 
 Open [http://127.0.0.1:8787/pathways/](http://127.0.0.1:8787/pathways/). If that server is already running, use it. Do not start a second process on port 8787.
 
-Sign-in at [http://127.0.0.1:8787/login](http://127.0.0.1:8787/login) is unavailable. **Try demo** opens Pathways without an account. Zetaris credentials are not a learner login.
+No account is needed. **Try demo** opens Pathways. A direct visit to [http://127.0.0.1:8787/login](http://127.0.0.1:8787/login) says accounts are not available yet and returns to the demo. Zetaris credentials are not a learner login.
 
 `npm run setup` vendors Meterless H-MEM at commit `1742dec56a66e58eef9dda2d2b865823758ca8cd`. `vendor/` is gitignored. There is no separate typecheck or production-build script. `npm test` runs the project checks with `tsx`.
 
-The spoken script and slide outline are in [docs/DEMO.md](docs/DEMO.md).
+The spoken script and slide outline are in [docs/DEMO.md](docs/DEMO.md). Judge setup is in [docs/JUDGE.md](docs/JUDGE.md). The launch roadmap is in [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## What the pathway does
 
 1. The learner can start from Demo A, B, C, or D, or enter their own quiz answers and an optional note.
 2. Evidence Analyst maps chosen quiz answers and the note to competency claims: demonstrated, needs more evidence, or not assessed.
 3. Pathway Planner proposes one next step, asks one question, or abstains.
-4. Verification Agent blocks unsupported claims, missing provenance, the wrong language, a country mismatch, blocked datasets, and hiring language. The planner may revise once. Repairs stop at two, then the run escalates.
+4. Verification Agent blocks unsupported claims, missing provenance, the wrong language, a supplied country that does not match the resource, blocked datasets, and hiring language. The demo sends International (`ZZ`) and does not show a country selector. The planner may revise once. Repairs stop at two, then the run escalates.
 5. The page shows why, what is uncertain, the sources, and one action the learner can accept, edit, or dismiss.
 6. Practice and transfer use a stored answer key for closed items and a teacher-approved rubric for open responses. That match is not a grade.
 7. Optional Meterless memory stores only the consented minimum, and the learner can delete it.
@@ -134,10 +135,10 @@ The 15 synthetic cases expect supported, unsupported, or uncertain outcomes. Abs
 
 ## Known limits
 
-- One pathway. No public library, class sharing, accounts, OCR, speech, video, or model training.
+- One workplace status-update skill. No universal subject coverage, full curriculum, video course, public library, class sharing, accounts, OCR, speech, video, or model training.
 - No 3D view on this pathway.
 - Open responses are rubric matches, not an examination grade.
-- The app is a local server. Offline use is not claimed.
+- The app is a local server on the development computer. `http://127.0.0.1:8787/` is not a public address. Offline use is not claimed.
 - No hiring, school-grade, diagnosis, treatment, or eligibility decision.
 
 ## Sponsors
@@ -145,4 +146,4 @@ The 15 synthetic cases expect supported, unsupported, or uncertain outcomes. Abs
 - **Cursor** is the development environment. No Cursor SDK runtime is required.
 - **Zetaris** supplies only a filtered, rechecked public passage. Structure stays on the local fixture.
 - **Meterless H-MEM** stores, recalls, and deletes the consented minimum.
-- **NVIDIA** drafts an optional learning response only after the learner checks the consent box and an approved Zetaris passage is available. The request model is `nvidia/nemotron-3.5-super-vl-120b-a12b`. The trace records the served model id. The local pathway check still decides the next step. Uploaded materials are not sent and are not training data.
+- **NVIDIA** drafts an optional learning response only after the learner checks the consent box and an approved Zetaris passage is available. The request model is `nvidia/nemotron-3.5-super-vl-120b-a12b`. The trace records the served model id. The local pathway check still decides the next step. The current content demonstrates one skill. It is not sent as training data, and it does not train Nemotron.

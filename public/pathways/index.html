@@ -31,7 +31,6 @@
         <button type="button" id="lang-fr" data-lang="fr" aria-pressed="false">Français</button>
       </div>
       <button type="button" class="nav-button" id="tour-help" data-i18n="help">Help</button>
-      <span id="account-slot"><a class="nav-signin" href="/login" data-i18n="sign_in">Sign in</a></span>
     </nav>
     <img class="company-logo" src="/brand/empowered-nexus-logo.jpg" alt="EmpowerEd Nexus" />
   </header>
@@ -44,29 +43,25 @@
     </ol>
     <section id="view-learn" data-view-panel="learn">
       <section class="page-intro">
-        <p class="kicker" data-i18n="kicker">Current pathway</p>
-        <h1 data-i18n="title">Understand what the evidence shows</h1>
-        <p class="lede" data-i18n="lede">Choose a goal, add material if you want, see what your responses demonstrate, and take one next step you can accept, edit, or dismiss.</p>
+        <p class="kicker" data-i18n="kicker">Pathways</p>
+        <h1 data-i18n="title">See what you understand, then practice one next step</h1>
+        <p class="lede" data-i18n="lede">LessonCraft by Empowered Nexus helps you use trusted learning materials to check what you understand, see what remains unclear, and practice one useful next step.</p>
+        <p class="notice" data-i18n="scope_note">This prototype is one workplace status-update skill inside Pathways, the current LessonCraft experience. It does not cover every subject, a full curriculum, or a video course, and it is not a production service.</p>
+        <h2 class="flow-title" data-i18n="flow_label">How this demo works</h2>
+        <ol class="workflow">
+          <li data-i18n="flow_1">Choose a learning goal.</li>
+          <li data-i18n="flow_2">Use approved evidence.</li>
+          <li data-i18n="flow_3">See what is demonstrated or still unclear.</li>
+          <li data-i18n="flow_4">Take one next practice step.</li>
+        </ol>
+        <p class="hint" data-i18n="no_account">No account is needed for this demo.</p>
         <p class="notice" id="disclaimer">Loading…</p>
       </section>
       <section class="sheet" id="setup">
         <h2 data-i18n="setup_title">Learning setup</h2>
-        <p class="hint" data-i18n="setup_hint">Country and context are optional. The page language, the explanation language, and the source-material language are separate.</p>
+        <p class="hint" data-i18n="setup_hint">Context and level are optional. The page language, the explanation language, and the source-material language are separate.</p>
         <p class="goal-line"><span data-i18n="goal_label">Goal</span> <strong id="goal"></strong></p>
         <div class="grid setup-grid">
-          <label data-i18n="country">Country
-            <select id="country">
-              <option value="ZZ" data-i18n="country_zz" selected>International / no country selected</option>
-              <option value="CM" data-i18n="country_cm">Cameroon</option>
-              <option value="NG" data-i18n="country_ng">Nigeria</option>
-              <option value="FR" data-i18n="country_fr">France</option>
-              <option value="CA" data-i18n="country_ca">Canada</option>
-              <option value="custom" data-i18n="country_custom">Custom code</option>
-            </select>
-          </label>
-          <label class="hidden" id="custom-wrap" data-i18n="custom_code">Two-letter code
-            <input id="country-custom" maxlength="2" autocomplete="off" />
-          </label>
           <label data-i18n="context_label">Education or work context
             <select id="context">
               <option value="" data-i18n="not_selected" selected>Not selected</option>
@@ -368,7 +363,6 @@
       <button type="button" id="tour-finish" data-i18n="tour_finish">Finish</button>
     </div>
   </dialog>
-  <script src="/nav.js"></script>
   <script type="module" src="/pathways/app.js"></script>
 </body>
 </html>

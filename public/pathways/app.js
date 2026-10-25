@@ -75,7 +75,6 @@ async function loadCatalog() {
 
 function applyPreset(preset) {
   $("learner").value = preset.learnerId;
-  $("country").value = preset.countryCode;
   $("language").value = preset.languageCode;
   $("sample").value = preset.workSample || "";
   $("cert").checked = Boolean(preset.certificate?.shared);
@@ -101,8 +100,7 @@ function quizAnswers() {
 }
 
 function countryCode() {
-  if ($("country").value === "custom") return $("country-custom").value.trim().toUpperCase();
-  return $("country").value.trim().toUpperCase();
+  return "ZZ";
 }
 
 function payload() {
@@ -410,10 +408,6 @@ function selected(name) {
 }
 
 $("run").addEventListener("click", async () => {
-    if (!/^[A-Za-z]{2}$/.test(countryCode())) {
-      $("status").textContent = t("country_error");
-      return;
-    }
     $("status").textContent = t("checking");
   try {
     showRun(await post("/api/pathways/run", payload()));
@@ -727,9 +721,6 @@ $("lang-en").addEventListener("click", () => setLanguage("en"));
 $("lang-fr").addEventListener("click", () => setLanguage("fr"));
 $("language").addEventListener("change", () => {
   if (state.run) showRun(state.run);
-});
-$("country").addEventListener("change", () => {
-  $("custom-wrap").classList.toggle("hidden", $("country").value !== "custom");
 });
 for (const link of document.querySelectorAll("[data-view]")) {
   link.addEventListener("click", (event) => {

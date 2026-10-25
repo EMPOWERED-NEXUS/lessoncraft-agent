@@ -1,8 +1,8 @@
 {
   "pathway_id": "pw-workplace-status-update",
   "title": "Write a three-part workplace status update",
-  "disclaimer": "This pathway is one workplace writing activity in LessonCraft Pathways by Empowered Nexus. It is not an official grade, hiring decision, professional qualification, school curriculum, or health decision. A country you select, including Cameroon, is context for this session only. ILO and World Bank links are context and are not used as evidence. This pathway does not place anyone in a job or assign a permanent score.",
-  "country_scope": ["CM"],
+  "disclaimer": "This pathway is one workplace writing activity in LessonCraft Pathways by Empowered Nexus. It is not an official grade, hiring decision, professional qualification, school curriculum, or health decision. ILO and World Bank links are context and are not used as evidence. This pathway does not place anyone in a job or assign a permanent score.",
+  "country_scope": [],
   "languages": ["en", "fr"],
   "competency_order": [
     "comp-known-fact",
@@ -39,7 +39,7 @@
       "competency_id": "comp-known-fact",
       "statement": "State one fact you can point to from a count or a note.",
       "language_code": "en",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "source_id": "src-np-en-01"
     },
     {
@@ -47,7 +47,7 @@
       "competency_id": "comp-unknown",
       "statement": "Name one thing that is still unknown instead of filling the gap.",
       "language_code": "en",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "source_id": "src-np-en-01"
     },
     {
@@ -55,7 +55,7 @@
       "competency_id": "comp-next-action",
       "statement": "Propose one next action a teammate can take.",
       "language_code": "en",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "source_id": "src-np-en-01"
     },
     {
@@ -63,7 +63,7 @@
       "competency_id": "comp-plain-language",
       "statement": "Use a short update a teammate can follow.",
       "language_code": "en",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "source_id": "src-np-en-01"
     },
     {
@@ -71,7 +71,7 @@
       "competency_id": "comp-no-overclaim",
       "statement": "Do not claim a job, a grade, a credential, or eligibility.",
       "language_code": "en",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "source_id": "src-np-en-01"
     },
     {
@@ -79,7 +79,7 @@
       "competency_id": "comp-known-fact",
       "statement": "Indiquez un fait que vous pouvez montrer a partir d'un comptage ou d'une note.",
       "language_code": "fr",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "source_id": "src-np-fr-01"
     },
     {
@@ -87,7 +87,7 @@
       "competency_id": "comp-unknown",
       "statement": "Nommez une chose encore inconnue au lieu de combler le trou.",
       "language_code": "fr",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "source_id": "src-np-fr-01"
     },
     {
@@ -95,7 +95,7 @@
       "competency_id": "comp-next-action",
       "statement": "Proposez une prochaine action qu'un coequipier peut faire.",
       "language_code": "fr",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "source_id": "src-np-fr-01"
     },
     {
@@ -103,7 +103,7 @@
       "competency_id": "comp-plain-language",
       "statement": "Ecrivez un compte-rendu court qu'un coequipier peut suivre.",
       "language_code": "fr",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "source_id": "src-np-fr-01"
     },
     {
@@ -111,7 +111,7 @@
       "competency_id": "comp-no-overclaim",
       "statement": "N'ajoutez pas une affirmation d'emploi, de note, de diplome ou d'eligibilite.",
       "language_code": "fr",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "source_id": "src-np-fr-01"
     }
   ],
@@ -119,7 +119,7 @@
     {
       "resource_id": "res-en-practice",
       "language_code": "en",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "kind": "practice",
       "targets": [
         "comp-known-fact",
@@ -135,7 +135,7 @@
     {
       "resource_id": "res-en-transfer",
       "language_code": "en",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "kind": "transfer",
       "targets": [
         "comp-known-fact",
@@ -151,7 +151,7 @@
     {
       "resource_id": "res-fr-practice",
       "language_code": "fr",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "kind": "practice",
       "targets": [
         "comp-known-fact",
@@ -167,7 +167,7 @@
     {
       "resource_id": "res-fr-transfer",
       "language_code": "fr",
-      "country_code": "CM",
+      "country_code": "ZZ",
       "kind": "transfer",
       "targets": [
         "comp-known-fact",
@@ -192,7 +192,7 @@
       "attribution": "Original Nexus Pathways text for the Open Agent Hackathon 2026 demo. Not an official curriculum or hiring standard.",
       "page_or_section": "English section: fact, unknown, next action",
       "language_code": "en",
-      "country_scope": ["CM"],
+      "country_scope": [],
       "reuse_ok": true,
       "not_official_standard": true
     },
@@ -206,7 +206,7 @@
       "attribution": "Texte francais original de Nexus Pathways pour la demonstration. Ce n'est pas une traduction officielle ni une norme d'embauche.",
       "page_or_section": "Section francaise: fait, inconnu, prochaine action",
       "language_code": "fr",
-      "country_scope": ["CM"],
+      "country_scope": [],
       "reuse_ok": true,
       "not_official_standard": true
     },
@@ -220,7 +220,7 @@
       "attribution": "Original rubric used only to match required elements. Not an examination grade.",
       "page_or_section": "Rubric: fact, unknown, next action",
       "language_code": null,
-      "country_scope": ["CM"],
+      "country_scope": [],
       "reuse_ok": true,
       "not_official_standard": true
     },
@@ -234,7 +234,7 @@
       "attribution": "Original synthetic quiz. A correct item supports only the competency it asks about.",
       "page_or_section": "Quiz items q1-q4",
       "language_code": "en",
-      "country_scope": ["CM"],
+      "country_scope": [],
       "reuse_ok": true,
       "not_official_standard": true
     },
@@ -248,7 +248,7 @@
       "attribution": "Fictional certificate a learner may choose to share. It can support only comp-known-fact.",
       "page_or_section": "Allowed competency: comp-known-fact",
       "language_code": "en",
-      "country_scope": ["CM"],
+      "country_scope": [],
       "reuse_ok": true,
       "not_official_standard": true,
       "supports_competencies": ["comp-known-fact"]

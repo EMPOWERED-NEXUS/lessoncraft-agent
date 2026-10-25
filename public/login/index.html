@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sign in · LessonCraft by Empowered Nexus</title>
+  <title>Accounts · LessonCraft by Empowered Nexus</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,34 +24,15 @@
       <a href="/pathways/">Pathways</a>
       <a href="/">Lesson</a>
       <img class="company-logo" src="/brand/empowered-nexus-logo.jpg" alt="EmpowerEd Nexus" />
-      <span id="account-slot"><a class="nav-signin" href="/login" aria-current="page">Sign in</a></span>
     </nav>
   </header>
   <main class="page" id="main">
     <section class="card login-shell">
-      <p class="kicker">Account</p>
-      <h1>Sign in is unavailable</h1>
-      <p class="lede" id="auth-note">No learner authentication provider is configured. Try the demo without an account.</p>
-      <form id="login-form" novalidate>
-        <div class="form-alert" id="form-alert" hidden></div>
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" autocomplete="username" required aria-describedby="email-error" />
-        <p class="field-error" id="email-error" hidden></p>
-        <label for="password">Password</label>
-        <div class="password-row">
-          <input id="password" name="password" type="password" autocomplete="current-password" required minlength="8" aria-describedby="password-error" />
-          <button type="button" id="toggle-password" aria-pressed="false" aria-controls="password">Show password</button>
-        </div>
-        <p class="field-error" id="password-error" hidden></p>
-        <div class="login-actions">
-          <button type="submit" id="submit">Sign in</button>
-          <a class="button secondary" href="/pathways/">Try demo</a>
-        </div>
-      </form>
-      <p class="fine">Sign-in does not create an account or a session. The demo does not need one, and this page does not store a password in the browser.</p>
+      <p class="kicker">LessonCraft by Empowered Nexus</p>
+      <h1>Accounts are not available yet</h1>
+      <p class="lede">This demo does not need an account. Empowered Nexus owns LessonCraft. GenAI Works operates the hackathon and HackOS. The hackathon does not manage LessonCraft learners or accounts.</p>
+      <p><a class="button" href="/pathways/">Try demo</a></p>
     </section>
   </main>
-  <script src="/nav.js"></script>
-  <script src="/login/login.js"></script>
 </body>
 </html>

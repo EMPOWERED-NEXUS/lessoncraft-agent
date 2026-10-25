@@ -1,5 +1,7 @@
 .grid { display: grid; gap: var(--space-3); }
 @media (min-width: 760px) { .grid { grid-template-columns: 1.4fr 0.6fr 1fr; } }
+.flow-title { font-size: var(--text-lg); margin: var(--space-4) 0 var(--space-2); }
+.workflow { margin: 0 0 var(--space-4); }
 .presets { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .presets button { background: white; color: var(--navy); border-color: var(--line); }
 .presets button:hover { border-color: var(--blue); }

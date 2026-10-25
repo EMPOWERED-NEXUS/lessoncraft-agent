@@ -181,7 +181,7 @@ export function regressionCases(): RegressionCase[] {
 
 function base(partial: Partial<RunInput> & { learnerId: string }): RunInput {
   return {
-    countryCode: "CM",
+    countryCode: "ZZ",
     languageCode: "en",
     skipZetaris: true,
     ...partial,

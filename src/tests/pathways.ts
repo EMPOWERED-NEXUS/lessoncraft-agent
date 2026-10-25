@@ -85,7 +85,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
   await test("verifier rejects a resource in the wrong language", () => {
     const state = createState({
       learnerId: "demo-a",
-      countryCode: "CM",
+      countryCode: "ZZ",
       languageCode: "fr",
       skipZetaris: true,
     });
@@ -127,7 +127,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
   await test("pathway memory mines, stores, retrieves, takes feedback, and resets", async () => {
     const state = createState({
       learnerId: "test-mem-1",
-      countryCode: "CM",
+      countryCode: "ZZ",
       languageCode: "en",
       skipZetaris: true,
     });
@@ -151,7 +151,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
   await test("normal evidence case explains each status and records a correction", async () => {
     const state = await runPathway({
       learnerId: "case-normal",
-      countryCode: "CM",
+      countryCode: "ZZ",
       languageCode: "en",
       skipZetaris: true,
       quizAnswers: { q1: "b", q2: "a" },
@@ -181,7 +181,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
   await test("no evidence leaves every requirement unknown and asks one question", async () => {
     const state = await runPathway({
       learnerId: "case-none",
-      countryCode: "CM",
+      countryCode: "ZZ",
       languageCode: "en",
       skipZetaris: true,
     });
@@ -197,7 +197,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
   await test("unsupported claim abstains and does not recommend from the badge", async () => {
     const state = await runPathway({
       learnerId: "case-badge",
-      countryCode: "CM",
+      countryCode: "ZZ",
       languageCode: "en",
       skipZetaris: true,
       certificate: {
@@ -222,7 +222,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
     await resetLearner(learnerId);
     const first = await startRun({
       learnerId,
-      countryCode: "CM",
+      countryCode: "ZZ",
       languageCode: "en",
       skipZetaris: true,
       quizAnswers: { q1: "b" },
@@ -235,7 +235,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
     assert.equal(parseLearnerMemory("mem-x", secret), null);
     const second = await startRun({
       learnerId,
-      countryCode: "CM",
+      countryCode: "ZZ",
       languageCode: "en",
       skipZetaris: true,
       quizAnswers: { q1: "b", q3: "a" },
@@ -263,7 +263,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
     assert.equal(remote.passages[0]?.passage_text, "How much of the work is complete?");
     assert.deepEqual(remote.passages[0]?.lessoncraft_competency_ids, ["comp-known-fact"]);
     assert.equal(remote.passages[0]?.content_origin, "approved public resource");
-    const state = createState({ learnerId: "case-passage", countryCode: "CM", languageCode: "en", skipZetaris: true });
+    const state = createState({ learnerId: "case-passage", countryCode: "ZZ", languageCode: "en", skipZetaris: true });
     const requirementIds = state.pathway.requirements.map((item) => item.requirement_id).join(",");
     applyPassageRead(state, remote);
     assert.equal(state.pathway.requirements.map((item) => item.requirement_id).join(","), requirementIds);
@@ -296,7 +296,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
     });
     assert.equal(remote.ok, false);
     assert.equal(remote.passages.length, 0);
-    const state = createState({ learnerId: "case-rejected", countryCode: "CM", languageCode: "en", skipZetaris: true });
+    const state = createState({ learnerId: "case-rejected", countryCode: "ZZ", languageCode: "en", skipZetaris: true });
     applyPassageRead(state, remote);
     assert.equal(state.dataOrigin, "local-fixture");
     assert.equal(state.supportingPassages.length, 0);
@@ -317,7 +317,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
     assert.equal(remote.passages.length, 0);
     assert.match(remote.note, /Fixture mode/);
     assert.match(remote.note, /pathway structure comes from the local fixture/i);
-    const state = createState({ learnerId: "case-empty", countryCode: "CM", languageCode: "en", skipZetaris: true });
+    const state = createState({ learnerId: "case-empty", countryCode: "ZZ", languageCode: "en", skipZetaris: true });
     applyPassageRead(state, remote);
     assert.match(state.trace.filter((event) => event.role === "retrieval").at(-1)?.summary ?? "", /Fixture mode/);
   });
@@ -333,7 +333,7 @@ export async function pathwayTests(test: TestFn): Promise<void> {
     const blob = JSON.stringify(remote);
     assert.equal(blob.includes("secret-token"), false);
     assert.equal(blob.includes("jdbc:zetaris:lightning"), false);
-    const state = createState({ learnerId: "case-fail", countryCode: "CM", languageCode: "en", skipZetaris: true });
+    const state = createState({ learnerId: "case-fail", countryCode: "ZZ", languageCode: "en", skipZetaris: true });
     applyPassageRead(state, remote);
     assert.equal(state.dataOrigin, "local-fixture");
     assert.match(state.trace.filter((event) => event.role === "retrieval").at(-1)?.summary ?? "", /Fixture mode/);

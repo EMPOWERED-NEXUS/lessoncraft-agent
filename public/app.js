@@ -6,7 +6,6 @@ let packs = [];
 function chipsFor(pack) {
   if (!pack) return;
   $("chips").innerHTML = [
-    pack.country_name,
     pack.education_subsystem,
     pack.grade_or_level,
     pack.subject,
@@ -15,7 +14,8 @@ function chipsFor(pack) {
   ]
     .map((t) => `<span class="chip">${t}</span>`)
     .join("");
-  $("disclaimer").textContent = pack.disclaimer;
+  const note = $("disclaimer");
+  if (note) note.textContent = "Original LessonCraft synthetic content in this earlier lesson. Not an official curriculum.";
 }
 
 function renderTrace(events) {
@@ -48,7 +48,7 @@ async function bootstrap() {
   packs = packRes.packs ?? [];
   const select = $("pack");
   select.innerHTML = packs
-    .map((p) => `<option value="${p.pack_id}">${p.pack_id}</option>`)
+    .map((p) => `<option value="${p.pack_id}">${p.subject} · ${p.grade_or_level}</option>`)
     .join("");
   chipsFor(packs[0]);
   select.addEventListener("change", () => {
