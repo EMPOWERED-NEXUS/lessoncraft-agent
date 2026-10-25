@@ -92,9 +92,11 @@ Consent off means nothing is written. The typed note and uploaded files are not 
 
 A live Nemotron call is not a submission requirement. The published rules require every submission to integrate Zetaris and Meterless. They say to integrate NVIDIA technology wherever it contributes. Best use of NVIDIA Nemotron is a separate in-kind prize.
 
-This pathway does not call Nemotron or any other model. If `LLM_BASE_URL`, `LLM_API_KEY`, and `LLM_MODEL` are set, the run mode is `foundation-model-unused` and the trace says the endpoint was not called. With those variables empty, the mode is `deterministic-no-llm`. Tests use `deterministic-test`. Nothing here pretends a model answered.
+Pathways can ask NVIDIA’s hosted OpenAI-compatible API for one extra learning draft. The checkbox is off until the learner checks it. The request sends the selected quiz answers and the approved Zetaris passages only. It does not send an uploaded file, other notes, a name, an email address, or Meterless memory. Uploaded materials are not used to train the model.
 
-A live Nemotron run would need a real Meterless Nightshift or NVIDIA endpoint, a real token (the placeholder `rt-local` is not a credential), and a model id that actually serves Nemotron. Those values are not configured for this demo, and this pathway would still need a separate reviewed change before any model text could appear in a recommendation.
+The request model is `nvidia/nemotron-3.5-super-vl-120b-a12b` unless `NVIDIA_MODEL` is set. The trace shows the model id the API returns. A consented check returned the served id `private/nvidia/nemotron-3.5-super-120b-a12b`. Sampling is temperature `1.0` and `top_p` `0.95`. Reasoning is turned off with `chat_template_kwargs.enable_thinking` set to false, and the output limit is 512 tokens. The explanation may paraphrase. A separate evidence quote must be an exact substring of the approved passage named by its passage id. The local competency check still decides the next step. The draft is labeled as an AI draft and names the Zetaris source. If the call times out, errors, returns empty or invalid text, or fails the check, the local next step remains and the trace says the draft was not used. One repair call is the limit.
+
+Set `NVIDIA_API_KEY`, and optionally `NVIDIA_BASE_URL` and `NVIDIA_MODEL`, in `.env.local`. Leave the key blank to keep the call off. The default base URL is `https://integrate.api.nvidia.com/v1`. Tests use a mock client and do not call NVIDIA. `LLM_BASE_URL` is a separate unused endpoint: with it empty the pathway mode stays `deterministic-no-llm`, and tests stay on `deterministic-test`.
 
 ## Sources
 
@@ -119,13 +121,14 @@ Copy `.env.example` to `.env.local`. Do not commit secrets. Leave a value blank 
 | `LEARNER_ID`, `LESSON_PACK_ID` | Fraction-tutor demo only |
 | `LESSONCRAFT_TEST_MODE` | `1` forces the deterministic test path |
 | `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` | Optional OpenAI-compatible endpoint. Empty is valid. Pathways does not call it |
+| `NVIDIA_API_KEY`, `NVIDIA_BASE_URL`, `NVIDIA_MODEL` | Optional Nemotron draft. Blank key means no call. A call also needs the learner checkbox, a selected answer, and an approved passage |
 | `ZETARIS_JDBC_URL`, `ZETARIS_JDBC_JAR`, `ZETARIS_JDBC_USER`, `ZETARIS_JDBC_PASSWORD`, `JAVA_BIN` | Optional read-only Lightning JDBC. A portable JDK may live in gitignored `tools/jdk/` |
 | `ZETARIS_BASE_URL` and the other UI-proxy names | Existing diagnostic only. Do not guess |
 | `AUTH_PROVIDER` | Leave blank. A name here does not enable sign-in |
 
 ## Tests
 
-`npm test` covers the fraction tutor, the pathway regression, Zetaris passage acceptance and rejection, Meterless without private evidence, both interface languages, file extraction and refusal, consent, contribution deletion, and the unconfigured model path.
+`npm test` covers the fraction tutor, the pathway regression, Zetaris passage acceptance and rejection, Meterless without private evidence, both interface languages, file extraction and refusal, consent, contribution deletion, the unconfigured model path, and mocked NVIDIA success, exact-quote checks, unsupported passage ids, reasoning disabled, empty output, refusal, timeout, API failure, verifier rejection, and fallback.
 
 The 15 synthetic cases expect supported, unsupported, or uncertain outcomes. Abstaining when evidence is insufficient counts as uncertain and is correct. This is internal QA. It is not evidence of learning gain or job placement.
 
@@ -142,4 +145,4 @@ The 15 synthetic cases expect supported, unsupported, or uncertain outcomes. Abs
 - **Cursor** is the development environment. No Cursor SDK runtime is required.
 - **Zetaris** supplies only a filtered, rechecked public passage. Structure stays on the local fixture.
 - **Meterless H-MEM** stores, recalls, and deletes the consented minimum.
-- **NVIDIA** is not called. See above.
+- **NVIDIA** drafts an optional learning response only after the learner checks the consent box and an approved Zetaris passage is available. The request model is `nvidia/nemotron-3.5-super-vl-120b-a12b`. The trace records the served model id. The local pathway check still decides the next step. Uploaded materials are not sent and are not training data.

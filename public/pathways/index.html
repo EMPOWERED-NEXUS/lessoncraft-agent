@@ -135,6 +135,8 @@
           <textarea id="sample" rows="4" maxlength="500" data-i18n-placeholder="sample_ph" placeholder="Optional note"></textarea>
         </label>
         <label class="check"><input id="cert" type="checkbox" /> <span data-i18n="cert">Share a synthetic “job-ready” badge that this pathway cannot use</span></label>
+        <label class="check"><input id="nvidia-consent" type="checkbox" /> <span data-i18n="nvidia_consent">Send my selected answers and the approved supporting passage to NVIDIA to draft a learning response.</span></label>
+        <p class="hint" data-i18n="nvidia_consent_note">This is optional and stays off until you check it. NVIDIA receives only those selected answers and that passage. It does not receive an uploaded file, other notes, your name, an email address, or Meterless memory. The pathway check still decides what the evidence shows.</p>
         <button id="run" type="button" data-i18n="run">Explain the next step</button>
         <p class="status" id="status" aria-live="polite"></p>
       </section>
@@ -157,6 +159,22 @@
           </div>
           <h3 data-i18n="check_title">Progress check</h3>
           <p id="check"></p>
+        </div>
+        <div id="nvidia-panel" class="hidden">
+          <h3 data-i18n="nvidia_title">AI draft</h3>
+          <p class="nvidia-label" data-i18n="nvidia_ai_label">This is an AI draft from NVIDIA. The next step above is the pathway decision.</p>
+          <p id="nvidia-status"></p>
+          <div id="nvidia-draft" class="nvidia-draft hidden">
+            <p id="nvidia-source"></p>
+            <h4 data-i18n="nvidia_quote_label">Evidence quote</h4>
+            <p id="nvidia-quote"></p>
+            <h4 data-i18n="nvidia_explanation">Explanation</h4>
+            <p id="nvidia-explanation"></p>
+            <h4 data-i18n="nvidia_example">Worked example</h4>
+            <p id="nvidia-example"></p>
+            <h4 data-i18n="nvidia_follow">Follow-up question</h4>
+            <p id="nvidia-follow"></p>
+          </div>
         </div>
         <div id="format-example" class="format-panel hidden">
           <h3 data-i18n="example_title">Example</h3>

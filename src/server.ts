@@ -188,6 +188,7 @@ const server = http.createServer(async (req, res) => {
           claimedCompetencyIds: string[];
           sourceId: string;
         } | null;
+        nvidiaConsent?: boolean;
       };
       sendJson(res, 200, await startRun({
         learnerId: body.learnerId?.trim() || "demo-a",
@@ -196,6 +197,7 @@ const server = http.createServer(async (req, res) => {
         quizAnswers: body.quizAnswers ?? null,
         workSample: body.workSample ?? "",
         certificate: body.certificate ?? null,
+        nvidiaConsent: body.nvidiaConsent === true,
       }));
       return;
     }

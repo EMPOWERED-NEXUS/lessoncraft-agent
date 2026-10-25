@@ -8,6 +8,7 @@ import { loadFixture } from "./catalog.ts";
 import { evidenceAnalyst } from "./evidence.ts";
 import { pathwayPlanner } from "./planner.ts";
 import type { Outcome, RunInput, RunState, TraceEvent } from "./types.ts";
+import { attachNvidiaDraft } from "./nvidia-draft.ts";
 import { verificationAgent } from "./verifier.ts";
 import { readPassages, type ZetarisPassageRead } from "./zetaris-read.ts";
 
@@ -50,6 +51,18 @@ export function createState(input: RunInput): RunState {
     memoryIds: [],
     trace: [],
     forceOverclaim: Boolean(input.forceOverclaim),
+    nvidia: {
+      called: false,
+      model: null,
+      passageIds: [],
+      verifier: "not_run",
+      fallback: false,
+      fallbackReason: null,
+      repairAttempted: false,
+      usage: null,
+      draft: null,
+      reason: "no_consent",
+    },
   };
 }
 
@@ -120,6 +133,7 @@ export async function runPathway(input: RunInput): Promise<RunState> {
   }
 
   state.outcome = classify(state);
+  await attachNvidiaDraft(state, input);
   trace(state, "orchestrator", `Final outcome: ${state.outcome}.`, {
     decision: state.decision,
     data_origin: state.dataOrigin,

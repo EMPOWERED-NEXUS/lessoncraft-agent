@@ -192,6 +192,7 @@ export function toPublic(state: RunState): PublicRun {
     practiceResult: state.practiceResult,
     transferResult: state.transferResult,
     trace: state.trace,
+    nvidia: state.nvidia,
   };
 }
 

@@ -1,5 +1,33 @@
 /** Nexus Pathways types. Hackathon work; LessonCraft types stay in src/types.ts. */
 
+import type { NvidiaCompletion, NvidiaUsage } from "../nvidia.ts";
+
+export type { NvidiaUsage };
+
+export interface NvidiaDraft {
+  explanation: string;
+  example: string;
+  followUp: string;
+  evidenceQuote: string;
+  passageId: string;
+}
+
+export interface NvidiaReport {
+  called: boolean;
+  model: string | null;
+  passageIds: string[];
+  verifier: "not_run" | "passed" | "failed";
+  fallback: boolean;
+  fallbackReason: string | null;
+  repairAttempted: boolean;
+  usage: NvidiaUsage | null;
+  draft: NvidiaDraft | null;
+  reason: string | null;
+  codes?: string[];
+}
+
+export type NvidiaClient = (messages: Array<{ role: "system" | "user"; content: string }>) => Promise<NvidiaCompletion>;
+
 export type ClaimState = "demonstrated" | "needs_more_evidence" | "unknown";
 export type Outcome = "supported" | "unsupported" | "uncertain";
 export type Decision = "propose" | "ask" | "abstain" | "escalate";
@@ -174,7 +202,8 @@ export interface TraceEvent {
     | "verification-agent"
     | "orchestrator"
     | "assessor"
-    | "hmem";
+    | "hmem"
+    | "nvidia";
   summary: string;
   detail?: Record<string, unknown>;
 }
@@ -197,6 +226,8 @@ export interface RunInput {
   catalog?: PathwayFile;
   forceOverclaim?: boolean;
   skipZetaris?: boolean;
+  nvidiaConsent?: boolean;
+  nvidiaClient?: NvidiaClient;
 }
 
 export interface RunState {
@@ -231,6 +262,7 @@ export interface RunState {
   memoryIds: string[];
   trace: TraceEvent[];
   forceOverclaim: boolean;
+  nvidia: NvidiaReport;
 }
 
 export interface GradeResult {
@@ -287,6 +319,7 @@ export interface PublicRun {
   practiceResult: GradeResult | null;
   transferResult: GradeResult | null;
   trace: TraceEvent[];
+  nvidia: NvidiaReport;
   priorMemory?: PublicMemory[];
   memoryDelta?: MemoryDelta;
 }

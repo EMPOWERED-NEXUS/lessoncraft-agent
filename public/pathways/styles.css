@@ -171,6 +171,8 @@ fieldset.unavailable .check { color: var(--muted); }
   }
 }
 .transform-rail li.is-current { color: var(--navy); }
+.nvidia-draft { border-left: 3px solid var(--blue); padding-left: 0.8rem; margin-top: 0.6rem; }
+.nvidia-label { font-weight: 600; }
 .transform-rail li.is-current .node-hold,
 .transform-rail li.is-current .node-open,
 .transform-rail li.is-current .node-ring { box-shadow: 0 0 0 3px #d7eef8; }

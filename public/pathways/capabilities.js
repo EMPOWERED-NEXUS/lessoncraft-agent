@@ -1,4 +1,4 @@
-/** What this build can actually run. None of these call a model provider. */
+/** Pathway checks do not use these tasks. Vision, speech, and video stay off. An optional NVIDIA draft is a separate consented call. */
 
 export const MODEL_TASKS = [
   {

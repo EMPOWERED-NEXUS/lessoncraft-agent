@@ -123,6 +123,7 @@ function payload() {
           sourceId: "src-unapproved-badge",
         }
       : null,
+    nvidiaConsent: $("nvidia-consent").checked,
   };
 }
 
@@ -142,6 +143,7 @@ function showRun(run) {
   $("next-wait")?.classList.add("hidden");
   $("result").classList.remove("hidden");
   $("origin").textContent = originText(run);
+  renderNvidia(run);
   $("repairs").textContent = run.repairs?.length
     ? t(run.verificationOk ? "correction_plain" : "correction_plain_bad")
     : t("draft_plain");
@@ -242,11 +244,76 @@ function originText(run) {
   return t("origin_fixture");
 }
 
-function modelTrace(mode) {
-  const value = String(mode || "");
+function modelTrace(run) {
+  if (run.nvidia?.called && run.nvidia.fallback) return t("trace_model_nvidia_fallback");
+  if (run.nvidia?.called) return t("trace_model_nvidia");
+  const value = String(run.modelMode || "");
   if (value.startsWith("deterministic")) return t("trace_model_local");
   if (value === "foundation-model-unused") return t("trace_model_unused");
   return t("trace_model_other");
+}
+
+function renderNvidia(run) {
+  const panel = $("nvidia-panel");
+  const draftBox = $("nvidia-draft");
+  const report = run.nvidia;
+  if (!panel || !draftBox) return;
+  if (!report || report.reason === "no_consent") {
+    panel.classList.add("hidden");
+    return;
+  }
+  panel.classList.remove("hidden");
+  if (report.draft && !report.fallback) {
+    const draft = report.draft;
+    const passage = (run.supportingPassages || []).find((item) => item.passage_id === draft.passageId);
+    $("nvidia-status").textContent = t("nvidia_used", { model: report.model || "" });
+    draftBox.classList.remove("hidden");
+    $("nvidia-source").textContent = t("nvidia_source", {
+      title: passage?.source_title || "",
+      section: passage?.section_locator || "",
+      id: draft.passageId,
+    });
+    $("nvidia-quote").textContent = draft.evidenceQuote;
+    $("nvidia-explanation").textContent = draft.explanation;
+    $("nvidia-example").textContent = draft.example;
+    $("nvidia-follow").textContent = draft.followUp;
+    return;
+  }
+  draftBox.classList.add("hidden");
+  $("nvidia-status").textContent = t(nvidiaStatusKey(report.reason));
+}
+
+function nvidiaStatusKey(reason) {
+  const known = {
+    no_answer: "nvidia_no_answer",
+    no_passage: "nvidia_no_passage",
+    not_configured: "nvidia_not_configured",
+    timeout: "nvidia_timeout",
+    api_error: "nvidia_api_error",
+    invalid_structure: "nvidia_invalid",
+    verification_failed: "nvidia_rejected",
+  };
+  return known[reason] || "nvidia_fallback";
+}
+
+function nvidiaTraceLine(report) {
+  if (!report?.called) {
+    if (report?.reason === "no_answer") return t("nvidia_no_answer");
+    if (report?.reason === "no_passage") return t("nvidia_no_passage");
+    if (report?.reason === "not_configured") return t("nvidia_not_configured");
+    return t("nvidia_not_called");
+  }
+  const line = t(report.fallback ? "nvidia_trace_fallback" : "nvidia_trace_called", {
+    model: report.model || "",
+    passages: (report.passageIds || []).join(", "),
+    verifier: report.verifier,
+  });
+  if (!report.usage) return line;
+  return `${line} ${t("nvidia_trace_tokens", {
+    prompt: String(report.usage.promptTokens),
+    completion: String(report.usage.completionTokens),
+    total: String(report.usage.totalTokens),
+  })}`;
 }
 
 function renderTrace(run) {
@@ -264,7 +331,8 @@ function renderTrace(run) {
     [t("trace_role_memory"), run.priorMemory?.length
       ? t("memory_recall", { lines: run.priorMemory.map(memoryLine).join(" ") })
       : t("memory_empty")],
-    [t("trace_role_model"), modelTrace(run.modelMode)],
+    [t("trace_role_nvidia"), nvidiaTraceLine(run.nvidia)],
+    [t("trace_role_model"), modelTrace(run)],
   ];
   $("trace").replaceChildren();
   for (const [role, text] of lines) {
