@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LessonCraft curriculum pack",
+  "type": "object",
+  "required": [
+    "pack_id",
+    "country_code",
+    "country_name",
+    "education_subsystem",
+    "grade_or_level",
+    "subject",
+    "language_code",
+    "status",
+    "disclaimer",
+    "assessment_style",
+    "learning_objectives",
+    "prerequisites",
+    "misconception_catalog",
+    "artefacts"
+  ],
+  "properties": {
+    "pack_id": { "type": "string" },
+    "country_code": { "type": "string", "minLength": 2, "maxLength": 2 },
+    "education_subsystem": { "type": "string" },
+    "grade_or_level": { "type": "string" },
+    "subject": { "type": "string" },
+    "language_code": { "type": "string" },
+    "artefacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "artefact_id",
+          "source_class",
+          "source_title",
+          "source_owner",
+          "licence_or_permission",
+          "attribution",
+          "reuse_ok"
+        ]
+      }
+    }
+  }
+}

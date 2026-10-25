@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LessonCraft by Empowered Nexus</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/site.css" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: false, theme: "neutral", fontFamily: "Inter, sans-serif" });
+    window.mermaid = mermaid;
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="/pathways/">
+      <img class="lessoncraft-mark" src="/brand/lessoncraft-mark.svg" alt="" width="40" height="40" />
+      <span>
+        <span class="brand-name">LessonCraft</span>
+        <span class="brand-tag">by Empowered Nexus</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/pathways/">Pathways</a>
+      <a href="/" aria-current="page">Lesson</a>
+      <img class="company-logo" src="/brand/empowered-nexus-logo.jpg" alt="EmpowerEd Nexus" />
+      <span id="account-slot"><a class="nav-signin" href="/login">Sign in</a></span>
+    </nav>
+  </header>
+  <main class="page" id="main">
+    <section class="page-intro">
+      <p class="kicker">LessonCraft</p>
+      <h1>Work through one idea</h1>
+      <p class="lede">Start with what you think, see an explanation tied to permitted evidence, then check whether the idea transferred. Pathways is the evidence-based area. A country is optional context, not the product boundary.</p>
+      <p class="notice" id="disclaimer">Original LessonCraft synthetic content only in this demo. Not official national curriculum.</p>
+    </section>
+    <div class="layout">
+      <section class="card lesson-flow">
+        <h2>1. Your response</h2>
+        <div class="chips" id="chips"></div>
+        <label for="pack">Lesson pack</label>
+        <select id="pack"></select>
+        <label for="learner">Pseudonymous id</label>
+        <input id="learner" value="demo-learner" autocomplete="off" />
+        <label for="diagnostic">What do you think so far?</label>
+        <textarea id="diagnostic" placeholder="Try: multiplying makes it bigger, so 1/2 × 1/2 is 1"></textarea>
+        <button id="go" type="button">Explain with evidence</button>
+        <p class="status" id="status" role="status"></p>
+        <div id="result">
+          <h2>2. Explanation</h2>
+          <p id="explanation"></p>
+          <div class="visual" id="visual" aria-label="Lesson visual"></div>
+          <p class="status" id="verify"></p>
+          <h2>3. Understanding check</h2>
+          <p id="checkPrompt"></p>
+          <label for="check">Your answer</label>
+          <textarea id="check"></textarea>
+          <button class="secondary" id="submitCheck" type="button">Check understanding</button>
+          <p id="outcome" role="status"></p>
+        </div>
+      </section>
+      <aside class="secondary-stack">
+        <section class="card">
+          <h2>Permitted evidence</h2>
+          <dl id="evidence"></dl>
+          <h2>Citations only</h2>
+          <p class="hint">These sources are named for context. Their text is not stored or used as the lesson.</p>
+          <dl id="citations"></dl>
+        </section>
+        <section class="card">
+          <h2>Decision trace</h2>
+          <p class="status" id="hmemMeta"></p>
+          <ol id="trace"></ol>
+          <h2>Data connection</h2>
+          <p class="status" id="zetaris"></p>
+        </section>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer">Meterless H-MEM holds the minimum learner state for this lesson. This page does not assign a school grade or a hiring score.</footer>
+  <script src="/nav.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

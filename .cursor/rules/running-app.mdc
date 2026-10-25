@@ -1,0 +1,12 @@
+---
+description: Keep the running Nexus Pathways app on port 8787 and verify by refreshing it
+alwaysApply: true
+---
+
+# Running app
+
+The updated app is already running at `http://127.0.0.1:8787/pathways/`. Earlier app servers were stopped intentionally. Keep the current app on port 8787. Make changes in the existing project and verify them by refreshing this route.
+
+- Do not start a second server on 8787.
+- Do not treat an earlier stopped server as a failure to fix.
+- After a change, refresh `http://127.0.0.1:8787/pathways/` instead of launching a new process.

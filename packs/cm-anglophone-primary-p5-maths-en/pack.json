@@ -1,0 +1,94 @@
+{
+  "pack_id": "cm-anglophone-primary-p5-maths-en",
+  "country_code": "CM",
+  "country_name": "Cameroon",
+  "education_subsystem": "Anglophone",
+  "grade_or_level": "Primary 5",
+  "subject": "Mathematics",
+  "language_code": "en",
+  "age_min": 9,
+  "age_max": 11,
+  "status": "draft",
+  "disclaimer": "LessonCraft original synthetic fixture for product validation. Not official Cameroon curriculum.",
+  "assessment_style": "short_answer",
+  "learning_objectives": [
+    {
+      "id": "obj-part-of-part",
+      "statement": "Show that multiplying two unit fractions finds a part of a part and can make a quantity smaller."
+    },
+    {
+      "id": "obj-compare-to-factor",
+      "statement": "Compare a product of unit fractions with one of the factors."
+    }
+  ],
+  "prerequisites": [
+    {
+      "id": "prereq-unit-fraction",
+      "kind": "objective",
+      "statement": "Name a unit fraction as one equal part of a whole."
+    }
+  ],
+  "misconception_catalog": [
+    {
+      "id": "multiply_makes_bigger",
+      "statement": "The learner treats multiplication as always making a quantity larger, including when both factors are less than 1.",
+      "signals": [
+        "bigger",
+        "larger",
+        "makes bigger",
+        "makes larger",
+        "get 1",
+        "equals 1",
+        "is 1",
+        "1/2 x 1/2 = 1",
+        "1/2 × 1/2 = 1"
+      ]
+    }
+  ],
+  "artefacts": [
+    {
+      "artefact_id": "lc-orig-frac-mul-p5-01",
+      "source_class": "original",
+      "source_title": "LessonCraft synthetic: a part of a part",
+      "source_owner": "LessonCraft",
+      "source_url": null,
+      "licence_or_permission": "LessonCraft original",
+      "attribution": "Original LessonCraft synthetic lesson for product validation. Not official Cameroon curriculum.",
+      "page_or_section": "Section A — Taking a part of a part",
+      "permission_evidence": "authored-in-repo packs/cm-anglophone-primary-p5-maths-en/pack.json",
+      "reuse_ok": true,
+      "body": "A whole bar can be split into two equal parts. Each part is 1/2. If you take 1/2 of that 1/2, you keep one of two halves of a half. That piece is 1/4 of the original bar. Multiplying 1/2 × 1/2 means taking a part of a part. Because each factor is less than 1, the product 1/4 is smaller than 1/2, not larger. Adding 1/2 + 1/2 would make 1; multiplying does not.",
+      "visual_spec": {
+        "mermaid": "flowchart LR\n  whole[\"Whole bar\"] --> half[\"1/2 of the bar\"]\n  half --> quarter[\"1/2 of that half = 1/4\"]\n  quarter --> smaller[\"1/4 is smaller than 1/2\"]"
+      },
+      "reteach_visual_spec": {
+        "mermaid": "flowchart TB\n  bar[\"Four equal squares in one bar\"] --> shade[\"Shade two squares: 1/2\"]\n  shade --> halfOfHalf[\"Keep one of those two: 1/4\"]\n  halfOfHalf --> compare[\"1/4 sits below 1/2 on the bar\"]"
+      },
+      "diagnostic": {
+        "prompt": "Someone says: “1/2 × 1/2 is 1, because multiplying makes numbers bigger.” What is 1/2 × 1/2, and is that product larger or smaller than 1/2?",
+        "misconception_id": "multiply_makes_bigger"
+      },
+      "check": {
+        "prompt": "Is 1/3 × 1/2 larger or smaller than 1/3? What is the product?",
+        "acceptable": ["smaller", "less", "1/6", "1 / 6", "one sixth"]
+      },
+      "reteach_check": {
+        "prompt": "Shade a story: you eat half of half a loaf. What fraction of the loaf is that, and is it more or less than half a loaf?",
+        "acceptable": ["1/4", "one quarter", "less", "smaller"]
+      }
+    },
+    {
+      "artefact_id": "citation-only-mineduc-portal",
+      "source_class": "citation_only",
+      "source_title": "Cameroon Ministry of Basic Education portal (link only)",
+      "source_owner": "MINEDUB / Government of Cameroon",
+      "source_url": "https://www.minedub.cm/",
+      "licence_or_permission": "No reuse permission recorded",
+      "attribution": "Citation and link only. Not used as lesson text.",
+      "page_or_section": null,
+      "permission_evidence": "none",
+      "reuse_ok": false,
+      "body": null
+    }
+  ]
+}

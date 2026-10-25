@@ -1,0 +1,29 @@
+{
+  "name": "lessoncraft-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "LessonCraft by Empowered Nexus. Pathways compares chosen evidence with one workplace status-update skill.",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "setup": "npx --yes degit meterless/meterless/engines/hmem/reference#1742dec56a66e58eef9dda2d2b865823758ca8cd vendor/hmem && npm install --prefix vendor/hmem --no-audit --no-fund",
+    "dev": "tsx src/server.ts",
+    "start": "tsx src/server.ts",
+    "test": "tsx src/tests/run.ts",
+    "diagnostic": "tsx src/zetaris-cli.ts",
+    "jdbc-ping": "tsx src/pathways/jdbc-ping.ts"
+  },
+  "meterless": {
+    "engine": "hmem",
+    "pin": "1742dec56a66e58eef9dda2d2b865823758ca8cd",
+    "source": "https://github.com/Meterless/Meterless/tree/1742dec56a66e58eef9dda2d2b865823758ca8cd/engines/hmem/reference"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

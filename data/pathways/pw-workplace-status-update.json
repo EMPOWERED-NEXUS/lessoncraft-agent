@@ -1,0 +1,461 @@
+{
+  "pathway_id": "pw-workplace-status-update",
+  "title": "Write a three-part workplace status update",
+  "disclaimer": "This pathway is one workplace writing activity in LessonCraft Pathways by Empowered Nexus. It is not an official grade, hiring decision, professional qualification, school curriculum, or health decision. A country you select, including Cameroon, is context for this session only. ILO and World Bank links are context and are not used as evidence. This pathway does not place anyone in a job or assign a permanent score.",
+  "country_scope": ["CM"],
+  "languages": ["en", "fr"],
+  "competency_order": [
+    "comp-known-fact",
+    "comp-unknown",
+    "comp-next-action",
+    "comp-plain-language",
+    "comp-no-overclaim"
+  ],
+  "competencies": [
+    {
+      "id": "comp-known-fact",
+      "statement": "State one fact you can point to from a count or a note."
+    },
+    {
+      "id": "comp-unknown",
+      "statement": "Name one thing that is still unknown instead of filling the gap."
+    },
+    {
+      "id": "comp-next-action",
+      "statement": "Propose one next action a teammate can take."
+    },
+    {
+      "id": "comp-plain-language",
+      "statement": "Use a short update a teammate can follow in the selected language."
+    },
+    {
+      "id": "comp-no-overclaim",
+      "statement": "Do not claim a job, a grade, a credential, or eligibility."
+    }
+  ],
+  "requirements": [
+    {
+      "requirement_id": "req-en-known-fact",
+      "competency_id": "comp-known-fact",
+      "statement": "State one fact you can point to from a count or a note.",
+      "language_code": "en",
+      "country_code": "CM",
+      "source_id": "src-np-en-01"
+    },
+    {
+      "requirement_id": "req-en-unknown",
+      "competency_id": "comp-unknown",
+      "statement": "Name one thing that is still unknown instead of filling the gap.",
+      "language_code": "en",
+      "country_code": "CM",
+      "source_id": "src-np-en-01"
+    },
+    {
+      "requirement_id": "req-en-next-action",
+      "competency_id": "comp-next-action",
+      "statement": "Propose one next action a teammate can take.",
+      "language_code": "en",
+      "country_code": "CM",
+      "source_id": "src-np-en-01"
+    },
+    {
+      "requirement_id": "req-en-plain-language",
+      "competency_id": "comp-plain-language",
+      "statement": "Use a short update a teammate can follow.",
+      "language_code": "en",
+      "country_code": "CM",
+      "source_id": "src-np-en-01"
+    },
+    {
+      "requirement_id": "req-en-no-overclaim",
+      "competency_id": "comp-no-overclaim",
+      "statement": "Do not claim a job, a grade, a credential, or eligibility.",
+      "language_code": "en",
+      "country_code": "CM",
+      "source_id": "src-np-en-01"
+    },
+    {
+      "requirement_id": "req-fr-known-fact",
+      "competency_id": "comp-known-fact",
+      "statement": "Indiquez un fait que vous pouvez montrer a partir d'un comptage ou d'une note.",
+      "language_code": "fr",
+      "country_code": "CM",
+      "source_id": "src-np-fr-01"
+    },
+    {
+      "requirement_id": "req-fr-unknown",
+      "competency_id": "comp-unknown",
+      "statement": "Nommez une chose encore inconnue au lieu de combler le trou.",
+      "language_code": "fr",
+      "country_code": "CM",
+      "source_id": "src-np-fr-01"
+    },
+    {
+      "requirement_id": "req-fr-next-action",
+      "competency_id": "comp-next-action",
+      "statement": "Proposez une prochaine action qu'un coequipier peut faire.",
+      "language_code": "fr",
+      "country_code": "CM",
+      "source_id": "src-np-fr-01"
+    },
+    {
+      "requirement_id": "req-fr-plain-language",
+      "competency_id": "comp-plain-language",
+      "statement": "Ecrivez un compte-rendu court qu'un coequipier peut suivre.",
+      "language_code": "fr",
+      "country_code": "CM",
+      "source_id": "src-np-fr-01"
+    },
+    {
+      "requirement_id": "req-fr-no-overclaim",
+      "competency_id": "comp-no-overclaim",
+      "statement": "N'ajoutez pas une affirmation d'emploi, de note, de diplome ou d'eligibilite.",
+      "language_code": "fr",
+      "country_code": "CM",
+      "source_id": "src-np-fr-01"
+    }
+  ],
+  "resources": [
+    {
+      "resource_id": "res-en-practice",
+      "language_code": "en",
+      "country_code": "CM",
+      "kind": "practice",
+      "targets": [
+        "comp-known-fact",
+        "comp-unknown",
+        "comp-next-action",
+        "comp-plain-language",
+        "comp-no-overclaim"
+      ],
+      "title": "Practice: rewrite one workplace note",
+      "body": "Rewrite a vague note into three parts: one fact you can point to, one unknown, and one next action. Leave out any job, grade, or eligibility claim.",
+      "source_id": "src-np-en-01"
+    },
+    {
+      "resource_id": "res-en-transfer",
+      "language_code": "en",
+      "country_code": "CM",
+      "kind": "transfer",
+      "targets": [
+        "comp-known-fact",
+        "comp-unknown",
+        "comp-next-action",
+        "comp-plain-language",
+        "comp-no-overclaim"
+      ],
+      "title": "Transfer check: a new shift note",
+      "body": "Use the same three-part update on a new situation about a shift list. This checks transfer. It is not a grade or a hiring decision.",
+      "source_id": "src-np-en-01"
+    },
+    {
+      "resource_id": "res-fr-practice",
+      "language_code": "fr",
+      "country_code": "CM",
+      "kind": "practice",
+      "targets": [
+        "comp-known-fact",
+        "comp-unknown",
+        "comp-next-action",
+        "comp-plain-language",
+        "comp-no-overclaim"
+      ],
+      "title": "Pratique: reecrire une note de travail",
+      "body": "Reecrivez une note vague en trois parties: un fait que vous pouvez montrer, une inconnue, et une prochaine action. N'ajoutez pas une affirmation d'emploi, de note ou d'eligibilite.",
+      "source_id": "src-np-fr-01"
+    },
+    {
+      "resource_id": "res-fr-transfer",
+      "language_code": "fr",
+      "country_code": "CM",
+      "kind": "transfer",
+      "targets": [
+        "comp-known-fact",
+        "comp-unknown",
+        "comp-next-action",
+        "comp-plain-language",
+        "comp-no-overclaim"
+      ],
+      "title": "Verification de transfert: une nouvelle note d'equipe",
+      "body": "Utilisez le meme compte-rendu en trois parties pour une situation nouvelle sur une liste d'equipe. Ce n'est pas une note scolaire ni une decision d'embauche.",
+      "source_id": "src-np-fr-01"
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "src-np-en-01",
+      "source_class": "original",
+      "source_title": "Nexus Pathways original: a three-part workplace status update",
+      "source_owner": "Nexus Pathways",
+      "source_url": null,
+      "licence_or_permission": "Nexus Pathways original",
+      "attribution": "Original Nexus Pathways text for the Open Agent Hackathon 2026 demo. Not an official curriculum or hiring standard.",
+      "page_or_section": "English section: fact, unknown, next action",
+      "language_code": "en",
+      "country_scope": ["CM"],
+      "reuse_ok": true,
+      "not_official_standard": true
+    },
+    {
+      "source_id": "src-np-fr-01",
+      "source_class": "original",
+      "source_title": "Nexus Pathways original: compte-rendu de travail en trois parties",
+      "source_owner": "Nexus Pathways",
+      "source_url": null,
+      "licence_or_permission": "Nexus Pathways original",
+      "attribution": "Texte francais original de Nexus Pathways pour la demonstration. Ce n'est pas une traduction officielle ni une norme d'embauche.",
+      "page_or_section": "Section francaise: fait, inconnu, prochaine action",
+      "language_code": "fr",
+      "country_scope": ["CM"],
+      "reuse_ok": true,
+      "not_official_standard": true
+    },
+    {
+      "source_id": "src-np-rubric-01",
+      "source_class": "original",
+      "source_title": "Nexus Pathways teacher-approved rubric for a three-part status update",
+      "source_owner": "Nexus Pathways",
+      "source_url": null,
+      "licence_or_permission": "Nexus Pathways original",
+      "attribution": "Original rubric used only to match required elements. Not an examination grade.",
+      "page_or_section": "Rubric: fact, unknown, next action",
+      "language_code": null,
+      "country_scope": ["CM"],
+      "reuse_ok": true,
+      "not_official_standard": true
+    },
+    {
+      "source_id": "src-quiz-01",
+      "source_class": "original",
+      "source_title": "Nexus Pathways original quiz: cups and a delivery",
+      "source_owner": "Nexus Pathways",
+      "source_url": null,
+      "licence_or_permission": "Nexus Pathways original",
+      "attribution": "Original synthetic quiz. A correct item supports only the competency it asks about.",
+      "page_or_section": "Quiz items q1-q4",
+      "language_code": "en",
+      "country_scope": ["CM"],
+      "reuse_ok": true,
+      "not_official_standard": true
+    },
+    {
+      "source_id": "src-synth-cert-01",
+      "source_class": "synthetic_demo",
+      "source_title": "Synthetic demo certificate: counted-stock note",
+      "source_owner": "Nexus Pathways",
+      "source_url": null,
+      "licence_or_permission": "Synthetic demo, not a real credential",
+      "attribution": "Fictional certificate a learner may choose to share. It can support only comp-known-fact.",
+      "page_or_section": "Allowed competency: comp-known-fact",
+      "language_code": "en",
+      "country_scope": ["CM"],
+      "reuse_ok": true,
+      "not_official_standard": true,
+      "supports_competencies": ["comp-known-fact"]
+    },
+    {
+      "source_id": "src-ilo-youth-2024",
+      "source_class": "citation_only",
+      "source_title": "ILO Global Employment Trends for Youth 2024: figures",
+      "source_owner": "International Labour Organization",
+      "source_url": "https://www.ilo.org/resource/article/global-employment-trends-youth-2024-figures",
+      "licence_or_permission": "Citation and link only. Body not stored.",
+      "attribution": "International Labour Organization. Context for why the problem matters. Not evidence about this learner.",
+      "page_or_section": null,
+      "language_code": "en",
+      "country_scope": [],
+      "reuse_ok": false,
+      "not_official_standard": true
+    },
+    {
+      "source_id": "src-wb-jobs",
+      "source_class": "citation_only",
+      "source_title": "World Bank: The Global Jobs Challenge",
+      "source_owner": "World Bank",
+      "source_url": "https://www.worldbank.org/en/research/publication/global-jobs-challenge",
+      "licence_or_permission": "Citation and link only. Body not stored.",
+      "attribution": "World Bank. Context for scale. Not evidence about this learner and not a claim that this software creates jobs.",
+      "page_or_section": null,
+      "language_code": "en",
+      "country_scope": [],
+      "reuse_ok": false,
+      "not_official_standard": true
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "competency_ids": ["comp-known-fact"],
+      "prompt": "You counted 12 clean cups. Which sentence states a fact you can point to?",
+      "options": [
+        {"id": "a", "text": "The delivery is probably here."},
+        {"id": "b", "text": "I counted 12 clean cups."},
+        {"id": "c", "text": "We are ready for every customer."}
+      ],
+      "answer": "b",
+      "source_id": "src-quiz-01"
+    },
+    {
+      "id": "q2",
+      "competency_ids": ["comp-unknown"],
+      "prompt": "You do not know whether the afternoon delivery arrived. Which sentence names that unknown?",
+      "options": [
+        {"id": "a", "text": "Everything is fine."},
+        {"id": "b", "text": "I do not know whether the afternoon delivery arrived."},
+        {"id": "c", "text": "The manager will be happy."}
+      ],
+      "answer": "b",
+      "source_id": "src-quiz-01"
+    },
+    {
+      "id": "q3",
+      "competency_ids": ["comp-next-action"],
+      "prompt": "Which sentence is one next action a teammate can recognise?",
+      "options": [
+        {"id": "a", "text": "I will ask the depot whether the afternoon delivery left."},
+        {"id": "b", "text": "I am fully qualified for this job."},
+        {"id": "c", "text": "The problem is solved."}
+      ],
+      "answer": "a",
+      "source_id": "src-quiz-01"
+    },
+    {
+      "id": "q4",
+      "competency_ids": ["comp-plain-language", "comp-no-overclaim"],
+      "prompt": "Which sentence stays plain and does not claim a job or a grade?",
+      "options": [
+        {"id": "a", "text": "I guarantee employment outcomes."},
+        {"id": "b", "text": "I counted 12 cups. I do not know if the delivery arrived. I will ask the depot."},
+        {"id": "c", "text": "My score proves I should be hired."}
+      ],
+      "answer": "b",
+      "source_id": "src-quiz-01"
+    }
+  ],
+  "sample_signals": [
+    {
+      "competency_id": "comp-known-fact",
+      "languages": {"en": ["\\b\\d+\\b", "counted"], "fr": ["\\b\\d+\\b", "compt"]}
+    },
+    {
+      "competency_id": "comp-unknown",
+      "languages": {
+        "en": ["unknown", "do not know", "don't know", "not sure", "not yet"],
+        "fr": ["inconnu", "je ne sais pas", "pas encore"]
+      }
+    },
+    {
+      "competency_id": "comp-next-action",
+      "languages": {
+        "en": ["i will", "next action", "ask the"],
+        "fr": ["je vais", "prochaine", "appeler"]
+      }
+    }
+  ],
+  "practice": {
+    "en": {
+      "prompt": "The vague note says: All good with the cups. You counted 12 clean cups. You do not know whether the afternoon delivery arrived.",
+      "note": "Closed questions are graded against a stored answer key. The open response is matched to a teacher-approved rubric. Neither result is a school grade or a hiring score.",
+      "closed": {
+        "id": "practice-closed",
+        "prompt": "Which revision is a three-part status update?",
+        "options": [
+          {"id": "a", "text": "All good with the cups."},
+          {"id": "b", "text": "I counted 12 clean cups. I do not know whether the afternoon delivery arrived. I will ask the depot."},
+          {"id": "c", "text": "I am qualified for this job."}
+        ],
+        "answer": "b"
+      },
+      "open": {
+        "id": "practice-open",
+        "prompt": "Write your own three-part update. Situation: 4 boxes were opened. The missing-item list is not known. A teammate could write the missing items down.",
+        "rubric": [
+          {"id": "fact", "description": "States a fact you can point to, such as 4 boxes.", "patterns": ["\\b4\\b", "four", "boxes"]},
+          {"id": "unknown", "description": "Names something still unknown.", "patterns": ["unknown", "not known", "do not know", "don't know"]},
+          {"id": "next", "description": "Gives one next action.", "patterns": ["i will", "write", "next"]}
+        ]
+      }
+    },
+    "fr": {
+      "prompt": "La note vague dit: Tout va bien pour les tasses. Vous avez compte 12 tasses propres. Vous ne savez pas si la livraison de l'apres-midi est arrivee.",
+      "note": "Les questions fermees sont corrigees avec un corrige stocke. La reponse ouverte est comparee a une grille approuvee. Ce n'est pas une note scolaire.",
+      "closed": {
+        "id": "practice-closed",
+        "prompt": "Quelle reformulation est un compte-rendu en trois parties?",
+        "options": [
+          {"id": "a", "text": "Tout va bien pour les tasses."},
+          {"id": "b", "text": "J'ai compte 12 tasses propres. Je ne sais pas si la livraison est arrivee. Je vais appeler le depot."},
+          {"id": "c", "text": "Je suis qualifie pour cet emploi."}
+        ],
+        "answer": "b"
+      },
+      "open": {
+        "id": "practice-open",
+        "prompt": "Ecrivez votre compte-rendu. Situation: 4 boites ont ete ouvertes. La liste des articles manquants est inconnue. Un coequipier peut ecrire les articles manquants.",
+        "rubric": [
+          {"id": "fact", "description": "Indique un fait montrable, par exemple 4 boites.", "patterns": ["\\b4\\b", "quatre", "boite"]},
+          {"id": "unknown", "description": "Nomme une inconnue.", "patterns": ["inconnu", "je ne sais pas", "pas encore"]},
+          {"id": "next", "description": "Donne une prochaine action.", "patterns": ["je vais", "ecrire", "prochaine", "écrire"]}
+        ]
+      }
+    }
+  },
+  "transfer": {
+    "en": {
+      "prompt": "New situation: 3 names are on the morning shift list. The start time of the second shift is unknown. A teammate could check the posted roster.",
+      "note": "Transfer check. A match means the same kind of update showed up again. It is not a qualification.",
+      "closed": {
+        "id": "transfer-closed",
+        "prompt": "Which sentence is a three-part update for this new situation?",
+        "options": [
+          {"id": "a", "text": "The second shift is probably at noon and I am job-ready."},
+          {"id": "b", "text": "Three names are on the morning list. I do not know the second shift start time. I will check the posted roster."},
+          {"id": "c", "text": "Everything is fine."}
+        ],
+        "answer": "b"
+      },
+      "open": {
+        "id": "transfer-open",
+        "prompt": "Write the three-part update in your own words for the shift-list situation.",
+        "rubric": [
+          {"id": "fact", "description": "Includes the three names or the morning list.", "patterns": ["\\b3\\b", "three", "morning"]},
+          {"id": "unknown", "description": "Names the unknown start time.", "patterns": ["unknown", "do not know", "don't know", "not sure"]},
+          {"id": "next", "description": "Includes checking the roster or another next action.", "patterns": ["roster", "i will", "check"]}
+        ]
+      }
+    },
+    "fr": {
+      "prompt": "Nouvelle situation: 3 noms sont sur la liste du matin. L'heure de debut du deuxieme service est inconnue. Un coequipier peut verifier le tableau affiche.",
+      "note": "Verification de transfert. Un accord avec la grille n'est pas un diplome.",
+      "closed": {
+        "id": "transfer-closed",
+        "prompt": "Quelle phrase est un compte-rendu en trois parties pour cette situation?",
+        "options": [
+          {"id": "a", "text": "Le deuxieme service est sans doute a midi et je suis pret pour l'emploi."},
+          {"id": "b", "text": "Trois noms sont sur la liste du matin. Je ne sais pas l'heure du deuxieme service. Je vais verifier le tableau."},
+          {"id": "c", "text": "Tout va bien."}
+        ],
+        "answer": "b"
+      },
+      "open": {
+        "id": "transfer-open",
+        "prompt": "Ecrivez le compte-rendu en trois parties pour la liste d'equipe.",
+        "rubric": [
+          {"id": "fact", "description": "Mentionne les trois noms ou la liste du matin.", "patterns": ["\\b3\\b", "trois", "matin"]},
+          {"id": "unknown", "description": "Nomme l'heure inconnue.", "patterns": ["inconnu", "je ne sais pas", "pas encore"]},
+          {"id": "next", "description": "Donne une prochaine action, par exemple verifier le tableau.", "patterns": ["tableau", "je vais", "verifier", "vérifier"]}
+        ]
+      }
+    }
+  },
+  "questions": {
+    "en": {
+      "none": "What is one fact you can point to from a count or a note you made?",
+      "ambiguous": "Your note does not yet show a fact, an unknown, or a next action. Which one of those can you add?"
+    },
+    "fr": {
+      "none": "Quel fait pouvez-vous montrer a partir d'un comptage ou d'une note?",
+      "ambiguous": "Votre note ne montre pas encore un fait, une inconnue ou une prochaine action. Lequel pouvez-vous ajouter?"
+    }
+  }
+}

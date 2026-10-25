@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LessonCraft by Empowered Nexus</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/site.css" />
+  <link rel="stylesheet" href="/pathways/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+  <header class="site-header pathways-header">
+    <a class="brand" href="/pathways/#learn">
+      <img class="lessoncraft-mark" src="/brand/lessoncraft-mark.svg" alt="" width="40" height="40" />
+      <span>
+        <span class="brand-name">LessonCraft</span>
+        <span class="brand-by"><span data-i18n="area">Pathways</span> · <span data-i18n="owner">by Empowered Nexus</span></span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#learn" data-view="learn" data-i18n="nav_learn" aria-current="page">Learn</a>
+      <a href="#materials" data-view="materials" data-i18n="nav_materials">My materials</a>
+      <a href="#progress" data-view="progress" data-i18n="nav_progress">Progress</a>
+      <a href="#about" data-view="about" data-i18n="nav_about">Guide</a>
+      <div class="lang-switch" role="group" data-i18n-aria="lang_label" aria-label="Language">
+        <button type="button" id="lang-en" data-lang="en" aria-pressed="true">English</button>
+        <button type="button" id="lang-fr" data-lang="fr" aria-pressed="false">Français</button>
+      </div>
+      <button type="button" class="nav-button" id="tour-help" data-i18n="help">Help</button>
+      <span id="account-slot"><a class="nav-signin" href="/login" data-i18n="sign_in">Sign in</a></span>
+    </nav>
+    <img class="company-logo" src="/brand/empowered-nexus-logo.jpg" alt="EmpowerEd Nexus" />
+  </header>
+  <main class="page" id="main">
+    <ol class="transform-rail" data-i18n-aria="rail_label" aria-label="Learning path">
+      <li data-stage="bring" class="is-current"><span class="node node-hold" aria-hidden="true"></span><span data-i18n="rail_bring">Bring</span></li>
+      <li data-stage="explore"><span class="node node-open" aria-hidden="true"></span><span data-i18n="rail_explore">Explore</span></li>
+      <li data-stage="practice"><span class="node node-ring" aria-hidden="true"></span><span data-i18n="rail_practice">Practice</span></li>
+      <li data-stage="next"><span class="node node-step" aria-hidden="true"></span><span data-i18n="rail_next">Next step</span></li>
+    </ol>
+    <section id="view-learn" data-view-panel="learn">
+      <section class="page-intro">
+        <p class="kicker" data-i18n="kicker">Current pathway</p>
+        <h1 data-i18n="title">Understand what the evidence shows</h1>
+        <p class="lede" data-i18n="lede">Choose a goal, add material if you want, see what your responses demonstrate, and take one next step you can accept, edit, or dismiss.</p>
+        <p class="notice" id="disclaimer">Loading…</p>
+      </section>
+      <section class="sheet" id="setup">
+        <h2 data-i18n="setup_title">Learning setup</h2>
+        <p class="hint" data-i18n="setup_hint">Country and context are optional. The page language, the explanation language, and the source-material language are separate.</p>
+        <p class="goal-line"><span data-i18n="goal_label">Goal</span> <strong id="goal"></strong></p>
+        <div class="grid setup-grid">
+          <label data-i18n="country">Country
+            <select id="country">
+              <option value="ZZ" data-i18n="country_zz" selected>International / no country selected</option>
+              <option value="CM" data-i18n="country_cm">Cameroon</option>
+              <option value="NG" data-i18n="country_ng">Nigeria</option>
+              <option value="FR" data-i18n="country_fr">France</option>
+              <option value="CA" data-i18n="country_ca">Canada</option>
+              <option value="custom" data-i18n="country_custom">Custom code</option>
+            </select>
+          </label>
+          <label class="hidden" id="custom-wrap" data-i18n="custom_code">Two-letter code
+            <input id="country-custom" maxlength="2" autocomplete="off" />
+          </label>
+          <label data-i18n="context_label">Education or work context
+            <select id="context">
+              <option value="" data-i18n="not_selected" selected>Not selected</option>
+              <option value="primary" data-i18n="stage_primary">Primary</option>
+              <option value="secondary" data-i18n="stage_secondary">Secondary</option>
+              <option value="vocational" data-i18n="stage_vocational">Vocational</option>
+              <option value="university" data-i18n="stage_university">University</option>
+              <option value="workplace" data-i18n="stage_workplace">Workplace</option>
+              <option value="lifelong" data-i18n="stage_lifelong">Lifelong learning</option>
+            </select>
+          </label>
+          <label data-i18n="level">Level or stage
+            <select id="level">
+              <option value="" data-i18n="not_selected" selected>Not selected</option>
+              <option value="early" data-i18n="level_early">Early</option>
+              <option value="intermediate" data-i18n="level_mid">Intermediate</option>
+              <option value="advanced" data-i18n="level_advanced">Advanced</option>
+            </select>
+          </label>
+          <label data-i18n="subject">Subject or skill
+            <input id="subject" data-i18n-placeholder="subject_ph" placeholder="Optional, such as workplace writing" />
+          </label>
+          <label data-i18n="explain_lang">Explanation language
+            <select id="language">
+              <option value="en">English</option>
+              <option value="fr">Français</option>
+            </select>
+          </label>
+          <label data-i18n="source_lang">Source material language
+            <select id="study-language">
+              <option value="" data-i18n="source_unspecified" selected>Not specified</option>
+              <option value="en">English</option>
+              <option value="fr">Français</option>
+            </select>
+          </label>
+          <label data-i18n="format">Learning format
+            <select id="format">
+              <option value="explain" data-i18n="format_explain">Clear explanation</option>
+              <option value="example" data-i18n="format_example">Worked example</option>
+              <option value="visual" data-i18n="format_visual">Visual walkthrough</option>
+              <option value="practice" data-i18n="format_practice">Practice questions</option>
+            </select>
+          </label>
+        </div>
+        <p class="hint" data-i18n="lang_separate"></p>
+        <details id="advanced">
+          <summary data-i18n="advanced">More setup choices</summary>
+          <div class="grid setup-grid">
+            <label data-i18n="curriculum">Curriculum or exam system
+              <input id="curriculum" data-i18n-placeholder="curriculum_ph" placeholder="Optional. This pathway is not an official syllabus." />
+            </label>
+            <label data-i18n="learner">Pseudonymous id
+              <input id="learner" value="demo-a" autocomplete="off" />
+            </label>
+          </div>
+        </details>
+        <p class="hint" data-i18n="demos">Try a prepared example</p>
+        <div class="presets" id="presets"></div>
+      </section>
+      <section class="sheet" id="evidence">
+        <h2 data-i18n="evidence_title">Evidence you choose</h2>
+        <p class="hint" data-i18n="evidence_hint">Optional. A quiz, a note, or a file in this session. Nothing here is a score.</p>
+        <p><button type="button" class="secondary" id="add-material-jump" data-i18n="add_material">Add material</button></p>
+        <div id="quiz"></div>
+        <label data-i18n="sample">Work sample
+          <textarea id="sample" rows="4" maxlength="500" data-i18n-placeholder="sample_ph" placeholder="Optional note"></textarea>
+        </label>
+        <label class="check"><input id="cert" type="checkbox" /> <span data-i18n="cert">Share a synthetic “job-ready” badge that this pathway cannot use</span></label>
+        <button id="run" type="button" data-i18n="run">Explain the next step</button>
+        <p class="status" id="status" aria-live="polite"></p>
+      </section>
+      <div id="next-column">
+      <p class="workspace-note" id="next-wait" data-i18n="next_wait">The next step appears here after you ask. It stays one action you can accept, edit, or dismiss.</p>
+      <section class="sheet hidden" id="result">
+        <h2 data-i18n="result_title">Why this next step</h2>
+        <p class="notice" id="origin"></p>
+        <p id="repairs"></p>
+        <div class="next-step">
+          <h3 data-i18n="now">What you can do now</h3>
+          <p id="action"></p>
+          <label class="hidden" id="edit-wrap"><span data-i18n="edit_label">Edit the next step</span>
+            <textarea id="edit" rows="3"></textarea>
+          </label>
+          <div class="row" id="review-row">
+            <button id="accept" type="button" data-i18n="accept">Accept</button>
+            <button id="save-edit" class="secondary" type="button" data-i18n="save_edit">Save edit</button>
+            <button id="dismiss" class="ghost" type="button" data-i18n="dismiss">Dismiss</button>
+          </div>
+          <h3 data-i18n="check_title">Progress check</h3>
+          <p id="check"></p>
+        </div>
+        <div id="format-example" class="format-panel hidden">
+          <h3 data-i18n="example_title">Example</h3>
+          <p id="example-body"></p>
+        </div>
+        <div id="format-visual" class="format-panel hidden">
+          <h3 data-i18n="walk_title">Visual walkthrough</h3>
+          <ol class="walk">
+            <li data-i18n="walk_1">Point to one fact.</li>
+            <li data-i18n="walk_2">Name one unknown.</li>
+            <li data-i18n="walk_3">Name one next action, without a job, grade, or eligibility claim.</li>
+          </ol>
+        </div>
+        <h3 data-i18n="why">Why</h3>
+        <p id="why"></p>
+        <h3 data-i18n="supports">What the evidence supports</h3>
+        <ul id="claims"></ul>
+        <h3 data-i18n="uncertain">What is uncertain</h3>
+        <p id="uncertain"></p>
+        <h3 data-i18n="sources">Sources for this recommendation</h3>
+        <ul id="sources"></ul>
+        <h3 data-i18n="context_only">Context only — not used as evidence</h3>
+        <ul id="context-sources"></ul>
+      </section>
+      <section class="sheet hidden" id="practice">
+        <h2 data-i18n="practice">Practice</h2>
+        <p id="practice-prompt"></p>
+        <p class="hint" id="practice-note"></p>
+        <p id="practice-closed-prompt"></p>
+        <div id="practice-options"></div>
+        <label><span data-i18n="open">Open response</span>
+          <textarea id="practice-open" rows="4"></textarea>
+        </label>
+        <ul id="practice-rubric"></ul>
+        <button id="practice-submit" type="button" data-i18n="check_practice">Check practice</button>
+        <p id="practice-result"></p>
+        <div class="hidden" id="transfer">
+          <h2 data-i18n="transfer">Transfer check</h2>
+          <p id="transfer-prompt"></p>
+          <p id="transfer-closed-prompt"></p>
+          <div id="transfer-options"></div>
+          <label><span data-i18n="open">Open response</span>
+            <textarea id="transfer-open" rows="4"></textarea>
+          </label>
+          <ul id="transfer-rubric"></ul>
+          <button id="transfer-submit" class="secondary" type="button" data-i18n="check_transfer">Check transfer</button>
+          <p id="transfer-result"></p>
+        </div>
+      </section>
+      <section class="sheet contribute hidden" id="contribute">
+        <p class="draft-stamp" data-i18n="contrib_stamp">This browser only</p>
+        <h2 data-i18n="contrib_title">Contribute for others after review</h2>
+        <p class="hint" data-i18n="contrib_intro"></p>
+        <p class="hint" data-i18n="contrib_where"></p>
+        <label data-i18n="contrib_preview">Exact text to review
+          <textarea id="contrib-preview" rows="4"></textarea>
+        </label>
+        <label class="check"><input id="contrib-redact" type="checkbox" /> <span data-i18n="contrib_redact">I removed personal information from this text</span></label>
+        <label class="check"><input id="contrib-rights" type="checkbox" /> <span data-i18n="contrib_rights">I have the rights to share this text, and possession alone is not those rights</span></label>
+        <label data-i18n="contrib_attribution">Attribution
+          <input id="contrib-attribution" autocomplete="name" />
+        </label>
+        <label data-i18n="license">License
+          <select id="contrib-license">
+            <option value="" data-i18n="license_choose">Choose a license</option>
+            <option>CC BY 4.0</option>
+            <option>CC BY-SA 4.0</option>
+            <option>CC0 1.0</option>
+            <option>All rights reserved</option>
+          </select>
+        </label>
+        <p class="hint" data-i18n="contrib_license_note"></p>
+        <label class="check"><input id="contrib-training" type="checkbox" disabled /> <span data-i18n="contrib_training">Allow use to train a model</span></label>
+        <p class="hint" data-i18n="contrib_training_note"></p>
+        <div class="row">
+          <button type="button" id="contrib-submit" data-i18n="contrib_submit">Save in this browser only</button>
+          <button type="button" class="ghost" id="contrib-clear" data-i18n="contrib_clear">Delete drafts from this visit</button>
+        </div>
+        <p class="status" id="contrib-status" aria-live="polite"></p>
+        <ul id="contrib-list"></ul>
+      </section>
+      <details class="trace-panel">
+        <summary data-i18n="trace">Decision trace</summary>
+        <ol id="trace"></ol>
+      </details>
+      </div>
+    </section>
+
+    <section id="view-materials" data-view-panel="materials" class="hidden">
+      <section class="page-intro">
+        <h1 data-i18n="materials_title">My materials</h1>
+        <p class="lede" data-i18n="materials_intro">Text you keep is held in this page’s memory for this visit. It is not saved to an account or to this browser’s storage. A file that was not read is not added to the lesson.</p>
+      </section>
+      <section class="sheet" id="material-form">
+        <h2 data-i18n="add_material">Add material</h2>
+        <label data-i18n="note">Note or pasted text
+          <textarea id="material-note" rows="4"></textarea>
+        </label>
+        <ul id="parser-list" class="parser-list"></ul>
+        <div id="dropzone" class="dropzone">
+          <p data-i18n="drop_title">Drop a file here, or choose one</p>
+          <p class="hint" data-i18n="file_hint">Supported text is read from TXT, Markdown, DOCX, PPTX, and digital PDFs, up to 8 MB. Scanned pages and images are not read. Spreadsheets, audio, and video are not understood by selecting them.</p>
+          <label class="file-picker" data-i18n="file">Choose a file
+            <input id="material-file" type="file" accept=".pdf,.docx,.pptx,.jpg,.jpeg,.png,.txt,.md,.markdown,.csv,.xlsx,.mp3,.wav,.m4a,.mp4,.webm" />
+          </label>
+        </div>
+        <p id="file-meta">No file selected.</p>
+        <p class="status" id="extract-status" aria-live="polite">Nothing extracted yet.</p>
+        <label data-i18n="preview">Text preview
+          <textarea id="material-preview" rows="5" data-i18n-placeholder="preview_ph" placeholder="Extracted text appears here when extraction succeeds. You can edit it."></textarea>
+        </label>
+        <fieldset>
+          <legend data-i18n="use_legend">How should this material be used?</legend>
+          <label class="check"><input type="radio" name="material-use" value="lesson" checked /> <span data-i18n="use_lesson">Use for this lesson only</span></label>
+          <p class="hint" id="model-note" data-i18n="model_note"></p>
+        </fieldset>
+        <fieldset class="unavailable">
+          <legend data-i18n="unavailable_legend">Not available in this version</legend>
+          <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_account">Save to my account library</span></label>
+          <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_class">Share with my class</span></label>
+          <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_public">Publish to a public learning library</span></label>
+          <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_training">Allow use to improve or train AI models</span></label>
+          <p class="hint" data-i18n="unavailable_note"></p>
+        </fieldset>
+        <div class="row">
+          <button type="button" id="material-keep" data-i18n="keep">Keep in this session</button>
+          <button type="button" class="secondary" id="material-clear" data-i18n="clear">Clear</button>
+          <button type="button" class="ghost" id="material-clear-session" data-i18n="clear_session">Delete materials from this visit</button>
+        </div>
+        <p class="status" id="material-status" aria-live="polite"></p>
+      </section>
+      <section class="sheet">
+        <h2 data-i18n="materials_title">My materials</h2>
+        <p id="materials-empty" data-i18n="materials_empty">No material yet. Add a note or choose a file.</p>
+        <ul id="material-list"></ul>
+      </section>
+    </section>
+
+    <section id="view-progress" data-view-panel="progress" class="hidden">
+      <section class="page-intro">
+        <h1 data-i18n="progress_title">Progress</h1>
+        <p class="lede" data-i18n="progress_safeguard">This pathway does not give a grade, a credential, or a hiring decision.</p>
+        <p id="progress-empty" data-i18n="progress_empty">No pathway result in this session yet. A result appears here after you ask for a next step.</p>
+        <p id="progress-summary"></p>
+      </section>
+      <section class="sheet" id="memory">
+        <h2 data-i18n="memory_title">Optional memory</h2>
+        <p class="hint" data-i18n="memory_hint">Meterless stores only the goal, demonstrated competency ids, outcome, and your feedback. It does not store the note or the file.</p>
+        <label class="check"><input id="consent" type="checkbox" /> <span data-i18n="consent">I consent to store that minimum record for this pseudonymous id</span></label>
+        <label data-i18n="useful">Was the next step useful?
+          <select id="feedback">
+            <option value="helpful" data-i18n="helpful">Helpful</option>
+            <option value="not_helpful" data-i18n="not_helpful">Not helpful</option>
+          </select>
+        </label>
+        <div class="row">
+          <button id="save-memory" class="secondary" type="button" data-i18n="save_memory">Save memory</button>
+          <button id="reset-memory" class="ghost" type="button" data-i18n="reset_memory">Reset this id</button>
+        </div>
+        <p id="memory-recall"></p>
+        <p class="status" id="memory-status"></p>
+      </section>
+    </section>
+
+    <section id="view-about" data-view-panel="about" class="hidden">
+      <section class="page-intro">
+        <h1 data-i18n="about_title">How it works</h1>
+        <ol class="about-steps">
+          <li data-i18n="about_1"></li>
+          <li data-i18n="about_2"></li>
+          <li data-i18n="about_3"></li>
+          <li data-i18n="about_4"></li>
+        </ol>
+        <h2 data-i18n="models_title">Model use</h2>
+        <ul id="model-tasks" class="model-tasks"></ul>
+        <p class="notice" data-i18n="about_safe"></p>
+        <p class="hint" data-i18n="about_spatial"></p>
+      </section>
+    </section>
+  </main>
+  <dialog id="tour" aria-labelledby="tour-title">
+    <p class="kicker" id="tour-kicker" data-i18n="tour_label">Welcome</p>
+    <h2 id="tour-title"></h2>
+    <p id="tour-body"></p>
+    <p id="tour-progress"></p>
+    <p class="hint" id="tour-note" data-i18n="tour_browser"></p>
+    <div class="row">
+      <button type="button" class="ghost" id="tour-back" data-i18n="tour_back">Back</button>
+      <button type="button" id="tour-next" data-i18n="tour_next">Next</button>
+      <button type="button" class="secondary" id="tour-skip" data-i18n="tour_skip">Skip</button>
+      <button type="button" id="tour-finish" data-i18n="tour_finish">Finish</button>
+    </div>
+  </dialog>
+  <script src="/nav.js"></script>
+  <script type="module" src="/pathways/app.js"></script>
+</body>
+</html>
