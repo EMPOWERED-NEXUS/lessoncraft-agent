@@ -8,6 +8,7 @@ import { STRINGS, getLang, setLang, t } from "../../public/pathways/i18n.js";
 import { assessUse, createSessionMaterials, lessonPreview, textForLesson } from "../../public/pathways/materials.js";
 import { PARSER_REGISTRY } from "../../public/pathways/parsers.js";
 import { TOUR_KEY, tourStore } from "../../public/pathways/tour.js";
+import { PATHWAY_VIEWS, railStage, viewFromHash } from "../../public/pathways/views.js";
 
 type TestFn = (name: string, fn: () => Promise<void> | void) => Promise<void>;
 
@@ -51,6 +52,56 @@ export async function pathwayUiTests(test: TestFn): Promise<void> {
     }
     assert.match(t("fr", "nav_learn"), /Apprendre/);
     assert.match(t("en", "nav_materials"), /My materials/);
+    assert.match(t("fr", "rail_bring"), /Objectif/);
+    assert.match(t("en", "setup_notes"), /do not change/);
+    assert.match(t("fr", "format_waits"), /ne change pas la décision/);
+    assert.match(t("en", "rail_question"), /practice stays closed/);
+    assert.match(t("fr", "rail_question"), /pratique reste fermée/);
+    assert.match(t("en", "accepted_practice"), /Practice is open/);
+    assert.match(t("fr", "accepted_practice"), /pratique est ouverte/);
+  });
+
+  await test("navigation stays on known views and the learning rail follows the lesson", () => {
+    assert.deepEqual(PATHWAY_VIEWS, ["learn", "materials", "progress", "about"]);
+    assert.equal(viewFromHash(""), "learn");
+    assert.equal(viewFromHash("#learn"), "learn");
+    assert.equal(viewFromHash("#materials"), "materials");
+    assert.equal(viewFromHash("#progress"), "progress");
+    assert.equal(viewFromHash("#about"), "about");
+    assert.equal(viewFromHash("#login"), "learn");
+    assert.equal(viewFromHash("#next"), "learn");
+    assert.equal(railStage({ view: "learn", hasRun: false, practiceOpen: false }), "bring");
+    assert.equal(railStage({ view: "materials", hasRun: false, practiceOpen: false }), "explore");
+    assert.equal(railStage({ view: "progress", hasRun: false, practiceOpen: false }), "bring");
+    assert.equal(railStage({ view: "about", hasRun: false, practiceOpen: false }), "bring");
+    assert.equal(railStage({ view: "learn", hasRun: true, practiceOpen: false }), "next");
+    assert.equal(railStage({ view: "learn", hasRun: true, practiceOpen: true }), "practice");
+
+    const html = readFileSync(new URL("../../public/pathways/index.html", import.meta.url), "utf8");
+    const app = readFileSync(new URL("../../public/pathways/app.js", import.meta.url), "utf8");
+    for (const stage of ["bring", "explore", "next", "practice"]) {
+      assert.match(html, new RegExp(`data-rail="${stage}"`));
+    }
+    assert.ok(html.indexOf('id="advanced"') < html.indexOf('id="context"'));
+    assert.ok(html.indexOf('id="language"') < html.indexOf('id="advanced"'));
+    assert.match(html, /data-i18n="setup_notes"/);
+    assert.match(html, /data-i18n="format_waits"/);
+    assert.doesNotMatch(html, /href="\/pathways\/#learn"/);
+    assert.match(app, /popstate/);
+    assert.match(app, /hashchange/);
+    assert.match(app, /function showViewFromLocation\(\)[\s\S]*replaceState/);
+    assert.match(app, /stage === "practice"[\s\S]{0,500}rail_need_run/);
+    assert.match(app, /rail_question/);
+    assert.match(html, /app\.js\?v=20261025b/);
+    const css = readFileSync(new URL("../../public/pathways/styles.css", import.meta.url), "utf8");
+    assert.match(app, /setLive\("memory-status", "memory_saved"/);
+    assert.match(app, /setLive\(\s*"memory-status",\s*result\.deleted\.length \? "memory_removed" : "memory_absent"/);
+    assert.match(css, /#view-learn\.hidden\s*\{\s*display:\s*none/);
+    assert.match(css, /setup-grid \{ grid-template-columns: minmax\(0, 1fr\)/);
+    assert.match(css, /#context-sources li,[\s\S]*overflow-wrap:\s*anywhere/);
+    assert.match(app, /\$\("format"\)\.addEventListener\("change"/);
+    assert.match(html, /disabled[\s\S]{0,80}use_account/);
+    assert.match(html, /contrib-training" type="checkbox" disabled/);
   });
 
   await test("guided tour remembers only completion", () => {

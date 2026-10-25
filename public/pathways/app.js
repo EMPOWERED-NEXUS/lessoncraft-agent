@@ -5,6 +5,7 @@ import { extractBuffer, MAX_FILE_BYTES } from "./extract.js";
 import { assessUse, createSessionMaterials, lessonPreview, textForLesson, UNREAD_FILE_STATUSES } from "./materials.js";
 import { PARSER_REGISTRY } from "./parsers.js";
 import { tourStore } from "./tour.js";
+import { railStage, viewFromHash } from "./views.js";
 
 const state = {
   catalog: null,
@@ -24,6 +25,32 @@ const tours = tourStore(localStorage);
 
 function t(key, vars) {
   return translate(state.lang, key, vars);
+}
+
+function liveText(key, vars) {
+  if (!key) return "";
+  if (key === "memory_saved") {
+    const retrieved = vars?.retrievedIds ? vars.retrievedIds : t("none");
+    const added = vars?.addedIds ? t("memory_added", { ids: vars.addedIds }) : t("memory_same");
+    return t("memory_saved", { stored: vars?.stored || "", retrieved, added });
+  }
+  return t(key, vars);
+}
+
+function setLive(id, key, vars) {
+  const node = $(id);
+  if (!node) return;
+  node.dataset.liveKey = key || "";
+  node.dataset.liveVars = vars ? JSON.stringify(vars) : "";
+  node.textContent = liveText(key, vars);
+}
+
+function refreshLive(id) {
+  const node = $(id);
+  const key = node?.dataset.liveKey;
+  if (!key) return;
+  const vars = node.dataset.liveVars ? JSON.parse(node.dataset.liveVars) : undefined;
+  node.textContent = liveText(key, vars);
 }
 
 const $ = (id) => document.getElementById(id);
@@ -83,7 +110,7 @@ function applyPreset(preset) {
       input.checked = preset.quizAnswers?.[item.id] === input.value;
     }
   }
-  $("status").textContent = t("preset_filled", { label: presetLabel(preset) });
+  setLive("status", "preset_filled", { label: presetLabel(preset) });
 }
 
 function quizAnswers() {
@@ -408,29 +435,42 @@ function selected(name) {
 }
 
 $("run").addEventListener("click", async () => {
-    $("status").textContent = t("checking");
+    setLive("status", "checking");
   try {
     showRun(await post("/api/pathways/run", payload()));
-    $("status").textContent = t("review_status");
+    setLive("status", "review_status");
     renderProgress();
     showFormat();
   } catch (error) {
+    $("status").dataset.liveKey = "";
     $("status").textContent = error.message;
   }
 });
 
 $("accept").addEventListener("click", async () => {
-  showRun(await post("/api/pathways/review", { runId: state.run.runId, action: "accept" }));
+  try {
+    showRun(await post("/api/pathways/review", { runId: state.run.runId, action: "accept" }));
+    setLive("status", $("practice").classList.contains("hidden") ? "rail_question" : "accepted_practice");
+  } catch (error) {
+    $("status").dataset.liveKey = "";
+    $("status").textContent = error.message;
+  }
 });
 
 $("save-edit").addEventListener("click", async () => {
-  showRun(await post("/api/pathways/review", { runId: state.run.runId, action: "edit", editedText: $("edit").value }));
+  try {
+    showRun(await post("/api/pathways/review", { runId: state.run.runId, action: "edit", editedText: $("edit").value }));
+    setLive("status", $("practice").classList.contains("hidden") ? "rail_question" : "accepted_practice");
+  } catch (error) {
+    $("status").dataset.liveKey = "";
+    $("status").textContent = error.message;
+  }
 });
 
 $("dismiss").addEventListener("click", async () => {
   showRun(await post("/api/pathways/review", { runId: state.run.runId, action: "dismiss" }));
   $("practice").classList.add("hidden");
-  $("status").textContent = t("dismissed");
+  setLive("status", "dismissed");
 });
 
 $("practice-submit").addEventListener("click", async () => {
@@ -454,7 +494,7 @@ $("transfer-submit").addEventListener("click", async () => {
 
 $("save-memory").addEventListener("click", async () => {
   if (!state.run) {
-    $("memory-status").textContent = t("memory_need_run");
+    setLive("memory-status", "memory_need_run");
     return;
   }
   const result = await post("/api/pathways/memory", {
@@ -470,25 +510,25 @@ $("save-memory").addEventListener("click", async () => {
       retrieved: result.memory.retrieved,
       demonstrated: demonstratedNow(result),
     };
-    const added = result.memoryDelta?.added?.length
-      ? t("memory_added", { ids: result.memoryDelta.added.join(", ") })
-      : t("memory_same");
-    $("memory-status").textContent = t("memory_saved", {
+    const addedIds = result.memoryDelta?.added?.join(", ") || "";
+    setLive("memory-status", "memory_saved", {
       stored: result.memory.stored,
-      retrieved: result.memory.retrieved.join(", ") || t("none"),
-      added,
+      retrievedIds: result.memory.retrieved.join(", "),
+      addedIds,
     });
     renderProgress();
   } else {
-    $("memory-status").textContent = t("memory_none");
+    setLive("memory-status", "memory_none");
   }
 });
 
 $("reset-memory").addEventListener("click", async () => {
   const result = await post("/api/pathways/memory/reset", { learnerId: $("learner").value.trim() });
-  $("memory-status").textContent = result.deleted.length
-    ? t("memory_removed", { ids: result.deleted.join(", ") })
-    : t("memory_absent");
+  setLive(
+    "memory-status",
+    result.deleted.length ? "memory_removed" : "memory_absent",
+    result.deleted.length ? { ids: result.deleted.join(", ") } : undefined,
+  );
   renderProgress();
 });
 
@@ -526,6 +566,8 @@ function setLanguage(lang) {
   $("lang-en").setAttribute("aria-pressed", state.lang === "en" ? "true" : "false");
   $("lang-fr").setAttribute("aria-pressed", state.lang === "fr" ? "true" : "false");
   if (state.run) showRun(state.run);
+  refreshLive("status");
+  refreshLive("memory-status");
   renderPresets();
   renderMaterials();
   renderTour();
@@ -533,31 +575,89 @@ function setLanguage(lang) {
 
 function paintRail(stage) {
   for (const item of document.querySelectorAll(".transform-rail li")) {
-    item.classList.toggle("is-current", item.dataset.stage === stage);
+    const current = item.dataset.stage === stage;
+    item.classList.toggle("is-current", current);
+    const button = item.querySelector("button");
+    if (!button) continue;
+    if (current) button.setAttribute("aria-current", "step");
+    else button.removeAttribute("aria-current");
   }
 }
 
 function paintRailFromState() {
-  if (state.view === "materials") return paintRail("bring");
-  if (state.view === "progress") return paintRail("next");
-  if (state.run?.transferResult) return paintRail("next");
-  if (state.run && !$("practice").classList.contains("hidden")) return paintRail("practice");
-  if (state.run) return paintRail("next");
-  paintRail(state.view === "learn" ? "explore" : "explore");
+  paintRail(railStage({
+    view: state.view,
+    hasRun: Boolean(state.run),
+    practiceOpen: Boolean(state.run) && !$("practice").classList.contains("hidden"),
+  }));
 }
 
 function showView(name) {
-  state.view = name;
+  const view = viewFromHash(`#${name}`);
+  state.view = view;
   for (const panel of document.querySelectorAll("[data-view-panel]")) {
-    panel.classList.toggle("hidden", panel.dataset.viewPanel !== name);
+    panel.classList.toggle("hidden", panel.dataset.viewPanel !== view);
   }
-  for (const link of document.querySelectorAll("[data-view]")) {
-    if (link.dataset.view === name) link.setAttribute("aria-current", "page");
+  for (const link of document.querySelectorAll("nav [data-view]")) {
+    if (link.dataset.view === view) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   }
-  if (name === "materials") renderMaterials();
-  if (name === "progress") renderProgress();
+  if (view === "materials") renderMaterials();
+  if (view === "progress") renderProgress();
   paintRailFromState();
+}
+
+function goView(name) {
+  const view = viewFromHash(`#${name}`);
+  showView(view);
+  const next = `#${view}`;
+  if (location.hash !== next) history.pushState(null, "", next);
+}
+
+function focusRail(stage) {
+  if (stage === "explore") {
+    if (state.view === "materials") {
+      $("material-note")?.focus();
+      return;
+    }
+    goView("learn");
+    $("evidence")?.scrollIntoView({ block: "nearest" });
+    $("add-material-jump")?.focus();
+    return;
+  }
+  if (stage === "next") {
+    goView("learn");
+    if (!state.run) {
+      setLive("status", "rail_need_run");
+      $("run")?.focus();
+      return;
+    }
+    $("next-column")?.scrollIntoView({ block: "nearest" });
+    return;
+  }
+  if (stage === "practice") {
+    goView("learn");
+    if ($("practice").classList.contains("hidden")) {
+      if (!state.run) {
+        setLive("status", "rail_need_run");
+        $("run")?.focus();
+        return;
+      }
+      if (state.run.decision !== "propose") {
+        setLive("status", "rail_question");
+        $("next-column")?.scrollIntoView({ block: "nearest" });
+        return;
+      }
+      setLive("status", "rail_need_accept");
+      $("next-column")?.scrollIntoView({ block: "nearest" });
+      return;
+    }
+    $("practice")?.scrollIntoView({ block: "nearest" });
+    $("practice-submit")?.focus();
+    return;
+  }
+  goView("learn");
+  $("setup")?.scrollIntoView({ block: "nearest" });
 }
 
 function renderProgress() {
@@ -722,17 +822,20 @@ $("lang-fr").addEventListener("click", () => setLanguage("fr"));
 $("language").addEventListener("change", () => {
   if (state.run) showRun(state.run);
 });
+$("format").addEventListener("change", () => {
+  if (state.run) showFormat();
+});
 for (const link of document.querySelectorAll("[data-view]")) {
   link.addEventListener("click", (event) => {
     event.preventDefault();
-    const name = link.dataset.view;
-    history.replaceState(null, "", `#${name}`);
-    showView(name);
+    goView(link.dataset.view);
   });
 }
+for (const button of document.querySelectorAll("[data-rail]")) {
+  button.addEventListener("click", () => focusRail(button.dataset.rail));
+}
 $("add-material-jump").addEventListener("click", () => {
-  history.replaceState(null, "", "#materials");
-  showView("materials");
+  goView("materials");
   $("material-note").focus();
 });
 async function readSelectedFile(file) {
@@ -888,7 +991,17 @@ $("tour").addEventListener("keydown", (event) => {
 
 state.lang = getLang(localStorage);
 setLanguage(state.lang);
-showView((location.hash || "#learn").slice(1) || "learn");
+const initialView = viewFromHash(location.hash);
+if (location.hash && location.hash !== `#${initialView}`) history.replaceState(null, "", `#${initialView}`);
+showView(initialView);
+function showViewFromLocation() {
+  const view = viewFromHash(location.hash);
+  const bare = String(location.hash || "").replace(/^#/, "").split(/[?&]/)[0];
+  if (location.hash && bare !== view) history.replaceState(null, "", `#${view}`);
+  showView(view);
+}
+window.addEventListener("popstate", () => showView(viewFromHash(location.hash)));
+window.addEventListener("hashchange", showViewFromLocation);
 if (!tours.done()) openTour();
 
 loadCatalog().catch((error) => {

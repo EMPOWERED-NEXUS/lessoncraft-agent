@@ -9,12 +9,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/site.css" />
-  <link rel="stylesheet" href="/pathways/styles.css" />
+  <link rel="stylesheet" href="/pathways/styles.css?v=20261025b" />
 </head>
 <body>
   <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
   <header class="site-header pathways-header">
-    <a class="brand" href="/pathways/#learn">
+    <a class="brand" href="#learn" data-view="learn">
       <img class="lessoncraft-mark" src="/brand/lessoncraft-mark.svg" alt="" width="40" height="40" />
       <span>
         <span class="brand-name">LessonCraft</span>
@@ -36,10 +36,10 @@
   </header>
   <main class="page" id="main">
     <ol class="transform-rail" data-i18n-aria="rail_label" aria-label="Learning path">
-      <li data-stage="bring" class="is-current"><span class="node node-hold" aria-hidden="true"></span><span data-i18n="rail_bring">Bring</span></li>
-      <li data-stage="explore"><span class="node node-open" aria-hidden="true"></span><span data-i18n="rail_explore">Explore</span></li>
-      <li data-stage="practice"><span class="node node-ring" aria-hidden="true"></span><span data-i18n="rail_practice">Practice</span></li>
-      <li data-stage="next"><span class="node node-step" aria-hidden="true"></span><span data-i18n="rail_next">Next step</span></li>
+      <li data-stage="bring" class="is-current"><button type="button" class="rail-jump" data-rail="bring"><span class="node node-hold" aria-hidden="true"></span><span data-i18n="rail_bring">Goal</span></button></li>
+      <li data-stage="explore"><button type="button" class="rail-jump" data-rail="explore"><span class="node node-open" aria-hidden="true"></span><span data-i18n="rail_explore">Evidence</span></button></li>
+      <li data-stage="next"><button type="button" class="rail-jump" data-rail="next"><span class="node node-step" aria-hidden="true"></span><span data-i18n="rail_next">Next step</span></button></li>
+      <li data-stage="practice"><button type="button" class="rail-jump" data-rail="practice"><span class="node node-ring" aria-hidden="true"></span><span data-i18n="rail_practice">Practice</span></button></li>
     </ol>
     <section id="view-learn" data-view-panel="learn">
       <section class="page-intro">
@@ -59,40 +59,11 @@
       </section>
       <section class="sheet" id="setup">
         <h2 data-i18n="setup_title">Learning setup</h2>
-        <p class="hint" data-i18n="setup_hint">Context and level are optional. The page language, the explanation language, and the source-material language are separate.</p>
+        <p class="hint" data-i18n="setup_hint">This prototype teaches one goal: a workplace status update. The explanation language changes the lesson. Context, level, subject, and source-material language are optional notes and do not change the pathway.</p>
         <p class="goal-line"><span data-i18n="goal_label">Goal</span> <strong id="goal"></strong></p>
         <div class="grid setup-grid">
-          <label data-i18n="context_label">Education or work context
-            <select id="context">
-              <option value="" data-i18n="not_selected" selected>Not selected</option>
-              <option value="primary" data-i18n="stage_primary">Primary</option>
-              <option value="secondary" data-i18n="stage_secondary">Secondary</option>
-              <option value="vocational" data-i18n="stage_vocational">Vocational</option>
-              <option value="university" data-i18n="stage_university">University</option>
-              <option value="workplace" data-i18n="stage_workplace">Workplace</option>
-              <option value="lifelong" data-i18n="stage_lifelong">Lifelong learning</option>
-            </select>
-          </label>
-          <label data-i18n="level">Level or stage
-            <select id="level">
-              <option value="" data-i18n="not_selected" selected>Not selected</option>
-              <option value="early" data-i18n="level_early">Early</option>
-              <option value="intermediate" data-i18n="level_mid">Intermediate</option>
-              <option value="advanced" data-i18n="level_advanced">Advanced</option>
-            </select>
-          </label>
-          <label data-i18n="subject">Subject or skill
-            <input id="subject" data-i18n-placeholder="subject_ph" placeholder="Optional, such as workplace writing" />
-          </label>
           <label data-i18n="explain_lang">Explanation language
             <select id="language">
-              <option value="en">English</option>
-              <option value="fr">Français</option>
-            </select>
-          </label>
-          <label data-i18n="source_lang">Source material language
-            <select id="study-language">
-              <option value="" data-i18n="source_unspecified" selected>Not specified</option>
               <option value="en">English</option>
               <option value="fr">Français</option>
             </select>
@@ -106,10 +77,41 @@
             </select>
           </label>
         </div>
+        <p class="hint" data-i18n="format_waits">Learning format changes how a result is shown. It does not change the pathway decision. Ask for the next step to see it.</p>
         <p class="hint" data-i18n="lang_separate"></p>
         <details id="advanced">
           <summary data-i18n="advanced">More setup choices</summary>
+          <p class="hint" data-i18n="setup_notes">These notes stay on this page. They are not sent as evidence and do not change the workplace status-update pathway.</p>
           <div class="grid setup-grid">
+            <label data-i18n="context_label">Education or work context
+              <select id="context">
+                <option value="" data-i18n="not_selected" selected>Not selected</option>
+                <option value="primary" data-i18n="stage_primary">Primary</option>
+                <option value="secondary" data-i18n="stage_secondary">Secondary</option>
+                <option value="vocational" data-i18n="stage_vocational">Vocational</option>
+                <option value="university" data-i18n="stage_university">University</option>
+                <option value="workplace" data-i18n="stage_workplace">Workplace</option>
+                <option value="lifelong" data-i18n="stage_lifelong">Lifelong learning</option>
+              </select>
+            </label>
+            <label data-i18n="level">Level or stage
+              <select id="level">
+                <option value="" data-i18n="not_selected" selected>Not selected</option>
+                <option value="early" data-i18n="level_early">Early</option>
+                <option value="intermediate" data-i18n="level_mid">Intermediate</option>
+                <option value="advanced" data-i18n="level_advanced">Advanced</option>
+              </select>
+            </label>
+            <label data-i18n="subject">Subject or skill
+              <input id="subject" data-i18n-placeholder="subject_ph" placeholder="Optional, such as workplace writing" />
+            </label>
+            <label data-i18n="source_lang">Source material language
+              <select id="study-language">
+                <option value="" data-i18n="source_unspecified" selected>Not specified</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+              </select>
+            </label>
             <label data-i18n="curriculum">Curriculum or exam system
               <input id="curriculum" data-i18n-placeholder="curriculum_ph" placeholder="Optional. This pathway is not an official syllabus." />
             </label>
@@ -330,13 +332,13 @@
           <button id="reset-memory" class="ghost" type="button" data-i18n="reset_memory">Reset this id</button>
         </div>
         <p id="memory-recall"></p>
-        <p class="status" id="memory-status"></p>
+        <p class="status" id="memory-status" aria-live="polite"></p>
       </section>
     </section>
 
     <section id="view-about" data-view-panel="about" class="hidden">
       <section class="page-intro">
-        <h1 data-i18n="about_title">How it works</h1>
+        <h1 data-i18n="about_title">Guide</h1>
         <ol class="about-steps">
           <li data-i18n="about_1"></li>
           <li data-i18n="about_2"></li>
@@ -363,6 +365,6 @@
       <button type="button" id="tour-finish" data-i18n="tour_finish">Finish</button>
     </div>
   </dialog>
-  <script type="module" src="/pathways/app.js"></script>
+  <script type="module" src="/pathways/app.js?v=20261025b"></script>
 </body>
 </html>
