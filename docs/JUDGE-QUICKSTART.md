@@ -102,4 +102,10 @@ Leave the key blank or leave the checkbox off. The local pathway response is sho
 - A live Nemotron draft, unless they place their own key in `.env.local`.
 - Accounts, billing, public uploads, Google search, or an Android app. None of those are in this build.
 
+## Printed-text photos
+
+My materials can read clear printed English or French text from a JPG, JPEG, or PNG, up to 8 MB. The learner chooses that language. The page language is not used, and the language is not detected from the photo. OCR runs in the browser. The engine and language files are served by this app. The image is not saved in the browser, sent to the server, or sent to NVIDIA, Zetaris, or Meterless. The learner must review and confirm the text before it can enter the pathway request. That request shows at most 500 characters.
+
+A blank image stays out of the lesson. Handwriting, equations, diagrams, and scanned PDFs are not claimed. **Take a photo** is an optional browser control. Phone camera capture has not been tested. Use **Choose an image** for the demo. The optional beat is in [docs/DEMO.md](DEMO.md) and should be skipped if it would push the recording past 4 minutes.
+
 The recording checklist is in [docs/DEMO.md](DEMO.md). No video file is in the repository.

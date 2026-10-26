@@ -50,4 +50,4 @@ Do not upload a learner file for the NVIDIA check. Uploaded materials are not se
 - Universal subject coverage, a full curriculum, or a generated video course.
 - Training of Nemotron, or use of uploaded materials as training data.
 - Google web research. That is described as future work in `docs/ROADMAP.md` and is not implemented.
-- OCR, speech, class sharing, or a public library.
+- Handwriting, equation, diagram, or scanned-PDF OCR. Clear printed English or French text in a JPG, JPEG, or PNG can be read in the browser after the learner reviews it. The image is not saved or sent. Speech, class sharing, and a public library are not available.

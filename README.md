@@ -47,9 +47,9 @@ The roles share one run. The trace names each role. Recommendations are produced
 ## Current capabilities
 
 - English and French interface. Source excerpts, quiz prompts, and the open-education passage stay in their original language. Page language, explanation language, and document language are separate. Source auto-detection is not available.
-- Readable files, up to 8 MB: TXT, Markdown, DOCX, PPTX, and digital PDF text. The learner can correct extracted text before lesson use.
-- Refused, and never sent into the lesson request: JPG/PNG (OCR is not configured), CSV/XLSX, audio, video, empty files, and PDFs with no extractable text.
-- Lesson text and contribution drafts stay in this page’s memory for the current visit. Delete one item, delete all, or reload the page. They are not written to browser storage.
+- Readable files, up to 8 MB: TXT, Markdown, DOCX, PPTX, and digital PDF text. JPG, JPEG, and PNG can be read in the browser when they contain clear printed English or French text. The learner chooses that language, reviews the OCR text, and confirms it before it can enter the lesson. The pathway request keeps at most 500 characters, and the page shows the exact text.
+- Refused, and never sent into the lesson request: images with no text, images over 8 MB, scanned PDFs, CSV/XLSX, audio, video, and empty files. Handwriting, equations, and diagrams are not claimed. Phone camera capture is an optional browser control and has not been tested on a phone.
+- Lesson text and contribution drafts stay in this page’s memory for the current visit. Delete one item, delete all, or reload the page. They are not written to browser storage. An image is not saved in the browser, sent to the server, or sent to another service. OCR language files are loaded from this app and are not stored in the browser.
 - Browser storage is limited to the tour-done flag and the page language.
 - The LessonCraft mark is the header mark, favicon, and app icon. The EmpowerEd Nexus logo is used as supplied.
 
@@ -135,7 +135,7 @@ The 15 synthetic cases expect supported, unsupported, or uncertain outcomes. Abs
 
 ## Known limits
 
-- One workplace status-update skill. No universal subject coverage, full curriculum, video course, public library, class sharing, accounts, OCR, speech, video, or model training.
+- One workplace status-update skill. No universal subject coverage, full curriculum, video course, public library, class sharing, accounts, handwriting or scanned-PDF OCR, speech, video, or model training. Printed English or French text in a JPG, JPEG, or PNG can be read in the browser after the learner reviews it.
 - No 3D view on this pathway.
 - Open responses are rubric matches, not an examination grade.
 - The app is a local server on the development computer. `http://127.0.0.1:8787/` is not a public address. Offline use is not claimed.

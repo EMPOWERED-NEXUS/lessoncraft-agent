@@ -2,7 +2,8 @@ import { applyLanguage, getLang, setLang, t as translate } from "./i18n.js";
 import { MODEL_TASKS, spatialViewFor } from "./capabilities.js";
 import { createDraftStore, submitContribution } from "./contribute.js";
 import { extractBuffer, MAX_FILE_BYTES } from "./extract.js";
-import { assessUse, createSessionMaterials, lessonPreview, textForLesson, UNREAD_FILE_STATUSES } from "./materials.js";
+import { assessUse, createSessionMaterials, materialPhase, pathwayText, textForLesson, UNREAD_FILE_STATUSES } from "./materials.js";
+import { recognizeImage } from "./ocr.js";
 import { PARSER_REGISTRY } from "./parsers.js";
 import { tourStore } from "./tour.js";
 import { railStage, viewFromHash } from "./views.js";
@@ -20,7 +21,12 @@ const state = {
   file: null,
   extraction: { status: "idle", text: "", messageKey: "extract_idle" },
   materialStatusKey: "",
+  removalNotice: false,
+  imageUrl: "",
+  imageFile: null,
+  ocrProgress: 0,
 };
+let ocrGeneration = 0;
 const tours = tourStore(localStorage);
 
 function t(key, vars) {
@@ -131,15 +137,13 @@ function countryCode() {
 }
 
 function payload() {
-  const note = $("sample").value.trim();
-  const attached = lessonPreview(state.materials.list());
-  const workSample = [note, attached].filter(Boolean).join("\n").slice(0, 500);
+  const included = pathwayText({ sample: $("sample").value, items: state.materials.list() });
   return {
     learnerId: $("learner").value.trim(),
     countryCode: countryCode(),
     languageCode: $("language").value,
     quizAnswers: quizAnswers(),
-    workSample,
+    workSample: included.text,
     certificate: $("cert").checked
       ? {
           shared: true,
@@ -711,6 +715,9 @@ function renderMaterials() {
     remove.textContent = t("delete_item");
     remove.addEventListener("click", () => {
       state.materials.remove(item.id);
+      state.removalNotice = true;
+      state.materialStatusKey = "item_removed";
+      paintMaterialChrome();
       renderMaterials();
     });
     li.append(name, meta, remove);
@@ -774,18 +781,80 @@ function renderDrafts() {
   }
 }
 
+function discardImageDraft() {
+  ocrGeneration += 1;
+  if (state.imageUrl) URL.revokeObjectURL(state.imageUrl);
+  state.imageUrl = "";
+  state.imageFile = null;
+  state.ocrProgress = 0;
+  const image = $("image-preview-img");
+  if (image) image.removeAttribute("src");
+  const figure = $("image-preview");
+  if (figure) figure.hidden = true;
+  const review = $("ocr-reviewed");
+  if (review) review.checked = false;
+}
+
+function draftForInclusion() {
+  const preview = $("material-preview")?.value || "";
+  const note = $("material-note")?.value || "";
+  if (state.file && UNREAD_FILE_STATUSES.includes(state.extraction.status)) return "";
+  if (state.extraction.ocr) return $("ocr-reviewed")?.checked ? preview : "";
+  if (state.file && state.extraction.status !== "extracted" && state.extraction.status !== "edited") return "";
+  return preview.trim() || note;
+}
+
 function paintMaterialChrome() {
+  const phase = materialPhase({
+    file: Boolean(state.file),
+    status: state.extraction.status,
+    note: $("material-note")?.value,
+    preview: $("material-preview")?.value,
+    notice: state.removalNotice ? "removed" : "",
+  });
+  const phaseNode = $("extract-phase");
+  if (phaseNode) {
+    phaseNode.textContent = t(`phase_${phase}`);
+    phaseNode.className = `phase phase-${phase}`;
+  }
+  const image = $("image-preview-img");
+  if (image) image.alt = t("ocr_preview_alt");
   $("file-meta").textContent = state.file
     ? t("chars", { name: state.file.name, size: formatSize(state.file.size) })
     : t("no_file");
-  $("extract-status").textContent = t(state.extraction.messageKey || "extract_idle");
+  const readingImage = state.extraction.ocr && state.extraction.status === "reading";
+  const messageKey = !state.file && phase === "ready" ? "note_ready" : (state.extraction.messageKey || "extract_idle");
+  $("extract-status").textContent = readingImage
+    ? t("ocr_progress", { n: String(state.ocrProgress || 0) })
+    : t(messageKey);
+  const reviewLabel = $("ocr-review-label");
+  const reviewReady = Boolean(state.extraction.ocr) && (state.extraction.status === "extracted" || state.extraction.status === "edited");
+  if (reviewLabel) reviewLabel.hidden = !reviewReady;
+  const usableDraft = draftForInclusion();
+  const included = pathwayText({
+    sample: $("sample")?.value || "",
+    items: usableDraft.trim()
+      ? [...state.materials.list(), { purpose: "lesson", status: "extracted", preview: usableDraft }]
+      : state.materials.list(),
+  });
+  const count = $("inclusion-count");
+  if (count) {
+    count.textContent = t("inclusion_count", { count: String(included.count), limit: String(included.limit) })
+      + (included.omitted ? ` ${t("inclusion_omitted")}` : "")
+      + (reviewReady && !$("ocr-reviewed")?.checked ? ` ${t("inclusion_pending")}` : "");
+  }
+  const exact = $("inclusion-text");
+  if (exact) exact.textContent = included.text;
   $("material-status").textContent = state.materialStatusKey ? t(state.materialStatusKey) : "";
 }
 
 function resetMaterialForm() {
+  discardImageDraft();
   state.file = null;
   state.extraction = { status: "idle", text: "", messageKey: "extract_idle" };
   $("material-file").value = "";
+  if ($("material-image")) $("material-image").value = "";
+  if ($("material-camera")) $("material-camera").value = "";
   $("material-note").value = "";
   $("material-preview").value = "";
   paintMaterialChrome();
@@ -838,19 +907,94 @@ $("add-material-jump").addEventListener("click", () => {
   goView("materials");
   $("material-note").focus();
 });
+function isImageName(name) {
+  return /\.(jpe?g|png)$/i.test(String(name || ""));
+}
+
+function showImagePreview(file) {
+  if (state.imageUrl) URL.revokeObjectURL(state.imageUrl);
+  state.imageFile = file;
+  state.imageUrl = URL.createObjectURL(file);
+  const image = $("image-preview-img");
+  const figure = $("image-preview");
+  if (image) image.src = state.imageUrl;
+  if (figure) figure.hidden = false;
+}
+
+async function runOcr(file, token) {
+  state.extraction = { status: "reading", text: "", messageKey: "ocr_reading", ocr: true };
+  state.ocrProgress = 0;
+  paintMaterialChrome();
+  try {
+    const result = await recognizeImage(file, $("ocr-source-language")?.value || "", (percent) => {
+      if (token !== ocrGeneration) return;
+      state.ocrProgress = percent;
+      paintMaterialChrome();
+    });
+    if (token !== ocrGeneration) return;
+    state.extraction = result;
+    $("material-preview").value = result.text || "";
+    if ($("ocr-reviewed")) $("ocr-reviewed").checked = false;
+  } catch {
+    if (token !== ocrGeneration) return;
+    state.extraction = { status: "error", text: "", messageKey: "ocr_error", ocr: true };
+    $("material-preview").value = "";
+  }
+  paintMaterialChrome();
+}
+
+async function readImage(file) {
+  discardImageDraft();
+  const token = ocrGeneration;
+  state.removalNotice = false;
+  state.materialStatusKey = "";
+  state.file = { name: file.name, size: file.size };
+  state.imageFile = file;
+  $("material-preview").value = "";
+  if (!file.size) {
+    state.imageFile = null;
+    state.extraction = { status: "empty", text: "", messageKey: "extract_empty_file", ocr: true };
+    paintMaterialChrome();
+    return;
+  }
+  if (file.size > MAX_FILE_BYTES) {
+    state.imageFile = null;
+    state.extraction = { status: "error", text: "", messageKey: "extract_too_big", ocr: true };
+    paintMaterialChrome();
+    return;
+  }
+  showImagePreview(file);
+  const source = $("ocr-source-language")?.value || "";
+  if (source !== "en" && source !== "fr") {
+    state.extraction = { status: "selected", text: "", messageKey: "ocr_language_required", ocr: true };
+    paintMaterialChrome();
+    return;
+  }
+  await runOcr(file, token);
+}
+
 async function readSelectedFile(file) {
   if (!file) return;
+  if (isImageName(file.name)) {
+    await readImage(file);
+    return;
+  }
+  discardImageDraft();
+  state.removalNotice = false;
+  state.materialStatusKey = "";
   state.file = { name: file.name, size: file.size };
+  state.extraction = { status: "selected", text: "", messageKey: "extract_selected" };
+  paintMaterialChrome();
   if (file.size > MAX_FILE_BYTES) {
     state.extraction = { status: "error", text: "", messageKey: "extract_too_big" };
     $("material-preview").value = "";
     paintMaterialChrome();
     return;
   }
+  const bytes = new Uint8Array(await file.arrayBuffer());
   state.extraction = { status: "reading", text: "", messageKey: "extract_reading" };
   paintMaterialChrome();
   try {
-    const bytes = new Uint8Array(await file.arrayBuffer());
     const result = await extractBuffer(file.name, bytes);
     state.extraction = result;
     $("material-preview").value = result.text;
@@ -865,6 +1009,27 @@ $("material-file").addEventListener("change", () => {
   const file = $("material-file").files?.[0];
   if (file) readSelectedFile(file);
 });
+for (const id of ["material-image", "material-camera"]) {
+  $(id)?.addEventListener("change", () => {
+    const file = $(id).files?.[0];
+    if (file) readSelectedFile(file);
+  });
+}
+function syncSourceLanguage(value) {
+  if ($("study-language")) $("study-language").value = value;
+  if ($("ocr-source-language")) $("ocr-source-language").value = value;
+}
+$("ocr-source-language")?.addEventListener("change", () => {
+  syncSourceLanguage($("ocr-source-language").value);
+  if (state.imageFile && isImageName(state.imageFile.name)) runOcr(state.imageFile, ++ocrGeneration);
+});
+$("study-language")?.addEventListener("change", () => {
+  syncSourceLanguage($("study-language").value);
+  if (state.imageFile && isImageName(state.imageFile.name)) runOcr(state.imageFile, ++ocrGeneration);
+});
+if ($("ocr-source-language") && $("study-language")) {
+  $("ocr-source-language").value = $("study-language").value;
+}
 const dropzone = $("dropzone");
 for (const type of ["dragenter", "dragover"]) {
   dropzone.addEventListener(type, (event) => {
@@ -890,17 +1055,32 @@ $("material-preview").addEventListener("input", () => {
     return;
   }
   if (state.extraction.status !== "extracted" && state.extraction.status !== "edited") return;
-  state.extraction = { ...state.extraction, status: "edited", text, messageKey: "extract_edited" };
-  $("extract-status").textContent = t("extract_edited");
+  state.extraction = {
+    ...state.extraction,
+    status: "edited",
+    text,
+    messageKey: state.extraction.ocr ? "ocr_edited" : "extract_edited",
+  };
+  paintMaterialChrome();
 });
+$("material-note")?.addEventListener("input", () => {
+  if ($("material-note").value.trim()) state.removalNotice = false;
+  if (!state.file) paintMaterialChrome();
+});
+$("ocr-reviewed")?.addEventListener("change", () => paintMaterialChrome());
+$("sample")?.addEventListener("input", () => paintMaterialChrome());
 $("material-clear").addEventListener("click", () => {
   state.materialStatusKey = "";
+  state.removalNotice = false;
   resetMaterialForm();
 });
 $("material-clear-session").addEventListener("click", () => {
   state.materials.clear();
   state.materialStatusKey = "session_cleared";
+  state.removalNotice = true;
   resetMaterialForm();
+  state.removalNotice = true;
+  paintMaterialChrome();
   renderMaterials();
 });
 $("material-keep").addEventListener("click", () => {
@@ -910,6 +1090,8 @@ $("material-keep").addEventListener("click", () => {
     status: state.file ? state.extraction.status : "edited",
     preview: $("material-preview").value,
     note: $("material-note").value,
+    ocr: Boolean(state.extraction.ocr),
+    reviewed: Boolean($("ocr-reviewed")?.checked),
   });
   const use = assessUse({ purpose, training: false, rights: false, license: "" });
   if (!use.ok || !decision.ok) {
@@ -930,6 +1112,7 @@ $("material-keep").addEventListener("click", () => {
     return;
   }
   state.materialStatusKey = "kept";
+  state.removalNotice = false;
   renderMaterials();
   resetMaterialForm();
 });

@@ -1,0 +1,29 @@
+Third-party notice for the printed-text OCR files in this directory.
+The learner's image is not part of these files and is not sent to their authors.
+
+tesseract.js 7.0.0
+Origin: npm package tesseract.js@7.0.0
+https://github.com/naptha/tesseract.js
+License: Apache-2.0. The package contains LICENSE.md and no separate NOTICE file.
+Copyright notices in the package source name Kevin Kwok, Guillermo Webster, and Jerome Wu.
+Files: tesseract.esm.min.js and worker.min.js.
+Change: the published build's default CDN addresses were replaced with /pathways/ocr paths so the engine and language data are loaded from this app.
+
+tesseract.js-core 7.0.0
+Origin: npm package tesseract.js-core@7.0.0, the version declared by tesseract.js 7.0.0
+https://github.com/naptha/tesseract.js-core
+License: Apache-2.0. The package contains LICENSE and no separate NOTICE file.
+Files: tesseract-core-simd-lstm.wasm.js and tesseract-core-lstm.wasm.js.
+These are the published WebAssembly builds. They were not rebuilt here.
+
+tessdata_fast English and French models
+Origin: https://github.com/tesseract-ocr/tessdata_fast branch main
+Files: lang/eng.traineddata and lang/fra.traineddata
+Git blob hashes:
+eng bbef4675053b5b468cdb477053e28b1c698ba08e
+fra d9e2b2160be0d1ca3b8f1bf2730fae476ef3b4a6
+License: Apache-2.0. See tessdata_fast.LICENSE, copied from that repository's LICENSE file.
+These models are fast integer LSTM models for clear printed text. They are not a handwriting, equation, or diagram reader.
+
+The app sets Tesseract cacheMethod to none. These language files are not written to IndexedDB.
+The image is not written to browser storage.

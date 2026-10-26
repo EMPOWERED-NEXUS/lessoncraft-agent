@@ -3,9 +3,10 @@ import { readFileSync } from "node:fs";
 import { deflateSync } from "node:zlib";
 import { MODEL_TASKS, spatialViewFor } from "../../public/pathways/capabilities.js";
 import { createDraftStore, submitContribution } from "../../public/pathways/contribute.js";
-import { extractBuffer } from "../../public/pathways/extract.js";
+import { extractBuffer, MAX_FILE_BYTES } from "../../public/pathways/extract.js";
 import { STRINGS, getLang, setLang, t } from "../../public/pathways/i18n.js";
-import { assessUse, createSessionMaterials, lessonPreview, textForLesson } from "../../public/pathways/materials.js";
+import { assessUse, createSessionMaterials, lessonPreview, materialPhase, pathwayText, textForLesson } from "../../public/pathways/materials.js";
+import { localCorePath, OCR_ASSET_PATHS, ocrLang } from "../../public/pathways/ocr.js";
 import { PARSER_REGISTRY } from "../../public/pathways/parsers.js";
 import { TOUR_KEY, tourStore } from "../../public/pathways/tour.js";
 import { PATHWAY_VIEWS, railStage, viewFromHash } from "../../public/pathways/views.js";
@@ -92,7 +93,7 @@ export async function pathwayUiTests(test: TestFn): Promise<void> {
     assert.match(app, /function showViewFromLocation\(\)[\s\S]*replaceState/);
     assert.match(app, /stage === "practice"[\s\S]{0,500}rail_need_run/);
     assert.match(app, /rail_question/);
-    assert.match(html, /app\.js\?v=20261025b/);
+    assert.match(html, /app\.js\?v=20261026d/);
     const css = readFileSync(new URL("../../public/pathways/styles.css", import.meta.url), "utf8");
     assert.match(app, /setLive\("memory-status", "memory_saved"/);
     assert.match(app, /setLive\(\s*"memory-status",\s*result\.deleted\.length \? "memory_removed" : "memory_absent"/);
@@ -144,9 +145,17 @@ export async function pathwayUiTests(test: TestFn): Promise<void> {
     assert.match(packed.text, /Known fact/);
 
     const png = await extractBuffer("page.png", Uint8Array.from([137, 80, 78, 71, 13, 10]));
-    assert.equal(png.status, "unavailable");
-    assert.equal(png.messageKey, "extract_ocr_unavailable");
+    assert.equal(png.status, "needs_ocr");
+    assert.equal(png.messageKey, "ocr_pending");
     assert.equal(png.text, "");
+    const jpeg = await extractBuffer("page.jpeg", Uint8Array.from([255, 216, 255]));
+    assert.equal(jpeg.status, "needs_ocr");
+    const jpg = await extractBuffer("page.jpg", Uint8Array.from([255, 216, 255]));
+    assert.equal(jpg.status, "needs_ocr");
+    const hugeImage = await extractBuffer("huge.png", new Uint8Array(MAX_FILE_BYTES + 1));
+    assert.equal(hugeImage.status, "error");
+    assert.equal(hugeImage.messageKey, "extract_too_big");
+    assert.equal(hugeImage.text, "");
 
     const sheet = await extractBuffer("marks.xlsx", new TextEncoder().encode("not a workbook"));
     assert.equal(sheet.status, "later");
@@ -158,6 +167,95 @@ export async function pathwayUiTests(test: TestFn): Promise<void> {
     const empty = await extractBuffer("note.txt", new Uint8Array());
     assert.equal(empty.status, "empty");
     assert.equal(empty.messageKey, "extract_empty_file");
+
+    const txt = await extractBuffer("note.txt", new TextEncoder().encode("  Counted 12 cups  "));
+    assert.equal(txt.status, "extracted");
+    assert.equal(txt.text, "Counted 12 cups");
+    const blank = await extractBuffer("blank.txt", new TextEncoder().encode(" \n\t "));
+    assert.equal(blank.status, "empty");
+    assert.equal(blank.messageKey, "extract_empty");
+
+    const markdown = await extractBuffer("note.md", new TextEncoder().encode("# Status\n\nThe report is half done."));
+    assert.equal(markdown.status, "extracted");
+    assert.match(markdown.text, /The report is half done/);
+    const markdownAlias = await extractBuffer("note.markdown", new TextEncoder().encode("Plain markdown"));
+    assert.equal(markdownAlias.status, "extracted");
+
+    const oversized = await extractBuffer("big.txt", new Uint8Array(MAX_FILE_BYTES + 1));
+    assert.equal(oversized.status, "error");
+    assert.equal(oversized.messageKey, "extract_too_big");
+    assert.equal(oversized.text, "");
+    assert.equal(MAX_FILE_BYTES, 8 * 1024 * 1024);
+  });
+
+  await test("materials review names each state and sends only reviewed text", () => {
+    const html = readFileSync(new URL("../../public/pathways/index.html", import.meta.url), "utf8");
+    const app = readFileSync(new URL("../../public/pathways/app.js", import.meta.url), "utf8");
+    assert.match(html, /class="material-steps"/);
+    for (const step of ["step_add", "step_review", "step_use", "step_remove"]) {
+      assert.match(html, new RegExp(`data-i18n="${step}"`));
+    }
+    assert.match(html, /id="extract-phase"/);
+    assert.match(html, /id="material-preview"/);
+    assert.match(html, /id="material-keep"/);
+    assert.equal(t("en", "keep"), "Use for my lesson");
+    assert.equal(t("fr", "keep"), "Utiliser pour ma leçon");
+    assert.equal(t("en", "phase_ready"), "Ready to review");
+    assert.equal(t("fr", "phase_not_readable"), "Illisible");
+    assert.match(html, /disabled[\s\S]{0,80}use_training/);
+    assert.equal(materialPhase({ status: "selected", file: true }), "selected");
+    assert.equal(materialPhase({ status: "reading", file: true }), "reading");
+    assert.equal(materialPhase({ status: "extracted", file: true }), "ready");
+    assert.equal(materialPhase({ status: "edited", file: true }), "ready");
+    assert.equal(materialPhase({ status: "no_text", file: true }), "not_readable");
+    assert.equal(materialPhase({ status: "idle", notice: "removed" }), "removed");
+    assert.equal(materialPhase({ status: "idle", note: "My own note" }), "ready");
+    assert.match(app, /pathwayText\(\{ sample: \$\("sample"\)\.value, items: state\.materials\.list\(\) \}\)/);
+    assert.match(app, /materialPhase\(/);
+    assert.match(app, /item_removed/);
+    const refused = textForLesson({ fileSelected: true, status: "no_text", preview: "typed over an unread file", note: "note" });
+    assert.equal(refused.ok, false);
+    const unreviewed = textForLesson({ fileSelected: true, status: "extracted", preview: "Counted 12 cups", note: "", ocr: true, reviewed: false });
+    assert.equal(unreviewed.ok, false);
+    assert.equal(unreviewed.errorKey, "ocr_review_required");
+    const reviewed = textForLesson({ fileSelected: true, status: "edited", preview: "Counted 12 cups", note: "", ocr: true, reviewed: true });
+    assert.equal(reviewed.ok, true);
+    assert.equal(reviewed.preview, "Counted 12 cups");
+    const sample = "Note";
+    const long = "A".repeat(600);
+    const included = pathwayText({
+      sample,
+      items: [{ purpose: "lesson", status: "extracted", preview: long }],
+    });
+    assert.equal(included.limit, 500);
+    assert.equal(included.text, `${sample}\n${"A".repeat(500 - sample.length - 1)}`);
+    assert.equal(included.count, 500);
+    assert.ok(included.omitted > 0);
+    assert.equal(ocrLang("en"), "eng");
+    assert.equal(ocrLang("fr"), "fra");
+    assert.equal(ocrLang("de"), "");
+    assert.equal(ocrLang(""), "");
+    for (const path of Object.values(OCR_ASSET_PATHS)) {
+      assert.match(path, /^\/pathways\/ocr\//);
+      assert.equal(path.includes("http"), false);
+    }
+    assert.match(localCorePath(), /^\/pathways\/ocr\/tesseract-core/);
+    const ocrSource = readFileSync(new URL("../../public/pathways/ocr.js", import.meta.url), "utf8");
+    assert.equal(ocrSource.includes("cdn.jsdelivr.net"), false);
+    assert.match(ocrSource, /gzip: false/);
+    assert.match(ocrSource, /cacheMethod: "none"/);
+    const worker = readFileSync(new URL("../../public/pathways/ocr/worker.min.js", import.meta.url), "utf8");
+    const engine = readFileSync(new URL("../../public/pathways/ocr/tesseract.esm.min.js", import.meta.url), "utf8");
+    assert.equal(worker.includes("cdn.jsdelivr.net"), false);
+    assert.equal(engine.includes("cdn.jsdelivr.net"), false);
+    assert.match(html, /id="material-image"/);
+    assert.match(html, /id="material-camera"[^>]*capture="environment"/);
+    assert.match(html, /id="ocr-reviewed"/);
+    assert.match(html, /id="inclusion-text"/);
+    assert.match(html, /id="ocr-source-language"/);
+    assert.match(app, /revokeObjectURL/);
+    assert.match(app, /ocr-source-language/);
+    assert.doesNotMatch(app, /ocr-source-language"\)\.value = state\.lang/);
   });
 
   await test("consent choices stay session-only and do not train or publish", () => {
@@ -222,9 +320,13 @@ export async function pathwayUiTests(test: TestFn): Promise<void> {
 
   await test("parser registry marks only implemented formats as readable", () => {
     const readable = PARSER_REGISTRY.filter((parser) => parser.support === "supported").map((parser) => parser.id);
-    assert.deepEqual(readable, ["txt", "md", "docx", "pptx", "pdf"]);
-    assert.equal(PARSER_REGISTRY.find((parser) => parser.id === "image")?.support, "unavailable");
+    assert.deepEqual(readable, ["txt", "md", "docx", "pptx", "pdf", "image"]);
+    assert.match(PARSER_REGISTRY.find((parser) => parser.id === "image")?.limitKey || "", /parser_image_limit/);
     assert.equal(PARSER_REGISTRY.find((parser) => parser.id === "video")?.support, "later");
+    assert.match(t("en", "parser_image_limit"), /Printed text/);
+    assert.match(t("fr", "parser_image_limit"), /imprimé/);
+    assert.match(t("en", "ocr_scope"), /handwriting/);
+    assert.doesNotMatch(t("en", "ocr_camera_note"), /phone camera capture works/i);
   });
 
   await test("contribution stays a private draft and training stays off", () => {

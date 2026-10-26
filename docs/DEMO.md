@@ -17,7 +17,7 @@ Before you press record:
 - Confirm one listener on port 8787 and open `http://127.0.0.1:8787/pathways/` on that same computer.
 - Skip or finish the welcome tour so the first screen is visible.
 - Leave the NVIDIA checkbox unchecked for the first pass. Check it only for the optional draft beat, and only if `NVIDIA_API_KEY` is already set. Do not type or display the key.
-- Do not upload a file. Do not open **My materials** unless you have time left after the sponsor beats.
+- Do not use **Take a photo**. Phone camera capture has not been tested. The optional printed-image beat below uses **Choose an image** only, and only if the recording is still under about 3 minutes 20 seconds.
 
 | Time | Do this | Say this |
 |---|---|---|
@@ -28,6 +28,7 @@ Before you press record:
 | 2:05–2:25 | Click **Accept**. Point at **Edit** and **Dismiss**. | The learner can accept, edit, or dismiss the step. Nothing is stored yet. |
 | 2:25–3:05 | Open **Progress**. Leave the consent box unchecked and point at **Save memory**. Then check **I consent to store that minimum record for this pseudonymous id**, choose **Helpful**, click **Save memory**, and click **Reset this id**. | Meterless stores the goal, demonstrated competency ids, outcome, and feedback only after consent. The note and any file are not stored. Reset deletes that id. |
 | 3:05–3:30 | Switch the page language to **Français**, then back if you want. Stop. | The same pathway is available in French. The quiz and the open-education passage stay in their source language. This is one skill, running on this computer, not a public site. |
+| Optional, only if still under about 3:20 | Open **My materials**. Use **Choose an image**, not **Take a photo**. Choose English or French for the printed text, wait for the text, correct it, and check **I reviewed this text**. Point at the 500-character line. Then return to the French beat only if time remains. | A clear printed page can be read in this browser. The image is not saved or sent. Only the reviewed text can enter the lesson, and only up to 500 characters. This is not handwriting, equations, diagrams, or a scanned PDF. |
 
 If the recording runs long, drop the French beat. Do not add Demo B, C, or D unless you are still under 4 minutes.
 
@@ -41,7 +42,7 @@ Use this only when you are not on the timed recording above. Practice, materials
 4. **Human control (20 seconds).** Click **Accept**. Mention **Edit** and **Dismiss**. Nothing is stored yet.
 5. **Practice (35 seconds).** Click **Fill a sample answer**, then **Check practice** and **Check transfer**. Closed items use the stored key. The open response uses the rubric in the pathway file. Say that this is not a grade.
 6. **Memory (25 seconds).** On **Progress**, leave consent off and say nothing is written. Then tick consent, save, and reset that id. Meterless keeps the goal, demonstrated competency ids, outcome, and feedback. The note is not stored.
-7. **Materials and drafts (30 seconds).** Open **My materials**. Readable files are TXT, Markdown, DOCX, PPTX, and digital PDF text, up to 8 MB. An image, spreadsheet, audio file, or video is refused and is not added to the lesson. **Delete** and **Delete materials from this visit** clear page memory. A contribution draft says it is held in this page only, and that it is not submitted, reviewed, or shared. Training stays off.
+7. **Materials and drafts (30 seconds).** Open **My materials**. Readable files are TXT, Markdown, DOCX, PPTX, and digital PDF text, up to 8 MB. A JPG, JPEG, or PNG of clear printed English or French text can be read in the browser with **Choose an image**. Do not use **Take a photo** in the recording. Review the text, confirm it, and show the 500-character line. The image is not saved or sent. A blank image, a scanned PDF, a spreadsheet, audio, or video is not added. Handwriting, equations, and diagrams are not claimed. **Remove from this visit** clears page memory. A contribution draft says it is held in this page only, and that it is not submitted, reviewed, or shared. Training stays off.
 8. **French and limits (20 seconds).** Switch the page to **Français**. Quiz wording and the open-education passage stay in their source language. If the origin line names a Zetaris passage, it is one reviewed public excerpt and the pathway structure is still the local fixture. If Zetaris is unavailable, the page says it is on the fixture. The page does not ask for a country.
 
 If time remains: **Demo B** asks one question because there is no evidence. **Demo D** abstains because a job-ready badge is not an approved source. **Demo C** uses a French note.
@@ -59,7 +60,7 @@ The editable deck is [docs/lessoncraft-pathways.pptx](lessoncraft-pathways.pptx)
 | 5. The screen | Show the live why / evidence / uncertain / do-now panel, the decision trace, and, when consented, the NVIDIA draft under the local next step. | Demo, 15 |
 | 6. Zetaris | Structure is the local fixture. A supporting passage is labeled Zetaris only when the filtered public row is returned and checked again. The optional NVIDIA draft quotes that passage and names its id. Failure stays on the fixture. | Sponsor tech, 10 |
 | 7. Meterless | Consent on stores the goal, demonstrated competency ids, outcome, and feedback. Consent off and reset do not keep the note or the file. Meterless memory is not sent to NVIDIA. | Sponsor tech, 10 |
-| 8. What is not claimed | No account, no OCR, no training, no public sharing, no universal curriculum, no video course. NVIDIA is optional and off until the learner consents. The requested model is `nvidia/nemotron-3.5-super-vl-120b-a12b`; the trace shows the served id. The local check stays the decision. This content demonstrates one skill and does not train Nemotron. A contribution draft is page memory for this visit and is not submitted. | Demo, 15 |
+| 8. What is not claimed | No account, no handwriting or scanned-PDF OCR, no training, no public sharing, no universal curriculum, no video course. Printed English or French text in a JPG, JPEG, or PNG can be read in this browser after the learner reviews it. The image is not saved or sent. NVIDIA is optional and off until the learner consents. The requested model is `nvidia/nemotron-3.5-super-vl-120b-a12b`; the trace shows the served id. The local check stays the decision. This content demonstrates one skill and does not train Nemotron. A contribution draft is page memory for this visit and is not submitted. | Demo, 15 |
 | 9. Sources | Original pathway text, plus Technical Writing Essentials 2nd edition, section 7.5, CC BY 4.0, only as a reviewed public passage. | Impact; sponsor tech |
 
 ## Sample lines from Demo A

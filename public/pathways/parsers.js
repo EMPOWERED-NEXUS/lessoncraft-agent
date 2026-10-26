@@ -11,7 +11,7 @@ export const PARSER_REGISTRY = [
   { id: "docx", extensions: [".docx"], support: "supported", labelKey: "parser_docx" },
   { id: "pptx", extensions: [".pptx"], support: "supported", labelKey: "parser_pptx" },
   { id: "pdf", extensions: [".pdf"], support: "supported", labelKey: "parser_pdf", limitKey: "parser_pdf_limit" },
-  { id: "image", extensions: [".jpg", ".jpeg", ".png"], support: "unavailable", labelKey: "parser_image", reasonKey: "parser_ocr_off" },
+  { id: "image", extensions: [".jpg", ".jpeg", ".png"], support: "supported", labelKey: "parser_image", limitKey: "parser_image_limit" },
   { id: "sheet", extensions: [".csv", ".xlsx"], support: "later", labelKey: "parser_sheet", reasonKey: "parser_later_reason" },
   { id: "audio", extensions: [".mp3", ".wav", ".m4a"], support: "later", labelKey: "parser_audio", reasonKey: "parser_later_reason" },
   { id: "video", extensions: [".mp4", ".webm"], support: "later", labelKey: "parser_video", reasonKey: "parser_later_reason" },
@@ -33,6 +33,9 @@ export async function extractBuffer(filename, bytes) {
   if (!parser) return { status: "unsupported", text: "", messageKey: "extract_unsupported" };
   if (parser.support === "unavailable") {
     return { status: "unavailable", text: "", messageKey: "extract_ocr_unavailable" };
+  }
+  if (parser.id === "image") {
+    return { status: "needs_ocr", text: "", messageKey: "ocr_pending" };
   }
   if (parser.support === "later") {
     return { status: "later", text: "", messageKey: "extract_later" };

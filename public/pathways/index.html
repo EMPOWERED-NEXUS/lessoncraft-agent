@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/site.css" />
-  <link rel="stylesheet" href="/pathways/styles.css?v=20261025b" />
+  <link rel="stylesheet" href="/pathways/styles.css?v=20261026d" />
 </head>
 <body>
   <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
@@ -263,50 +263,94 @@
     <section id="view-materials" data-view-panel="materials" class="hidden">
       <section class="page-intro">
         <h1 data-i18n="materials_title">My materials</h1>
-        <p class="lede" data-i18n="materials_intro">Text you keep is held in this page’s memory for this visit. It is not saved to an account or to this browser’s storage. A file that was not read is not added to the lesson.</p>
+        <p class="lede" data-i18n="materials_intro">Bring a note or a file, review the text this page actually extracted, and choose how to use it. The file itself is not kept. Only the text you review can be sent to this app for the current pathway. It is not saved to an account or to this browser’s storage, and it is not sent to Zetaris, Meterless, or an external model.</p>
       </section>
       <section class="sheet" id="material-form">
-        <h2 data-i18n="add_material">Add material</h2>
-        <label data-i18n="note">Note or pasted text
-          <textarea id="material-note" rows="4"></textarea>
-        </label>
-        <ul id="parser-list" class="parser-list"></ul>
-        <div id="dropzone" class="dropzone">
-          <p data-i18n="drop_title">Drop a file here, or choose one</p>
-          <p class="hint" data-i18n="file_hint">Supported text is read from TXT, Markdown, DOCX, PPTX, and digital PDFs, up to 8 MB. Scanned pages and images are not read. Spreadsheets, audio, and video are not understood by selecting them.</p>
-          <label class="file-picker" data-i18n="file">Choose a file
-            <input id="material-file" type="file" accept=".pdf,.docx,.pptx,.jpg,.jpeg,.png,.txt,.md,.markdown,.csv,.xlsx,.mp3,.wav,.m4a,.mp4,.webm" />
-          </label>
-        </div>
-        <p id="file-meta">No file selected.</p>
-        <p class="status" id="extract-status" aria-live="polite">Nothing extracted yet.</p>
-        <label data-i18n="preview">Text preview
-          <textarea id="material-preview" rows="5" data-i18n-placeholder="preview_ph" placeholder="Extracted text appears here when extraction succeeds. You can edit it."></textarea>
-        </label>
-        <fieldset>
-          <legend data-i18n="use_legend">How should this material be used?</legend>
-          <label class="check"><input type="radio" name="material-use" value="lesson" checked /> <span data-i18n="use_lesson">Use for this lesson only</span></label>
-          <p class="hint" id="model-note" data-i18n="model_note"></p>
-        </fieldset>
-        <fieldset class="unavailable">
-          <legend data-i18n="unavailable_legend">Not available in this version</legend>
-          <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_account">Save to my account library</span></label>
-          <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_class">Share with my class</span></label>
-          <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_public">Publish to a public learning library</span></label>
-          <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_training">Allow use to improve or train AI models</span></label>
-          <p class="hint" data-i18n="unavailable_note"></p>
-        </fieldset>
-        <div class="row">
-          <button type="button" id="material-keep" data-i18n="keep">Keep in this session</button>
-          <button type="button" class="secondary" id="material-clear" data-i18n="clear">Clear</button>
-          <button type="button" class="ghost" id="material-clear-session" data-i18n="clear_session">Delete materials from this visit</button>
-        </div>
-        <p class="status" id="material-status" aria-live="polite"></p>
-      </section>
-      <section class="sheet">
-        <h2 data-i18n="materials_title">My materials</h2>
-        <p id="materials-empty" data-i18n="materials_empty">No material yet. Add a note or choose a file.</p>
-        <ul id="material-list"></ul>
+        <ol class="material-steps">
+          <li>
+            <h2><span class="step-num">1</span> <span data-i18n="step_add">Add a note or file</span></h2>
+            <label data-i18n="note">Note or pasted text
+              <textarea id="material-note" rows="4"></textarea>
+            </label>
+            <ul id="parser-list" class="parser-list"></ul>
+            <label data-i18n="ocr_language">Language of the printed text
+              <select id="ocr-source-language">
+                <option value="" data-i18n="ocr_language_choose">Choose English or French</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+              </select>
+            </label>
+            <p class="hint" data-i18n="ocr_language_note">OCR uses this choice. It does not follow the page language, and it does not detect the language from the photo.</p>
+            <p class="hint" data-i18n="ocr_storage">The image is not saved in this browser, sent to this app’s server, or sent to another service. The English and French language files are loaded from this app for the reading and are not stored in the browser.</p>
+            <div id="dropzone" class="dropzone">
+              <p data-i18n="drop_title">Drop a file here, or choose one</p>
+              <p class="hint" data-i18n="file_hint">TXT, Markdown, DOCX, PPTX, and digital PDFs are read as text, up to 8 MB. JPG and PNG photos of printed text are read in this browser, up to 8 MB. Scanned PDFs, handwriting, equations, and diagrams are not read reliably. Spreadsheets, audio, and video are not understood by selecting them.</p>
+              <label class="file-picker" data-i18n="file">Choose a file
+                <input id="material-file" type="file" accept=".pdf,.docx,.pptx,.jpg,.jpeg,.png,.txt,.md,.markdown,.csv,.xlsx,.mp3,.wav,.m4a,.mp4,.webm" />
+              </label>
+              <div class="row">
+                <label class="file-picker" data-i18n="choose_image">Choose an image
+                  <input id="material-image" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png" />
+                </label>
+                <label class="file-picker" data-i18n="take_photo">Take a photo
+                  <input id="material-camera" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png" capture="environment" />
+                </label>
+              </div>
+              <p class="hint" data-i18n="ocr_camera_note">Take a photo is an extra control. Camera behavior varies by browser. Phone camera capture has not been tested here. Choose an image remains available.</p>
+              <p class="hint" data-i18n="ocr_scope">The first use is clear printed text. This does not reliably read handwriting, equations, diagrams, or scanned PDFs.</p>
+            </div>
+            <p id="file-meta">No file selected.</p>
+          </li>
+          <li>
+            <h2><span class="step-num">2</span> <span data-i18n="step_review">Review what was extracted</span></h2>
+            <p id="extract-phase" class="phase phase-idle" aria-live="polite" data-i18n="phase_idle">No source yet</p>
+            <p class="status" id="extract-status" aria-live="polite">Nothing extracted yet.</p>
+            <figure id="image-preview" hidden>
+              <img id="image-preview-img" alt="" />
+              <figcaption class="hint" data-i18n="ocr_preview_caption">Temporary preview on this page. The image is not stored and is not sent with the lesson.</figcaption>
+            </figure>
+            <label data-i18n="preview">Text preview
+              <textarea id="material-preview" rows="5" data-i18n-placeholder="preview_ph" placeholder="Extracted text appears here when extraction succeeds. You can edit it."></textarea>
+            </label>
+            <label class="check" id="ocr-review-label" hidden>
+              <input id="ocr-reviewed" type="checkbox" />
+              <span data-i18n="ocr_reviewed">I reviewed this text. OCR can miss or change words.</span>
+            </label>
+            <p class="hint" data-i18n="file_not_kept">The file itself is not kept. Correct this text before you use it. Only this reviewed text can be sent to this app for the current pathway.</p>
+          </li>
+          <li>
+            <h2><span class="step-num">3</span> <span data-i18n="step_use">Use for my lesson</span></h2>
+            <fieldset>
+              <legend data-i18n="use_legend">How should this material be used?</legend>
+              <label class="check"><input type="radio" name="material-use" value="lesson" checked /> <span data-i18n="use_lesson">Use for my lesson</span></label>
+              <p class="hint" id="model-note" data-i18n="model_note"></p>
+            </fieldset>
+            <fieldset class="unavailable">
+              <legend data-i18n="unavailable_legend">Not available in this version</legend>
+              <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_account">Save to my account library</span></label>
+              <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_class">Share with my class</span></label>
+              <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_public">Publish to a public learning library</span></label>
+              <label class="check"><input type="checkbox" disabled /> <span data-i18n="use_training">Allow use to improve or train AI models</span></label>
+              <p class="hint" data-i18n="unavailable_note"></p>
+            </fieldset>
+            <p id="inclusion-count" data-i18n="inclusion_count">0 of 500 characters will be included.</p>
+            <p class="hint" data-i18n="inclusion_label">Exact text for this pathway</p>
+            <pre id="inclusion-text" class="inclusion"></pre>
+            <div class="row">
+              <button type="button" id="material-keep" data-i18n="keep">Use for my lesson</button>
+              <button type="button" class="secondary" id="material-clear" data-i18n="clear">Clear this draft</button>
+            </div>
+          </li>
+          <li>
+            <h2><span class="step-num">4</span> <span data-i18n="step_remove">Remove it from this visit</span></h2>
+            <p id="materials-empty" data-i18n="materials_empty">No material yet. Add a note or choose a file.</p>
+            <ul id="material-list"></ul>
+            <div class="row">
+              <button type="button" class="ghost" id="material-clear-session" data-i18n="clear_session">Remove all materials from this visit</button>
+            </div>
+            <p class="status" id="material-status" aria-live="polite"></p>
+          </li>
+        </ol>
       </section>
     </section>
 
@@ -365,6 +409,6 @@
       <button type="button" id="tour-finish" data-i18n="tour_finish">Finish</button>
     </div>
   </dialog>
-  <script type="module" src="/pathways/app.js?v=20261025b"></script>
+  <script type="module" src="/pathways/app.js?v=20261026d"></script>
 </body>
 </html>
