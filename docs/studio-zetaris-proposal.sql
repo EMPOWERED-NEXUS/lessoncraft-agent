@@ -1,0 +1,21 @@
+-- PROPOSAL ONLY. Do not execute this file.
+-- LessonCraft learning packs run from the local account store.
+-- No CREATE, INSERT, UPDATE, or DELETE has been sent to Zetaris for this feature.
+-- Private uploads must not be copied into a shared table until access isolation is reviewed.
+
+-- CREATE TABLE NEXUS_PATHWAYS.learning_sources (
+--   source_id VARCHAR,
+--   pack_id VARCHAR,
+--   creator VARCHAR,
+--   title VARCHAR,
+--   source_url VARCHAR,
+--   license_or_permission VARCHAR,
+--   attribution VARCHAR,
+--   subject_name VARCHAR,
+--   level_name VARCHAR,
+--   topic_name VARCHAR,
+--   language_code VARCHAR,
+--   review_status VARCHAR,
+--   access_scope VARCHAR,
+--   training_use VARCHAR
+-- );

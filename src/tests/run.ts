@@ -13,6 +13,7 @@ import { attemptLogin, authStatus } from "../auth.ts";
 import { pathwayTests } from "./pathways.ts";
 import { pathwayUiTests } from "./pathways-ui.ts";
 import { nvidiaDraftTests } from "./nvidia-draft.ts";
+import { studioTests } from "./studio.ts";
 import type { Artefact, TeachableEvidence } from "../types.ts";
 
 loadEnv();
@@ -190,6 +191,7 @@ await test("learner sign-in stays unavailable without a provider", () => {
 await pathwayTests(test);
 await pathwayUiTests(test);
 await nvidiaDraftTests(test);
+await studioTests(test);
 
 if (failed) {
   console.error(`\n${failed} failed`);

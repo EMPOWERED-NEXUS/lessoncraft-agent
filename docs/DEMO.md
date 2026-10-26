@@ -6,7 +6,7 @@ Say only what the screen shows. LessonCraft by Empowered Nexus helps a learner u
 
 Empowered Nexus owns LessonCraft. GenAI Works operates the hackathon and HackOS. The hackathon does not manage LessonCraft learners or accounts.
 
-No video has been recorded. The repository does not contain a video file. Record on the same computer as the server, after the checks in [docs/JUDGE-QUICKSTART.md](JUDGE-QUICKSTART.md).
+No video has been recorded. The repository does not contain a video file. Record on the same computer as the server, after the checks in [docs/JUDGE-QUICKSTART.md](JUDGE-QUICKSTART.md). The learning-pack recording is a separate 4-minute demo. Do not add it to this Pathways script.
 
 ## Recording checklist
 

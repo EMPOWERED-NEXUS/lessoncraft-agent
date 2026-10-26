@@ -5,7 +5,7 @@ import { loadPacks, defaultPackId } from "./catalog.ts";
 import { loadEnv, isTestMode } from "./env.ts";
 import { getSharedHmem, diagnose, checkAnswer } from "./journey.ts";
 import { llmConfigured } from "./llm.ts";
-import { publicDir } from "./paths.ts";
+import { publicDir, repoRoot } from "./paths.ts";
 import {
   catalogView,
   forgetLearner,
@@ -18,8 +18,14 @@ import {
 import { attemptLogin, authStatus } from "./auth.ts";
 import { diagnoseZetaris } from "./zetaris.ts";
 import { jdbcConfigured, readPassages } from "./pathways/zetaris-read.ts";
+import { handleStudio, studioApp } from "./studio/http.ts";
 
 loadEnv();
+
+const studio = studioApp(
+  path.join(repoRoot, ".lessoncraft", "studio-accounts"),
+  path.join(repoRoot, ".lessoncraft", "studio-hmem"),
+);
 
 const MIME: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
@@ -62,6 +68,11 @@ function serveStatic(urlPath: string, res: http.ServerResponse): void {
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url ?? "/", `http://127.0.0.1`);
+    if (await handleStudio(req, res, url, studio)) return;
+    if (req.method === "GET" && (url.pathname === "/studio" || url.pathname === "/studio/")) {
+      serveStatic("/studio/index.html", res);
+      return;
+    }
     if (req.method === "GET" && url.pathname === "/api/health") {
       let hmem = null;
       try {

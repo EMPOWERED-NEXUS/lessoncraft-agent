@@ -123,3 +123,26 @@ A blank image stays out of the lesson. Handwriting, equations, diagrams, scanned
 | Handwriting, equations, diagrams, scanned PDFs, spreadsheets, audio, and video | Unsupported. They are not sent into the lesson request. |
 
 The recording checklist is in [docs/DEMO.md](DEMO.md). No video file is in the repository.
+
+## Learning packs
+
+Open `http://127.0.0.1:8787/studio/` on the same computer. Pathways stays available and still needs no account. Studio accounts are local to this app. Create a teacher, then a learner. They are not a public service and they are not Zetaris users.
+
+The sample pack is original LessonCraft text named “reading a short notice.” It is not an official exam. Use it if you do not want to upload a syllabus. Objectives are saved only after the teacher reviews them. Class sharing, library publishing, and model training stay off unless a teacher explicitly enables them. A private pack is not copied into Zetaris. The SQL in [docs/studio-zetaris-proposal.sql](studio-zetaris-proposal.sql) is a proposal and has not been run.
+
+NVIDIA receives a question and the approved excerpt only after the learner checks the box and a key is configured. Otherwise the explanation stays on the local excerpt. The evaluator still checks the answer. Meterless stores only the consented pack, objective, status, and next step. Reset deletes that progress.
+
+### Four-minute pack recording
+
+Do not add this to the Pathways recording. Keep this one inside 4 minutes.
+
+| Time | Do this | Say this |
+|---|---|---|
+| 0:00–0:20 | Show the local-account notice. | These accounts stay on this computer. Pathways still needs no account. |
+| 0:20–1:10 | Create a teacher, create a pack, paste two objectives, edit one, check **I reviewed these objectives**, and save. Leave country and curriculum blank. | The teacher reviews the objectives before they are saved. |
+| 1:10–1:50 | Add one question, a source, a license, and an excerpt. Leave class sharing, publishing, and training unchecked. | Permission is recorded with the source. Training stays off. |
+| 1:50–2:10 | Sign out. Create a learner. | A learner cannot open the teacher’s private pack. |
+| 2:10–3:20 | Click **Use the sample pack**, ask for help, and answer with “Wednesday.” Show the citation, trace, competency, and next action. | The explanation comes from the original sample notice. The evaluator decides whether to practise, ask, or advance. |
+| 3:20–3:50 | Leave consent off and click **Save progress**. Then check consent, save, and click **Reset progress**. | Only the minimum progress is stored, and reset deletes it. |
+
+If the recording runs long, use the sample pack for the whole recording and skip creating a new pack. Do not use **Take a photo**. Do not show `.env.local`.

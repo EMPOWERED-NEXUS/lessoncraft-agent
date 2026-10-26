@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Learning packs · LessonCraft by Empowered Nexus</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/site.css" />
+  <link rel="stylesheet" href="/studio/studio.css?v=20261026e" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="/pathways/">
+      <img class="lessoncraft-mark" src="/brand/lessoncraft-mark.svg" alt="" width="40" height="40" />
+      <span>
+        <span class="brand-name">LessonCraft</span>
+        <span class="brand-tag">by Empowered Nexus</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/pathways/">Pathways</a>
+      <a href="/studio/" aria-current="page">Learning packs</a>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" id="lang-en" aria-pressed="true">English</button>
+        <button type="button" id="lang-fr" aria-pressed="false">Français</button>
+      </div>
+    </nav>
+  </header>
+  <main class="studio-page" id="main">
+    <p class="kicker">LessonCraft by Empowered Nexus</p>
+    <h1 id="title">Learning packs</h1>
+    <p class="notice" id="local-note"></p>
+    <p id="status" role="status"></p>
+
+    <section id="account" class="card stack">
+      <h2 id="account-title">Local account</h2>
+      <form id="account-form" class="stack">
+        <label for="email" id="email-label">Email</label>
+        <input id="email" name="email" type="email" autocomplete="username" required />
+        <label for="password" id="password-label">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" minlength="8" required />
+        <label for="role" id="role-label">Role</label>
+        <select id="role" name="role">
+          <option value="teacher">Teacher</option>
+          <option value="learner">Learner</option>
+        </select>
+        <div class="row">
+          <button type="submit" id="register">Create local account</button>
+          <button type="button" id="login">Sign in</button>
+          <button type="button" id="logout" class="hidden">Sign out</button>
+          <button type="button" id="delete-account" class="hidden">Delete this local account</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="teacher" class="card stack hidden">
+      <h2 id="teacher-title">Teacher pack</h2>
+      <form id="pack-form" class="stack">
+        <label for="pack-title">Title</label>
+        <input id="pack-title" required />
+        <label for="subject">Subject</label>
+        <input id="subject" required />
+        <label for="level">Level</label>
+        <input id="level" required />
+        <label for="language">Language</label>
+        <input id="language" value="en" required />
+        <label for="country">Country, optional</label>
+        <input id="country" />
+        <label for="curriculum">Curriculum, optional</label>
+        <input id="curriculum" />
+        <button type="submit" id="create-pack">Create pack</button>
+      </form>
+      <label for="syllabus">Syllabus or objectives</label>
+      <textarea id="syllabus" rows="5"></textarea>
+      <label for="file">Text file, optional</label>
+      <input id="file" type="file" accept=".txt,.md,.docx,.pptx,.pdf,.png,.jpg,.jpeg" />
+      <p id="extract-note"></p>
+      <label for="objectives">Review and edit objectives, one on each line</label>
+      <textarea id="objectives" rows="5"></textarea>
+      <label for="reviewed"><input id="reviewed" type="checkbox" /> I reviewed these objectives</label>
+      <button type="button" id="read-objectives">Read objectives</button>
+      <button type="button" id="save-objectives">Save reviewed objectives</button>
+      <h3 id="question-title">Question and source</h3>
+      <form id="question-form" class="stack">
+        <label for="objective-id">Objective</label>
+        <select id="objective-id"></select>
+        <label for="prompt">Question</label>
+        <textarea id="prompt" rows="3"></textarea>
+        <label for="ideas">Ideas to check, separated by commas</label>
+        <input id="ideas" />
+        <label for="solution">Reviewed solution or marking note</label>
+        <textarea id="solution" rows="3"></textarea>
+        <label for="creator">Creator or rights holder</label>
+        <input id="creator" />
+        <label for="source-title">Source title</label>
+        <input id="source-title" />
+        <label for="source-url">URL, optional</label>
+        <input id="source-url" type="url" />
+        <label for="license">License or written permission</label>
+        <input id="license" />
+        <label for="attribution">Attribution</label>
+        <input id="attribution" />
+        <label for="topic">Topic</label>
+        <input id="topic" />
+        <label for="excerpt">Excerpt the tutor may cite</label>
+        <textarea id="excerpt" rows="3"></textarea>
+        <label for="class-share"><input id="class-share" type="checkbox" /> Share with a class</label>
+        <label for="publish"><input id="publish" type="checkbox" /> Publish to the shared library</label>
+        <label for="training"><input id="training" type="checkbox" /> Permit model training</label>
+        <button type="submit" id="save-question">Save question</button>
+      </form>
+    </section>
+
+    <section id="learner" class="card stack">
+      <h2 id="learner-title">Learner</h2>
+      <div class="row">
+        <button type="button" id="use-sample">Use the sample pack</button>
+        <label for="pack-id">Pack</label>
+        <select id="pack-id"></select>
+      </div>
+      <p id="sample-note"></p>
+      <label for="query">Concept or objective</label>
+      <input id="query" />
+      <label for="nvidia"><input id="nvidia" type="checkbox" /> Send this question and the approved excerpt to NVIDIA</label>
+      <button type="button" id="ask">Ask for help</button>
+      <article id="teaching" class="stack" hidden>
+        <h3 id="explain-title">Explanation</h3>
+        <p id="explanation"></p>
+        <p id="citation"></p>
+        <p id="hint"></p>
+        <p id="try-prompt"></p>
+      </article>
+      <label for="answer">Your answer</label>
+      <textarea id="answer" rows="4"></textarea>
+      <button type="button" id="check">Check my answer</button>
+      <article id="result" class="stack" hidden>
+        <p id="feedback"></p>
+        <p id="competency"></p>
+        <p id="next-action"></p>
+      </article>
+      <pre id="trace" class="trace" hidden></pre>
+      <label for="consent"><input id="consent" type="checkbox" /> Store the minimum progress for this account</label>
+      <div class="row">
+        <button type="button" id="save-progress">Save progress</button>
+        <button type="button" id="reset-progress">Reset progress</button>
+      </div>
+      <p id="memory"></p>
+    </section>
+  </main>
+  <script type="module" src="/studio/app.js?v=20261026e"></script>
+</body>
+</html>

@@ -33,6 +33,20 @@ No account is needed. **Try demo** opens Pathways. A direct visit to [http://127
 
 The spoken script, recording checklist, and slide outline are in [docs/DEMO.md](docs/DEMO.md). The editable deck is [docs/lessoncraft-pathways.pptx](docs/lessoncraft-pathways.pptx). Judge setup is in [docs/JUDGE.md](docs/JUDGE.md), with reproduction and fallback notes in [docs/JUDGE-QUICKSTART.md](docs/JUDGE-QUICKSTART.md). The launch roadmap is in [docs/ROADMAP.md](docs/ROADMAP.md). No video has been recorded in this repository.
 
+## Learning packs
+
+`/studio/` is a second local experience. It does not replace Pathways. A teacher creates a local-demo account, creates a pack, reviews extracted objectives, and adds a question with source and permission details. A learner signs in with a different local account, asks for help, tries an answer, and sees a citation, competency status, and next action. Country and curriculum can be left blank.
+
+These accounts are stored on this computer under gitignored `.lessoncraft/studio-accounts/`. Passwords are hashed with Node.js `crypto.scrypt`. Sessions use an HTTP-only, SameSite cookie. They are not a public account service and they are not Zetaris logins. Sign out and delete the account from the page.
+
+The sample pack, “LessonCraft sample: reading a short notice,” is original text. It is not an official exam question. A judge can open it without uploading a file. Sharing with a class, publishing, and model training stay off unless the teacher explicitly turns them on. Learner answers are not stored in the pack. Meterless stores only the consented pack, objective, status, and next step, in `.lessoncraft/studio-hmem/`. Reset deletes that account’s studio progress.
+
+The tutor cites an approved excerpt. A mapper, retriever, tutor, and evaluator record a trace. If a model draft does not contain the excerpt, the evaluator rejects it and the local excerpt remains. NVIDIA is called only when the learner checks the box and `NVIDIA_API_KEY` is set. Tests use a mock and do not call NVIDIA. Uploading a file does not train Nemotron.
+
+Images, scanned PDFs, equations, tables, and diagrams are not saved from Studio unless a person pastes or types the corrected text. Printed-image reading remains the Pathways materials step. No Zetaris table is changed. A future schema is written for review in [docs/studio-zetaris-proposal.sql](docs/studio-zetaris-proposal.sql) and has not been executed.
+
+Record either the Pathways demo or the learning-pack demo. Do not combine them. Each recording should stay inside 4 minutes. The pack steps are in [docs/JUDGE-QUICKSTART.md](docs/JUDGE-QUICKSTART.md).
+
 ## What the pathway does
 
 1. The learner can start from Demo A, B, C, or D, or enter their own quiz answers and an optional note.
