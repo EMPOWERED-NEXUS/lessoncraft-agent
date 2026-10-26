@@ -13,7 +13,7 @@ LessonCraft by Empowered Nexus. Pathways is the current learning experience. The
 5. **Progress** holds optional Meterless memory.
 6. The NVIDIA checkbox is off until the learner checks it.
 
-Direct visits to `/login` say accounts are not available yet and link back with **Try demo**.
+Direct visits to `/login` say Pathways needs no account. Learning packs use a local demo account on this computer. The page links to Pathways and to `/studio/`.
 
 ## Clean local run
 
@@ -129,6 +129,8 @@ The recording checklist is in [docs/DEMO.md](DEMO.md). No video file is in the r
 Open `http://127.0.0.1:8787/studio/` on the same computer. Pathways stays available and still needs no account. Studio accounts are local to this app. Create a teacher, then a learner. They are not a public service and they are not Zetaris users.
 
 The sample pack is original LessonCraft text named “reading a short notice.” It is not an official exam. Use it if you do not want to upload a syllabus. Objectives are saved only after the teacher reviews them. Class sharing, library publishing, and model training stay off unless a teacher explicitly enables them. A private pack is not copied into Zetaris. The SQL in [docs/studio-zetaris-proposal.sql](studio-zetaris-proposal.sql) is a proposal and has not been run.
+
+A teacher who leaves `/studio/` and comes back sees that pack, its reviewed objectives, and its saved questions again. They are read from `.lessoncraft/studio-accounts/` on this computer. Sign-out removes them from the page. The open explanation lasts for the current visit. Another account cannot read or change a private pack.
 
 NVIDIA receives a question and the approved excerpt only after the learner checks the box and a key is configured. Otherwise the explanation stays on the local excerpt. The evaluator still checks the answer. Meterless stores only the consented pack, objective, status, and next step. Reset deletes that progress.
 

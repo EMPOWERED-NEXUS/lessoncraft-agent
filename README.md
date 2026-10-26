@@ -27,7 +27,7 @@ npm run dev
 
 Open [http://127.0.0.1:8787/pathways/](http://127.0.0.1:8787/pathways/). If that server is already running, use it. Do not start a second process on port 8787.
 
-No account is needed. **Try demo** opens Pathways. A direct visit to [http://127.0.0.1:8787/login](http://127.0.0.1:8787/login) says accounts are not available yet and returns to the demo. Zetaris credentials are not a learner login.
+No account is needed for Pathways. **Try demo** opens Pathways. A direct visit to [http://127.0.0.1:8787/login](http://127.0.0.1:8787/login) says Pathways needs no account and points learning packs to the local demo at `/studio/`. Zetaris credentials are not a learner login.
 
 `npm run setup` vendors Meterless H-MEM at commit `1742dec56a66e58eef9dda2d2b865823758ca8cd`. `vendor/` is gitignored. There is no separate typecheck or production-build script. `npm test` runs the project checks with `tsx`.
 
@@ -37,7 +37,7 @@ The spoken script, recording checklist, and slide outline are in [docs/DEMO.md](
 
 `/studio/` is a second local experience. It does not replace Pathways. A teacher creates a local-demo account, creates a pack, reviews extracted objectives, and adds a question with source and permission details. A learner signs in with a different local account, asks for help, tries an answer, and sees a citation, competency status, and next action. Country and curriculum can be left blank.
 
-These accounts are stored on this computer under gitignored `.lessoncraft/studio-accounts/`. Passwords are hashed with Node.js `crypto.scrypt`. Sessions use an HTTP-only, SameSite cookie. They are not a public account service and they are not Zetaris logins. Sign out and delete the account from the page.
+These accounts are stored on this computer under gitignored `.lessoncraft/studio-accounts/`. Passwords are hashed with Node.js `crypto.scrypt`. Sessions use an HTTP-only, SameSite cookie. They are not a public account service and they are not Zetaris logins. A teacher who returns sees the saved pack, reviewed objectives, and questions again. Sign-out removes them from the page. The open explanation lasts for the current visit. Sign out and delete the account from the page.
 
 The sample pack, “LessonCraft sample: reading a short notice,” is original text. It is not an official exam question. A judge can open it without uploading a file. Sharing with a class, publishing, and model training stay off unless the teacher explicitly turns them on. Learner answers are not stored in the pack. Meterless stores only the consented pack, objective, status, and next step, in `.lessoncraft/studio-hmem/`. Reset deletes that account’s studio progress.
 
@@ -76,7 +76,8 @@ The roles share one run. The trace names each role. Recommendations are produced
 | Tour completion and UI language | `localStorage` on this browser only |
 | Consented memory | Meterless H-MEM under `.lessoncraft/pathways-hmem/`: pseudonymous id, goal, demonstrated competency ids, outcome, and feedback |
 | Learner notes, file bytes, and drafts | Not sent to Zetaris or Meterless |
-| Passwords | Not stored. No account is created |
+| Pathways account | None. Pathways does not create an account |
+| Learning-pack account | Password hash, packs, reviewed objectives, sources, and questions in `.lessoncraft/studio-accounts/` on this computer |
 
 Using text for the current lesson does not contribute it for other people and does not permit model training. A contribution draft is not submitted, reviewed, or shared. A license choice is the learner’s declaration, not a rights check. Model training stays off.
 

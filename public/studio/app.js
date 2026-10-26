@@ -54,7 +54,9 @@ const en = {
   consent: "Store the minimum progress for this account",
   saveProgress: "Save progress",
   reset: "Reset progress",
+  savedTitle: "Saved questions",
   signedIn: "Signed in",
+  signedOut: "Signed out.",
   saved: "Saved on this computer.",
   notSaved: "Nothing was stored.",
   removed: "Progress for this account was deleted.",
@@ -115,7 +117,9 @@ const fr = {
   consent: "Enregistrer le progrès minimum de ce compte",
   saveProgress: "Enregistrer le progrès",
   reset: "Réinitialiser le progrès",
+  savedTitle: "Questions enregistrées",
   signedIn: "Connecté",
+  signedOut: "Déconnecté.",
   saved: "Enregistré sur cet ordinateur.",
   notSaved: "Rien n’a été enregistré.",
   removed: "Le progrès de ce compte a été supprimé.",
@@ -123,7 +127,13 @@ const fr = {
 
 const text = { en, fr };
 let lang = "en";
-const state = { user: null, csrf: "", packId: "pack-sample-notice", lessonId: "" };
+const PACK_KEY = "lessoncraft-studio-pack";
+const state = {
+  user: null,
+  csrf: "",
+  packId: sessionStorage.getItem(PACK_KEY) || "pack-sample-notice",
+  lessonId: "",
+};
 
 const $ = (id) => document.getElementById(id);
 function say(message) { $("status").textContent = message; }
@@ -139,7 +149,7 @@ function applyLanguage() {
     teacherPack: "teacher-title", create: "create-pack", read: "read-objectives", saveObjectives: "save-objectives",
     question: "question-title", saveQuestion: "save-question", learnerTitle: "learner-title", sample: "use-sample",
     sampleNote: "sample-note", ask: "ask", explain: "explain-title", check: "check", saveProgress: "save-progress",
-    reset: "reset-progress",
+    reset: "reset-progress", savedTitle: "saved-title",
   };
   for (const [key, id] of Object.entries(map)) $(id).textContent = t(key);
   $("role").options[0].textContent = t("teacher");
@@ -181,6 +191,41 @@ function showAccount() {
   if (signedIn) say(`${t("signedIn")}: ${state.user.email} (${state.user.role})`);
 }
 
+function rememberPack(packId) {
+  state.packId = packId || "pack-sample-notice";
+  sessionStorage.setItem(PACK_KEY, state.packId);
+}
+
+function clearTeacherDraft() {
+  $("objectives").value = "";
+  $("reviewed").checked = false;
+  $("objective-id").replaceChildren();
+  $("saved-questions").replaceChildren();
+}
+
+function clearSignedInView() {
+  state.user = null;
+  state.csrf = "";
+  state.lessonId = "";
+  sessionStorage.removeItem(PACK_KEY);
+  clearTeacherDraft();
+  $("pack-id").replaceChildren();
+  $("explanation").textContent = "";
+  $("citation").textContent = "";
+  $("hint").textContent = "";
+  $("try-prompt").textContent = "";
+  $("feedback").textContent = "";
+  $("competency").textContent = "";
+  $("next-action").textContent = "";
+  $("trace").textContent = "";
+  $("memory").textContent = "";
+  $("teaching").hidden = true;
+  $("result").hidden = true;
+  $("trace").hidden = true;
+  showAccount();
+  say(t("signedOut"));
+}
+
 async function refreshPacks() {
   if (!state.user) return;
   const data = await api("/api/studio/packs");
@@ -191,18 +236,33 @@ async function refreshPacks() {
     option.textContent = pack.title;
     $("pack-id").append(option);
   }
+  const known = [...$("pack-id").options].some((option) => option.value === state.packId);
+  if (!known) rememberPack($("pack-id").options[0]?.value || "pack-sample-notice");
   $("pack-id").value = state.packId;
+  await loadSavedPack();
 }
 
-async function loadObjectives() {
-  if (!state.packId || state.user?.role !== "teacher" || state.packId === "pack-sample-notice") return;
+async function loadSavedPack() {
+  if (state.user?.role !== "teacher" || !state.packId || state.packId === "pack-sample-notice") {
+    clearTeacherDraft();
+    return;
+  }
   const data = await api(`/api/studio/packs/${state.packId}`);
+  $("objectives").value = data.objectives.map((item) => item.text).join("\n");
+  $("reviewed").checked = data.objectives.length > 0 && data.objectives.every((item) => item.reviewed);
   $("objective-id").replaceChildren();
   for (const objective of data.objectives) {
     const option = document.createElement("option");
     option.value = objective.id;
     option.textContent = objective.text;
     $("objective-id").append(option);
+  }
+  $("saved-questions").replaceChildren();
+  for (const question of data.questions) {
+    const source = data.sources.find((item) => item.id === question.sourceId);
+    const item = document.createElement("li");
+    item.textContent = `${question.prompt} — ${source?.title || "Source on file"}. Reviewed solution saved.`;
+    $("saved-questions").append(item);
   }
 }
 
@@ -233,20 +293,18 @@ $("login").addEventListener("click", async () => {
 });
 
 $("logout").addEventListener("click", async () => {
-  await api("/api/studio/logout", { method: "POST", body: "{}" });
-  state.user = null;
-  state.csrf = "";
-  showAccount();
+  try {
+    await api("/api/studio/logout", { method: "POST", body: "{}" });
+    clearSignedInView();
+  } catch (error) { say(error.message); }
 });
 
 $("delete-account").addEventListener("click", async () => {
   const password = $("password").value;
   try {
     await api("/api/studio/account/delete", { method: "POST", body: JSON.stringify({ password }) });
-    state.user = null;
-    state.csrf = "";
     $("password").value = "";
-    showAccount();
+    clearSignedInView();
     say(t("removed"));
   } catch (error) { say(error.message); }
 });
@@ -258,7 +316,7 @@ $("pack-form").addEventListener("submit", async (event) => {
       title: $("pack-title").value, subject: $("subject").value, level: $("level").value,
       language: $("language").value, countryCode: $("country").value, curriculum: $("curriculum").value,
     }) });
-    state.packId = data.pack.id;
+    rememberPack(data.pack.id);
     await refreshPacks();
     say(t("saved"));
   } catch (error) { say(error.message); }
@@ -284,7 +342,7 @@ $("read-objectives").addEventListener("click", async () => {
 $("save-objectives").addEventListener("click", async () => {
   try {
     await api(`/api/studio/packs/${state.packId}/objectives`, { method: "POST", body: JSON.stringify({ objectives: $("objectives").value.split("\n"), reviewed: $("reviewed").checked }) });
-    await loadObjectives();
+    await loadSavedPack();
     say(t("saved"));
   } catch (error) { say(error.message); }
 });
@@ -300,18 +358,24 @@ $("question-form").addEventListener("submit", async (event) => {
     }) });
     await api(`/api/studio/packs/${state.packId}/questions`, { method: "POST", body: JSON.stringify({
       objectiveId: $("objective-id").value, prompt: $("prompt").value, requiredIdeas: $("ideas").value.split(","),
-      solution: $("solution").value, sourceId: source.source.id, kind: "practice",
+      solution: $("solution").value,       sourceId: source.source.id, kind: "practice",
     }) });
+    await loadSavedPack();
     say(t("saved"));
   } catch (error) { say(error.message); }
 });
 
+$("objectives").addEventListener("input", () => { $("reviewed").checked = false; });
 $("use-sample").addEventListener("click", () => {
-  state.packId = "pack-sample-notice";
+  rememberPack("pack-sample-notice");
   $("pack-id").value = state.packId;
   $("query").value = "Identify the action a short notice asks the reader to take.";
+  clearTeacherDraft();
 });
-$("pack-id").addEventListener("change", () => { state.packId = $("pack-id").value; });
+$("pack-id").addEventListener("change", async () => {
+  rememberPack($("pack-id").value);
+  try { await loadSavedPack(); } catch (error) { say(error.message); }
+});
 
 $("ask").addEventListener("click", async () => {
   try {

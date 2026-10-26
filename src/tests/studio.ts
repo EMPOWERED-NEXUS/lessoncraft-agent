@@ -150,6 +150,33 @@ export async function studioTests(test: (name: string, fn: () => Promise<void> |
     assert.throws(() => app.getPack(learner.token, pack.id), /not shared/);
   });
 
+  await test("saved objectives and questions remain in the account file for a later session", () => {
+    const { dir, memoryDir } = tempStudioDir();
+    const first = new StudioApp(dir, memoryDir);
+    const teacher = first.register("owner@example.com", "local-pass-1", "teacher");
+    const pack = first.createPack(teacher.token, { title: "Shop notes", subject: "Science", level: "1", language: "en" });
+    first.saveObjectives(teacher.token, pack.id, ["Name the edited meeting day."], true);
+    const source = first.addSource(teacher.token, pack.id, blankSource());
+    const objectiveId = first.getPack(teacher.token, pack.id).objectives[0].id;
+    first.addQuestion(teacher.token, pack.id, {
+      objectiveId,
+      prompt: "What day should the reader use?",
+      requiredIdeas: ["wednesday"],
+      solution: "The reader should use Wednesday.",
+      sourceId: source.id,
+      kind: "practice",
+    });
+    const second = new StudioApp(dir, memoryDir);
+    const again = second.login("owner@example.com", "local-pass-1");
+    const loaded = second.getPack(again.token, pack.id);
+    assert.equal(loaded.objectives[0].text, "Name the edited meeting day.");
+    assert.equal(loaded.questions[0].prompt, "What day should the reader use?");
+    assert.equal(loaded.questions[0].solution, "The reader should use Wednesday.");
+    assert.equal(loaded.sources[0].title, "Original class note");
+    const learner = second.register("learner@example.com", "local-pass-2", "learner");
+    assert.throws(() => second.getPack(learner.token, pack.id), /not shared/);
+  });
+
   await test("a learner receives cited material, evaluator feedback, and an adaptive branch", async () => {
     const { dir, memoryDir } = tempStudioDir();
     const app = new StudioApp(dir, memoryDir);
@@ -236,6 +263,11 @@ export async function studioTests(test: (name: string, fn: () => Promise<void> |
     assert.match(html, /<label for="password"/);
     assert.match(html, /<label for="syllabus"/);
     assert.match(html, /<label for="answer"/);
+    assert.match(html, /id="saved-questions"/);
+    assert.match(app, /lessoncraft-studio-pack/);
+    assert.match(app, /\$\("objectives"\)\.value = data\.objectives\.map/);
+    assert.match(app, /Signed out/);
+    assert.match(app, /\$\("pack-id"\)\.replaceChildren\(\)/);
     assert.match(css, /@media \(max-width: 420px\)/);
     assert.match(css, /overflow-wrap: anywhere/);
     assert.doesNotMatch(css, /min-width:\s*[5-9]\d\dpx/);
