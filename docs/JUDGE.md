@@ -11,7 +11,8 @@ LessonCraft by Empowered Nexus. Pathways is the current learning experience. Thi
 Node.js 20 or later.
 
 ```powershell
-cd c:\apps\lessoncraft-agent\lessoncraft-agent
+# Run these from the repository root.
+# On this computer that folder is c:\apps\lessoncraft-agent\lessoncraft-agent
 copy .env.example .env.local
 npm ci
 npm run setup
@@ -50,4 +51,4 @@ Do not upload a learner file for the NVIDIA check. Uploaded materials are not se
 - Universal subject coverage, a full curriculum, or a generated video course.
 - Training of Nemotron, or use of uploaded materials as training data.
 - Google web research. That is described as future work in `docs/ROADMAP.md` and is not implemented.
-- Handwriting, equation, diagram, or scanned-PDF OCR. Clear printed English or French text in a JPG, JPEG, or PNG can be read in the browser after the learner reviews it. The image is not saved or sent. Speech, class sharing, and a public library are not available.
+- Handwriting, equations, diagrams, scanned PDFs, spreadsheets, audio, and video. Clear printed English or French text in a JPG, JPEG, or PNG, up to 8 MB, can be read in the browser after the learner reviews and confirms it. The image is not included in the lesson request. Phone camera capture has not been tested. Speech, class sharing, and a public library are not available.

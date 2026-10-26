@@ -16,7 +16,8 @@ The fraction tutor at [/](http://127.0.0.1:8787/) was already in this working tr
 Node.js 20 or later.
 
 ```powershell
-cd c:\apps\lessoncraft-agent\lessoncraft-agent
+# Run these from the repository root.
+# On this computer that folder is c:\apps\lessoncraft-agent\lessoncraft-agent
 copy .env.example .env.local
 npm ci
 npm run setup
@@ -131,11 +132,11 @@ Copy `.env.example` to `.env.local`. Do not commit secrets. Leave a value blank 
 
 `npm test` covers the fraction tutor, the pathway regression, Zetaris passage acceptance and rejection, Meterless without private evidence, both interface languages, file extraction and refusal, consent, contribution deletion, the unconfigured model path, and mocked NVIDIA success, exact-quote checks, unsupported passage ids, reasoning disabled, empty output, refusal, timeout, API failure, verifier rejection, and fallback.
 
-The 15 synthetic cases expect supported, unsupported, or uncertain outcomes. Abstaining when evidence is insufficient counts as uncertain and is correct. This is internal QA. It is not evidence of learning gain or job placement.
+The 15 synthetic cases expect supported, unsupported, or uncertain outcomes. Abstaining when evidence is insufficient counts as uncertain and is correct. This is internal QA. It is not evidence of learning gain or job placement. `npm test` does not call NVIDIA, query a live Zetaris platform, or open a browser. Phone camera capture is untested.
 
 ## Known limits
 
-- One workplace status-update skill. No universal subject coverage, full curriculum, video course, public library, class sharing, accounts, handwriting or scanned-PDF OCR, speech, video, or model training. Printed English or French text in a JPG, JPEG, or PNG can be read in the browser after the learner reviews it.
+- One workplace status-update skill. No universal subject coverage, full curriculum, video course, public library, class sharing, accounts, or model training. Clear printed English or French text in a JPG, JPEG, or PNG, up to 8 MB, can be read in the browser after the learner reviews and confirms it. The image is not included in the lesson request. Handwriting, equations, diagrams, scanned PDFs, spreadsheets, audio, and video are unsupported. Phone camera capture has not been tested.
 - No 3D view on this pathway.
 - Open responses are rubric matches, not an examination grade.
 - The app is a local server on the development computer. `http://127.0.0.1:8787/` is not a public address. Offline use is not claimed.

@@ -20,7 +20,8 @@ Direct visits to `/login` say accounts are not available yet and link back with 
 Node.js 20 or later. Keep exactly one process on port 8787. If the server is already running, use it.
 
 ```powershell
-cd c:\apps\lessoncraft-agent\lessoncraft-agent
+# Run these from the repository root.
+# On this computer that folder is c:\apps\lessoncraft-agent\lessoncraft-agent
 copy .env.example .env.local
 npm ci
 npm run setup
@@ -104,8 +105,21 @@ Leave the key blank or leave the checkbox off. The local pathway response is sho
 
 ## Printed-text photos
 
-My materials can read clear printed English or French text from a JPG, JPEG, or PNG, up to 8 MB. The learner chooses that language. The page language is not used, and the language is not detected from the photo. OCR runs in the browser. The engine and language files are served by this app. The image is not saved in the browser, sent to the server, or sent to NVIDIA, Zetaris, or Meterless. The learner must review and confirm the text before it can enter the pathway request. That request shows at most 500 characters.
+My materials can read clear printed English or French text from a JPG, JPEG, or PNG, up to 8 MB. The learner chooses that language. The page language is not used, and the language is not detected from the photo. OCR runs in the browser. The engine and language files are served by this app. The learner must review and confirm the text before it can enter the pathway request. The image itself is not included in that request, saved in the browser, or sent to NVIDIA, Zetaris, or Meterless. The request shows at most 500 characters.
 
-A blank image stays out of the lesson. Handwriting, equations, diagrams, and scanned PDFs are not claimed. **Take a photo** is an optional browser control. Phone camera capture has not been tested. Use **Choose an image** for the demo. The optional beat is in [docs/DEMO.md](DEMO.md) and should be skipped if it would push the recording past 4 minutes.
+A blank image stays out of the lesson. Handwriting, equations, diagrams, scanned PDFs, spreadsheets, audio, and video are unsupported. **Take a photo** is an optional browser control. Phone camera capture has not been tested. Use **Choose an image** for the demo. In the timed recording, that beat replaces the French beat. Do not add it after the recording has already reached about 3 minutes 30 seconds.
+
+## Tested and untested
+
+`npm test` checks the local fixture, Zetaris passage acceptance and rejection without a live platform, Meterless without private evidence after `npm run setup`, both interface languages, file extraction and refusal, the OCR review gate and 500-character limit, consent, and mocked NVIDIA calls. It does not call NVIDIA, query a live Zetaris platform, or open a browser.
+
+| Claim | What a judge can rely on |
+|---|---|
+| Pathway recommendation with blank Zetaris and NVIDIA values | Tested by `npm test`. The page uses `data/pathways/pw-workplace-status-update.json` and says when no approved Zetaris passage was returned. |
+| Meterless store, recall, and delete | Tested after `npm run setup` against the vendored engine. Without setup, recommendations still appear and **Save memory** cannot store a record. |
+| A passage labeled Zetaris | Not part of `npm test`. It needs the platform download, registry access, a running Lightning gateway, JDBC credentials in `.env.local`, and a loaded reviewed `NEXUS_PATHWAYS.passages` table. Otherwise the page stays on the fixture. |
+| A live NVIDIA draft | Not part of `npm test`. It needs the learner checkbox, a selected answer, an approved passage, and the judge’s own `NVIDIA_API_KEY`. A blank key or an unchecked box means no call. The served model id named in these docs came from an earlier consented check. Tests use a mock client. |
+| Printed English or French text in a JPG, JPEG, or PNG | The automated tests check the size limit, local OCR asset paths, and the review confirmation. They do not open a browser or use a phone camera. Phone camera capture is untested. |
+| Handwriting, equations, diagrams, scanned PDFs, spreadsheets, audio, and video | Unsupported. They are not sent into the lesson request. |
 
 The recording checklist is in [docs/DEMO.md](DEMO.md). No video file is in the repository.
